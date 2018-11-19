@@ -1,12 +1,13 @@
 {
-  "name": "RP bot",
-  "description": "A bot of various RP-centric functions",
+  "name": "Test",
+  "description": "Test",
   "version": "0.0.0",
   "main": "rp-bot.js",
   "scripts": {
     "start": "node rp-bot.js"
   },
   "dependencies": {
-    "discord.js": "11.1.0"
+    "discord.js": "11.1.0",
+    "request": "2.81.0"
   }
 }
