@@ -6,7 +6,7 @@ client.on('ready', () => {
     console.log('I am ready!');
 });
 
-client.on('message', message => {
+client.on('message', function (user, userID, channelID, message, evt) {
     if (message.substring(0,2) === '$$') {
     	message.reply('pong');
   	}
