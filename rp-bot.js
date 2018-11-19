@@ -17,7 +17,7 @@ client.on('message', message => {
                 var name = '';
                 var i;
                 for (i=1;i < args.length-1; i++){
-                    name+= args[i]
+                    name+= args[i];
                 }
                 client.sendMessage({
                     to: message.channel_id,
