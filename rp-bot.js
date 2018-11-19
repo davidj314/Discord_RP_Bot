@@ -19,7 +19,7 @@ client.on('message', message => {
                 for (i=1;i < args.length-1; i++){
                     name+= args[i];
                 }
-                message.channel.send(name);
+                message.channel.send('sending');
         }
   	}
 });
