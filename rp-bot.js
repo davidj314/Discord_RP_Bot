@@ -20,7 +20,7 @@ client.on('message', message => {
                     name+= args[i];
                 }
                 
-                if (name != '')message.channel.send('sending');
+                if (name != '')message.channel.send(name);
                 console.log('name sent');
         }
   	}
