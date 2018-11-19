@@ -21,7 +21,7 @@ client.on('message', message => {
                 }
                 
                 if (name != ''){
-                    mainnames.append(name);
+                    mainnames.push(name);
                     var allNames = '';
                     var j;
                     for (j = 0 ; j < mainnames.length ; j++)
