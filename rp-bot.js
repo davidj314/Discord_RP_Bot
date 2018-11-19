@@ -6,8 +6,8 @@ client.on('ready', () => {
     console.log('I am ready!');
 });
 
-client.on('message', function (user, userID, channelID, message, evt) {
-     if (message.content.substring(0, 1) == '!')  {
+client.on('message', message => {
+    if (message.content.substring(0,2) === '$$') {
     	message.reply('pong');
   	}
 });
