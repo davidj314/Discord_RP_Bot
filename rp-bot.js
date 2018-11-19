@@ -9,8 +9,21 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-    if (message.content === 'ping') {
-    	message.reply('pong');
+    if (message.content.substring(0,2) === '$$') {
+    	var args = message.content.substring(2).split(' ');
+        var command = args[0];
+        switch(command){
+            case 'record_name':
+                var name = '';
+                vr i;
+                for (i=1;i < args.length-1; i++){
+                    name+= args[i]
+                }
+                client.sendMessage({
+                    to: messge.channel_id,
+                    message: name
+                });
+        }
   	}
 });
 
