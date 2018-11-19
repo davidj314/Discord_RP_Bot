@@ -20,7 +20,7 @@ client.on('message', message => {
                     name+= args[i]
                 }
                 client.sendMessage({
-                    to: messge.channel_id,
+                    to: message.channel_id,
                     message: name
                 });
         }
