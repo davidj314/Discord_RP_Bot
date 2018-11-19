@@ -16,10 +16,12 @@ client.on('message', message => {
             case 'record_name':
                 var name = '';
                 var i;
-                for (i=1;i < args.length-1; i++){
+                for (i=1;i < args.length; i++){
                     name+= args[i];
                 }
-                message.channel.send('sending');
+                
+                if (name != '')message.channel.send('sending');
+                console.log('name sent');
         }
   	}
 });
