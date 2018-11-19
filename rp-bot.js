@@ -15,7 +15,7 @@ client.on('message', message => {
         switch(command){
             case 'record_name':
                 var name = '';
-                vr i;
+                var i;
                 for (i=1;i < args.length-1; i++){
                     name+= args[i]
                 }
