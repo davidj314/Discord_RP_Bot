@@ -20,7 +20,17 @@ client.on('message', message => {
                     name+= args[i];
                 }
                 
-                if (name != '')message.channel.send(name);
+                if (name != ''){
+                    mainnames.append(name);
+                    var allNames = '';
+                    var j;
+                    for (j = 0 ; j < mainnames.length ; j++)
+                    {
+                        allNames += mainnames[j] + ' ';
+                    }
+                    
+                    message.channel.send(allNames);
+                }
                 console.log('name sent');
         }
   	}
