@@ -1,15 +1,11 @@
 const Discord = require('discord.js');
 const Client = new Discord.Client();
 var pg = require('pg');
+var pg_client = new pg.Client(process.env.DATABASE_URL);
+pg_client.connect();
+var make_table = "CREATE TABLE Info ( ID int NOT NULL, LookupKey varchar(255) NOT NULL, Info_Value varchar(255),PRIMARY KEY (ID));";
 
-var make_table = "CREATE TABLE Info ( ID int NOT NULL, LookupKey varchar(255) NOT NULL, Info_Value varchar(255),PRIMARY KEY (ID));"
-
-pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-  client.query(make_table, function(err, result) {
-    done();
-    if(err) return console.error(err);
-  });
-});
+pg_client.query(make_table);
 
     
     
