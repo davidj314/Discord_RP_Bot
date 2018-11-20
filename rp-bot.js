@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
 const Client = new Discord.Client();
 var pg = require('pg');
-var connection_string = "postgres://tfxdiyrtqafcsg:016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319@ec2-54-225-110-156.compute-1.amazonaws.com:5432/dcaet7lhppmpnr
-"
+var connection_string="postgres://tfxdiyrtqafcsg:016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319@ec2-54-225-110-156.compute-1.amazonaws.com:5432/dcaet7lhppmpnr"
 var pg_client = new pg.Client(connection_string);
 pg_client.connect();
 pg_client.query("CREATE TABLE info ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, ValueKey varchar (255) NOT NULL, PRIMARY KEY (ID))");
