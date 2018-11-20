@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const client = new Discord.Client();
+const Client = new Discord.Client();
 var pg = require('pg');
 
 var make_table = "CREATE TABLE Info ( ID int NOT NULL, LookupKey varchar(255) NOT NULL, Info_Value varchar(255),PRIMARY KEY (ID));"
@@ -16,11 +16,11 @@ pg.connect(process.env.DATABASE_URL, function(err, client, done) {
 var mainnames = [];
 var sidenames = [];
 
-client.on('ready', () => {
+Client.on('ready', () => {
     console.log('I am ready!');
 });
 
-client.on('message', message => {
+Client.on('message', message => {
     if (message.content.substring(0,2) === '$$') {
     	var args = message.content.substring(2).split(' ');
         var command = args[0];
@@ -49,4 +49,4 @@ client.on('message', message => {
 });
 
 // THIS  MUST  BE  THIS  WAY
-client.login(process.env.BOT_TOKEN);
+Client.login(process.env.BOT_TOKEN);
