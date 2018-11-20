@@ -3,9 +3,11 @@ const Client = new Discord.Client();
 var pg = require('pg');
 var pg_client = new pg.Client(process.env.DATABASE_URL);
 pg_client.connect();
- 
+pg_client.query("DROP TABLE Info");
+pg_client.query("CREATE TABLE info ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, ValueKey varchar (255) NOT NULL, PRIMARY KEY (ID))");
+
 function add_info(k, v){
-    var insert_query = "INSERT INTO Info (LookupKey, Info_Value) VALUES($1, $2) RETURNING *";
+    var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2) RETURNING *";
     var values = [k, v];
     pg_client.query(insert_query, values, (err, res) => {
   if (err) {
