@@ -1,6 +1,16 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+var pg = require('pg');
 
+var make_table = "CREATE TABLE Info ( ID int NOT NULL, LookupKey varchar(255) NOT NULL, Info_Value varchar(255),PRIMARY KEY (ID));"
+
+pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+  client.query(make_table, function(err, result) {
+    done();
+    if(err) return console.error(err);
+  });
+    
+    
 var mainnames = [];
 var sidenames = [];
 
