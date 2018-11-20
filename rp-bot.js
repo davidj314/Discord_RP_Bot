@@ -3,7 +3,6 @@ const Client = new Discord.Client();
 var pg = require('pg');
 var pg_client = new pg.Client(process.env.DATABASE_URL);
 pg_client.connect();
-pg_client.query("DROP TABLE Info");
 pg_client.query("CREATE TABLE info ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, ValueKey varchar (255) NOT NULL, PRIMARY KEY (ID))");
 
 function add_info(k, v){
