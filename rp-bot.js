@@ -3,12 +3,22 @@ const Client = new Discord.Client();
 var pg = require('pg');
 var pg_client = new pg.Client(process.env.DATABASE_URL);
 pg_client.connect();
-var make_table = "CREATE TABLE Info ( ID int NOT NULL, LookupKey varchar(255) NOT NULL, Info_Value varchar(255),PRIMARY KEY (ID));";
-
-pg_client.query(make_table);
-
+ 
+function add_info(k, v){
+    var insert_query = "INSERT INTO Info (LookupKey, Info_Value) VALUES($1, $2) RETURNING *";
+    var values = [k, v];
+    pg_client.query(insert_query, values, (err, res) => {
+  if (err) {
+    console.log(err.stack)
+  } else {
+    console.log(res.rows[0])
     
+  } //end else
+})//end query
     
+}//end function
+
+
 var mainnames = [];
 var sidenames = [];
 
@@ -40,6 +50,17 @@ Client.on('message', message => {
                     message.channel.send(allNames);
                 }
                 console.log('name sent');
+                break;
+            case 'record_info':
+                if (args.length < 3) return; //must have a key and value following command
+                var info_key = args[1];
+                var info_content = '';
+                var i;
+                for (i=2;i < args.length; i++){
+                    info_content += args[i];
+                }
+                add_info(info_key, info_content);
+                break;
         }
   	}
 });
