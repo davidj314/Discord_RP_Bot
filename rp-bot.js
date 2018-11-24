@@ -80,8 +80,8 @@ client.query('SELECT table_schema,table_name FROM information_schema.tables;', (
 }
 
 
-const iscord = require('discord.js');
-const Client = new Discord.Client();
+const {Discord} = require('discord.js');
+const Client = new Client();
 
 Client.on('ready', () => {
     console.log('I am ready!');
