@@ -82,7 +82,7 @@ console.log(process.env.DATABASE_URL);
 //@*HOST*:*PORT*/*DATABASE*"
 
 const { pg } = require('pg');
-const pg_client = new Client(process.env.BOT_TOKEN);
+const pg_client = new pg.Client(process.env.BOT_TOKEN);
 
 pg_client.connect();
 
