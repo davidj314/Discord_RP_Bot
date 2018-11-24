@@ -10,7 +10,10 @@ function add_info(k, v){
     console.log('connected')
   }//end else
 })//end amb function
-    console.log(pg_client.database);
+    
+    var counter = pg_client.query("USE MyDatabase SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
+    console.log('The number of tables is');
+    console.log(counter);
     var endTime = new Date().getTime() + 5000;
     console.log('starting count');
     while (new Date().getTime() < endTime)
