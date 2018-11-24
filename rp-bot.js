@@ -88,6 +88,7 @@ const pg_client = new pg.Client({
   ssl: true
 });
 
+console.log('About to connect!!!');
 pg_client.connect();
 
 
