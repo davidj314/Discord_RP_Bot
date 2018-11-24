@@ -63,9 +63,9 @@ function barebones ()
 
 const MO = new Momo.Client({
 user: 'tfxdiyrtqafcsg',
-database: 'database name',
+database: 'dcaet7lhppmpnr',
 password: '016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319',
-host: 'dcaet7lhppmpnr',
+host: 'ec2-54-225-110-156.compute-1.amazonaws.com',
 port: 5432,
 max: 10,
 idleTimeoutMillis: 10000,
