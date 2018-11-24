@@ -28,14 +28,14 @@ function add_info(k, v){
     const pg_client = new pg.Client(process.env.DATABASE_URL);
 
     pg_client.connect();
-    var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2) RETURNING *";
+    var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2)";
     var values = [k, v];
     console.log(values);
     pg_client.query(insert_query, values, (err, res) => {
   if (err) {
     console.log(err.stack)
   } else {
-    console.log(res.rows[0])
+    console.log('success?')
     
   } //end else
 })//end query
