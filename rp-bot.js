@@ -3,8 +3,21 @@ function add_info(k, v){
     var  pg  = require('pg');
     //var c = "postgres://tfxdiyrtqafcsg:016d85a5be0b32198c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319@ec2-54-225-110-156.compute-1.amazonaws.com:5432/dcaet7lhppmpnr";
     //c += "?ssl=true";
+    /*
+     user: undefined,
+2018-11-24T22:46:18.956485+00:00 app[worker.1]:      database: undefined,
+2018-11-24T22:46:18.956487+00:00 app[worker.1]:      port: 5432,
+2018-11-24T22:46:18.956489+00:00 app[worker.1]:      host: 'localhost',
+2018-11-24T22:46:18.956491+00:00 app[worker.1]:      password: null,
+2018-11-24T22:46:18.956492+00:00 app[worker.1]:      binary: false,
+2018-11-24T22:46:18.956494+00:00 app[worker.1]:      ssl: true,
+*/
     var pg_client = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
+  user: 'tfxdiyrtqafcsg',
+  host: 'ec2-54-225-110-156.compute-1.amazonaws.com',
+  password: '016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319',
+  port: 5432,
+  database: 'dcaet7lhppmpnr',
   ssl: true,
 });
     pg_client.connect();
