@@ -4,14 +4,9 @@ function add_info(k, v){
     const pg_client = new pg.Client(process.env.DATABASE_URL+'?ssl=true');
     console.log('CONNECTION INFO');
     console.log(pg_client);
-    pg_client.connect((err) => {
-  if (err) {
-    console.error('connection error', err.stack)
-  } else {
-    console.log('connected')
-  }//end else
-})//end amb function
-    
+    var checkcon = pg_client.connect();
+    console.log('check connect');
+    console.log(checkcon);
     var counter = pg_client.query("USE dcaet7lhppmpnr SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
     console.log('TABLE NUMBER?');
     console.log(counter);
