@@ -32,11 +32,10 @@ function add_info(k, v){
     var values = [k, v];
     console.log(values);
     pg_client.query(insert_query, values, (err, res) => {
-        console.log('inserted?');
   if (err) {
-    console.log(err.stack);
+    console.log(err.stack)
   } else {
-    console.log(res.rows[0]);
+    console.log(res.rows[0])
     
   } //end else
 })//end query
