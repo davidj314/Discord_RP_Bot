@@ -16,6 +16,7 @@ function add_info(k, v){
   user: 'tfxdiyrtqafcsg',
   host: 'ec2-54-225-110-156.compute-1.amazonaws.com',
   password: '016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319',
+  //password: '016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319',
   port: 5432,
   database: 'dcaet7lhppmpnr',
   ssl: true,
@@ -63,7 +64,8 @@ function barebones ()
 const MO = new Momo.Client({
   user: 'tfxdiyrtqafcsg',
   host: 'ec2-54-225-110-156.compute-1.amazonaws.com',
-  password: '016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319',
+  password: '016d85a5be72fd16c7ace8802f4cc43d95ee42e1bbc319',
+  //password: '016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319',
   port: 5432,
   database: 'dcaet7lhppmpnr',
   ssl: true,
@@ -71,11 +73,7 @@ const MO = new Momo.Client({
 
 MO.connect();
 const endTime = new Date().getTime()+9000;
-while (new Date().getTime() < endTime)
-{
-    continue;    
-}
-    
+
 MO.end()
 }
 
