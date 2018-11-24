@@ -83,7 +83,7 @@ console.log(process.env.DATABASE_URL);
 
 const { pg } = require('pg');
 
-const pg_client = new Client({
+const pg_client = new pg.Client({
   connectionString: process.env.DATABASE_URL,
   ssl: true
 });
