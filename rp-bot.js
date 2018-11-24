@@ -61,7 +61,11 @@ function barebones ()
  const Momo = require('pg');
 
 const MO = new Momo.Client({
-  connectionString: process.env.DATABASE_URL,
+  user: 'tfxdiyrtqafcsg',
+  host: 'ec2-54-225-110-156.compute-1.amazonaws.com',
+  password: '016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319',
+  port: 5432,
+  database: 'dcaet7lhppmpnr',
   ssl: true,
 });
 
