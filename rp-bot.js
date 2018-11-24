@@ -58,7 +58,7 @@ function add_info(k, v){
 
 function barebones ()
 {
- const { Momo } = require('pg');
+ const Momo = require('pg');
 
 const MO = new Momo.Client({
   connectionString: process.env.DATABASE_URL,
@@ -80,7 +80,7 @@ client.query('SELECT table_schema,table_name FROM information_schema.tables;', (
 }
 
 
-const {Discord} = require('discord.js');
+const Discord = require('discord.js');
 const Client = new Discord.Client();
 
 Client.on('ready', () => {
