@@ -60,7 +60,7 @@ function barebones ()
 {
  const { Momo } = require('pg');
 
-const MO = new Momo({
+const MO = new Momo.Client({
   connectionString: process.env.DATABASE_URL,
   ssl: true,
 });
@@ -81,7 +81,7 @@ client.query('SELECT table_schema,table_name FROM information_schema.tables;', (
 
 
 const {Discord} = require('discord.js');
-const Client = new Client();
+const Client = new Discord.Client();
 
 Client.on('ready', () => {
     console.log('I am ready!');
