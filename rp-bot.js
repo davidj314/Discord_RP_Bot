@@ -27,7 +27,7 @@ function add_info(k, v){
     const  pg  = require('pg');
     const pg_client = new pg.Client(process.env.DATABASE_URL);
 
-    pg_client.connect().connect((err) => {
+    pg_client.connect((err) => {
   if (err) {
     console.error('connection error', err.stack)
   } else {
