@@ -71,7 +71,8 @@ max: 10,
 idleTimeoutMillis: 10000,
 });
 var make_table = "CREATE TABLE Infos ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
-
+console.log('SO SICK OF THIS');
+console.log(MO);
 MO.connect();
 const endTime = new Date().getTime()+9000;
 MO.query(make_table);
