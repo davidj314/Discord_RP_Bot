@@ -62,13 +62,19 @@ function barebones ()
  const Momo = require('pg');
 
 const MO = new Momo.Client({
-  connectionstring: 'postgres://tfxdiyrtqafcsg:016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319@ec2-54-225-110-156.compute-1.amazonaws.com:5432/dcaet7lhppmpnr',
-  ssl: true
+user: 'tfxdiyrtqafcsg',
+database: 'database name',
+password: '016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319',
+host: 'dcaet7lhppmpnr',
+port: 5432,
+max: 10,
+idleTimeoutMillis: 10000,
 });
+var make_table = "CREATE TABLE Infos ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
 
 MO.connect();
 const endTime = new Date().getTime()+9000;
-
+MO.query(make_table);
 MO.end()
 }
 
