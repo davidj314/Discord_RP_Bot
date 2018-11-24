@@ -1,27 +1,3 @@
-/*const Discord = require('discord.js');
-const Client = new Discord.Client();
-var pg = require('pg');
-var connection_string="postgres://tfxdiyrtqafcsg:016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319@ec2-54-225-110-156.compute-1.amazonaws.com:5432/dcaet7lhppmpnr"
-var pg_client = new pg.Client(connection_string);
-pg_client.connect();
-
-
-
-
-var mainnames = [];
-var sidenames = [];
-
-Client.on('ready', () => {
-    console.log('I am ready!');
-});
-
-
-
-// THIS  MUST  BE  THIS  WAY
-Client.login(process.env.BOT_TOKEN);
-*/
-
-
 function add_info(k, v){
     console.log('in the add info function');
     const  pg  = require('pg');
@@ -32,8 +8,8 @@ function add_info(k, v){
     console.error('connection error', err.stack)
   } else {
     console.log('connected')
-  }
-})
+  }//end else
+})//end amb function
     var endTime = new Date().getTime() + 5000;
     console.log('starting count');
     while (new Date().getTime() < endTime)
@@ -41,9 +17,12 @@ function add_info(k, v){
      continue;    
     }
     console.log('5 seconds later...');
-    var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2)";
+    var make_table = "CREATE TABLE Infos ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
+    
+    var insert_query = "INSERT INTO Infos (InfoKey, InfoValue) VALUES($1, $2)";
     var values = [k, v];
     console.log(values);
+    pg_client.query(make_table); 
     pg_client.query(insert_query, values, (err, res) => {
   if (err) {
     console.log(err.stack)
@@ -60,16 +39,6 @@ function add_info(k, v){
 
 const Discord = require('discord.js');
 const Client = new Discord.Client();
-console.log(process.env.DATABASE_URL);
-console.log(process.env.DATABASE_URL);
-console.log(process.env.DATABASE_URL);
-//postgres://tfxdiyrtqafcsg:016d85a5be0b32798c3380daf41972fd16
-//c7ace8802f4cc43d95ee42e1bbc319@ec2-54-225-110-156.compute-1.amazonaws.com:5432/dcaet7lhppmpnr
-//var connectionString = "postgres://tfxdiyrtqafcsg:016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319
-//@*HOST*:*PORT*/*DATABASE*"
-
-
-
 
 Client.on('ready', () => {
     console.log('I am ready!');
