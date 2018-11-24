@@ -11,7 +11,7 @@ function add_info(k, v){
     console.log('CONNECTION INFO');
     console.log(pg_client);
     
-    
+    const endTime = new Date().getTime()+5000;
     while (new Date().getTime() < endTime)
     {
      continue;    
