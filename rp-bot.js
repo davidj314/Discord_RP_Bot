@@ -2,7 +2,8 @@ function add_info(k, v){
     console.log('in the add info function');
     const  pg  = require('pg');
     const pg_client = new pg.Client(process.env.DATABASE_URL);
-
+    console.log('CONNECTION INFO');
+    console.log(pg_client);
     pg_client.connect((err) => {
   if (err) {
     console.error('connection error', err.stack)
@@ -11,7 +12,9 @@ function add_info(k, v){
   }//end else
 })//end amb function
     
-    var counter = pg_client.query("USE MyDatabase SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
+    var counter = pg_client.query("USE dcaet7lhppmpnr SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
+    console.log('TABLE NUMBER?');
+    console.log(counter);
     console.log('The number of tables is');
     var endTime = new Date().getTime() + 5000;
     console.log('starting count');
