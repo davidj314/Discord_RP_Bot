@@ -73,12 +73,12 @@ Client.login(process.env.BOT_TOKEN);
 
 const Discord = require('discord.js');
 const Client = new Discord.Client();
+console.log(process.env.DATABASE_URL);
+console.log(process.env.DATABASE_URL);
+console.log(process.env.DATABASE_URL);
 var pg = require('pg');
 var pg_client = new pg.Client(process.env.DATABASE_URL);
 pg_client.connect();
-var make_table = "CREATE TABLE Info ( ID int NOT NULL, LookupKey varchar(255) NOT NULL, Info_Value varchar(255),PRIMARY KEY (ID));";
-
-pg_client.query(make_table);
 
     
     
