@@ -81,13 +81,10 @@ console.log(process.env.DATABASE_URL);
 //var connectionString = "postgres://tfxdiyrtqafcsg:016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319
 //@*HOST*:*PORT*/*DATABASE*"
 var pg = require('pg');
-var pg_client = new pg.Client();
-pg_client.connect(process.env.DATABASE_URL);
+var pg_client = new pg.Client(process.env.DATABASE_UR);
+console.log('pg_client initialized successfully');
+pg_client.connect();
 
-    
-    
-var mainnames = [];
-var sidenames = [];
 
 Client.on('ready', () => {
     console.log('I am ready!');
