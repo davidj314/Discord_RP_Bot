@@ -1,7 +1,7 @@
 function add_info(k, v){
     console.log('in the add info function');
     const  pg  = require('pg');
-    const pg_client = new pg.Client(process.env.DATABASE_URL);
+    const pg_client = new pg.Client(process.env.DATABASE_URL+'?ssl=true');
     console.log('CONNECTION INFO');
     console.log(pg_client);
     pg_client.connect((err) => {
