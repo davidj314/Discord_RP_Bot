@@ -80,9 +80,14 @@ console.log(process.env.DATABASE_URL);
 //c7ace8802f4cc43d95ee42e1bbc319@ec2-54-225-110-156.compute-1.amazonaws.com:5432/dcaet7lhppmpnr
 //var connectionString = "postgres://tfxdiyrtqafcsg:016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319
 //@*HOST*:*PORT*/*DATABASE*"
-var pg = require('pg');
-var pg_client = new pg.Client(process.env.DATABASE_UR);
-console.log('pg_client initialized successfully');
+
+const { pg } = require('pg');
+
+const pg_client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
+});
+
 pg_client.connect();
 
 
