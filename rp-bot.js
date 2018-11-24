@@ -30,7 +30,9 @@ function add_info(k, v){
     pg_client.connect();
     var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2) RETURNING *";
     var values = [k, v];
+    console.log(values);
     pg_client.query(insert_query, values, (err, res) => {
+        console.log('inserted?');
   if (err) {
     console.log(err.stack);
   } else {
@@ -38,6 +40,7 @@ function add_info(k, v){
     
   } //end else
 })//end query
+    console.log('ending connection');
     pg_client.end();
     
 }//end function
