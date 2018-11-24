@@ -81,15 +81,14 @@ console.log(process.env.DATABASE_URL);
 //var connectionString = "postgres://tfxdiyrtqafcsg:016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319
 //@*HOST*:*PORT*/*DATABASE*"
 
-const pg = require('pg');
-
-const pg_client = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true
-});
-
+const { pg } = require('pg')
+const pg_client = new Client()
 console.log('About to connect!!!');
-pg_client.connect();
+
+await client.connect()
+
+const res = await pg_client.query('INSERT INTO Info VALUES ("The test", "Test value")' )
+await client.end()
 
 
 Client.on('ready', () => {
