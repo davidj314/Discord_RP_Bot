@@ -3,10 +3,10 @@ function add_info(k, v){
     var  pg  = require('pg');
     var c = "postgres://tfxdiyrtqafcsg:016d85a5be0b32198c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319@ec2-54-225-110-156.compute-1.amazonaws.com:5432/dcaet7lhppmpnr";
     c += "?ssl=true";
-    var pg_client = new pg.Client(c);
+    var pg_client = new pg.Client();
     console.log('CONNECTION INFO');
     console.log(pg_client);
-    pg_client.connect();
+    pg_client.connect(c);
     var counter = pg_client.query("USE dcaet7lhppmpnr SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
     console.log('TABLE NUMBER?');
     console.log(counter);
