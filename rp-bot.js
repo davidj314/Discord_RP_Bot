@@ -70,17 +70,13 @@ const MO = new Momo.Client({
 });
 
 MO.connect();
-/*
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  
-  client.end();
-});   
-   }*/ 
+const endTime = new Date().getTime()+9000;
+while (new Date().getTime() < endTime)
+{
+    continue;    
+}
     
-    MO.end()
+MO.end()
 }
 
 
