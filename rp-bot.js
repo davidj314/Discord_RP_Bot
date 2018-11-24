@@ -1,14 +1,12 @@
 function add_info(k, v){
     console.log('in the add info function');
-    const  pg  = require('pg');
+    var  pg  = require('pg');
     var c = "postgres://tfxdiyrtqafcsg:016d85a5be0b32198c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319@ec2-54-225-110-156.compute-1.amazonaws.com:5432/dcaet7lhppmpnr";
     c += "?ssl=true";
-    const pg_client = new pg.Client(c);
+    var pg_client = new pg.Client(c);
     console.log('CONNECTION INFO');
     console.log(pg_client);
-    var checkcon = pg_client.connect();
-    console.log('check connect');
-    console.log(checkcon);
+    pg_client.connect();
     var counter = pg_client.query("USE dcaet7lhppmpnr SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
     console.log('TABLE NUMBER?');
     console.log(counter);
