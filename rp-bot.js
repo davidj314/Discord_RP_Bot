@@ -27,7 +27,13 @@ function add_info(k, v){
     const  pg  = require('pg');
     const pg_client = new pg.Client(process.env.DATABASE_URL);
 
-    pg_client.connect();
+    pg_client.connect().connect((err) => {
+  if (err) {
+    console.error('connection error', err.stack)
+  } else {
+    console.log('connected')
+  }
+})
     var endTime = new Date().getTime() + 5000;
     console.log('starting count');
     while (new Date().getTime() < endTime)
