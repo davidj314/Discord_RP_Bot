@@ -11,12 +11,7 @@ function add_info(k, v){
     console.log('CONNECTION INFO');
     console.log(pg_client);
     
-    var counter = pg_client.query("USE dcaet7lhppmpnr SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'");
-    console.log('TABLE NUMBER?');
-    console.log(counter);
-    console.log('The number of tables is');
-    var endTime = new Date().getTime() + 5000;
-    console.log('starting count');
+    
     while (new Date().getTime() < endTime)
     {
      continue;    
@@ -28,6 +23,9 @@ function add_info(k, v){
     var values = [k, v];
     console.log(values);
     pg_client.query(make_table); 
+    console.log('THIS IS AFTER TABLE CREATION');
+    
+    
     var ins = pg_client.query(insert_query, values, (err, res) => {
   if (err) {
     console.log(err.stack)
@@ -36,6 +34,7 @@ function add_info(k, v){
     
   } //end else
 })//end query
+    console.log('LOGGING INS');
     console.log(ins);
 
     console.log('ending connection');
