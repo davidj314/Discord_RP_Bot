@@ -56,6 +56,28 @@ function add_info(k, v){
 }//end function
 
 
+function barebones ()
+{
+ const { Client } = require('pg');
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+});
+
+client.connect();
+/*
+client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+  if (err) throw err;
+  for (let row of res.rows) {
+    console.log(JSON.stringify(row));
+  }*/
+  client.end();
+});   
+    
+}
+
+
 const Discord = require('discord.js');
 const Client = new Discord.Client();
 
@@ -78,7 +100,8 @@ Client.on('message', message => {
                 for (i=2;i < args.length; i++){
                     info_content += args[i];
                 }
-                add_info(info_key, info_content);
+                //add_info(info_key, info_content);
+                barebones();
                 break;
         }
   	}
