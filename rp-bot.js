@@ -81,12 +81,7 @@ MO.end()
 
 const Discord = require('discord.js');
 const Client = new Discord.Client();
-
-Client.on('ready', () => {
-    console.log('I am ready!');
-    
-    const Momo = require('pg');
-
+const Momo = require('pg');
 const MO = new Momo.Client({
 user: 'tfxdiyrtqafcsg',
 database: 'dcaet7lhppmpnr',
@@ -96,6 +91,12 @@ port: 5432,
 max: 10,
 idleTimeoutMillis: 10000,
 });
+Client.on('ready', () => {
+    console.log('I am ready!');
+    
+    
+
+
 var make_table = "CREATE TABLE Infos ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
 
 MO.connect();
