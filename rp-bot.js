@@ -28,6 +28,13 @@ function add_info(k, v){
     const pg_client = new pg.Client(process.env.DATABASE_URL);
 
     pg_client.connect();
+    var endTime = new Date().getTime() + 5000;
+    console.log('starting count');
+    while (new Date().getTime() < endTime)
+    {
+     continue;    
+    }
+    console.log('5 seconds later...');
     var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2)";
     var values = [k, v];
     console.log(values);
