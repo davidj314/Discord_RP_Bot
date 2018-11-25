@@ -25,7 +25,7 @@ function add_info(k, v){
     console.log('CONNECTION INFO');
     console.log(pg_client);
     
-    const endTime = new Date().getTime()+5000;
+    var endTime = new Date().getTime()+5000;
     while (new Date().getTime() < endTime)
     {
      continue;    
@@ -59,9 +59,9 @@ function add_info(k, v){
 
 function barebones ()
 {
- const Momo = require('pg');
+ var Momo = require('pg');
 
-const MO = new Momo.Client({
+var MO = new Momo.Client({
 user: 'tfxdiyrtqafcsg',
 database: 'dcaet7lhppmpnr',
 password: '016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319',
@@ -74,16 +74,16 @@ var make_table = "CREATE TABLE Infos ( ID int NOT NULL AUTO_INCREMENT, InfoKey v
 console.log('SO SICK OF THIS');
 console.log(MO);
 MO.connect();
-const endTime = new Date().getTime()+9000;
+var endTime = new Date().getTime()+9000;
 MO.query(make_table);
 MO.end()
 }
 
 
-const Discord = require('discord.js');
-const Client = new Discord.Client();
-const Momo = require('pg');
-const MO = new Momo.Client({
+var Discord = require('discord.js');
+var Client = new Discord.Client();
+var Momo = require('pg');
+var MO = new Momo.Client({
 user: 'tfxdiyrtqafcsg',
 database: 'dcaet7lhppmpnr',
 password: '016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319',
@@ -101,7 +101,7 @@ Client.on('ready', () => {
 var make_table = "CREATE TABLE Infos ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
 
 MO.connect();
-const endTime = new Date().getTime()+9000;
+var endTime = new Date().getTime()+9000;
     
 });
 
