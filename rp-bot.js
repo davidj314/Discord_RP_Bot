@@ -66,7 +66,7 @@ var make_table = "CREATE TABLE Testimundo ( ID int SERIAL PRIMARY KEY, InfoKey v
 var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2)";
 var values = ['Ice', 'Cold'];
 console.log('SO SICK OF THIS');
-
+console.log(process.env.DATABASE_URL);
 var pool = new Momo.Pool({
   connectionString: process.env.DATABASE_URL,
   SSL: true
@@ -77,9 +77,6 @@ pool.query(make_table, (err, res) => {
   console.log(err, res);
   pool.end();
 });
-
-// pool shutdown
-pool.end();
 
 console.log('TABLE MADE???');
 
