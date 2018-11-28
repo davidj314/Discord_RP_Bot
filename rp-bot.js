@@ -41,11 +41,11 @@ function convert_to_userid(guildList, input)
 {
     guildList.forEach(function(guildMember)
     {
-        console.log(guildMember);
+        //console.log(guildMember.user);
         if (guildMember.username == input)
         {
-            console.log(guildMember.id);
-            return guildMember.id ; 
+            console.log(guildMember.user.id);
+            return String(guildMember.user.id) ; 
         }
            
         if (guildMember.nickname == input)
