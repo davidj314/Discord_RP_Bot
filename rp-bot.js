@@ -63,6 +63,8 @@ var Client = new Discord.Client();
 var constring = process.env.DATABASE_URL + "?ssl=true";
 var MO = new Momo.Client(constring);
 var make_table = "CREATE TABLE Testimundo ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID));";
+var insert_query = "INSERT INTO Testimundo (InfoKey, InfoValue) VALUES($1, $2)";
+var values = ['Ice', 'Cold'];
 console.log('SO SICK OF THIS');
 
 MO.connect();
@@ -72,7 +74,7 @@ while (new Date().getTime() < endTime)
 {
  continue;    
 }
-MO.query(make_table);
+MO.query(insert_query, values);
 endTime = new Date().getTime()+7000;
 while (new Date().getTime() < endTime)
 {
