@@ -33,7 +33,7 @@ function add_info(k, v){
     console.log('5 seconds later...');
     var make_table = "CREATE TABLE Testimundo ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
     
-    var insert_query = "INSERT INTO Testimundo (InfoKey, InfoValue) VALUES($1, $2)";
+    var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2)";
     var values = [k, v];
     console.log(values);
     pg_client.query(make_table); 
