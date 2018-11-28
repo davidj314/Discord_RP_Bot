@@ -59,7 +59,7 @@ function add_info(k, v){
 
 function barebones ()
 {
- var Momo = require('pg');
+
 
 /*var MO = new Momo.Client({
 user: 'tfxdiyrtqafcsg',
@@ -79,12 +79,14 @@ console.log(MO);
 MO.connect(constring);
 var endTime = new Date().getTime()+9000;
 MO.query(make_table);
-MO.end()
+MO.end();
 }
 
 
 var Discord = require('discord.js');
 var Client = new Discord.Client();
+ var Momo = require('pg');
+
 barebones();
 Client.on('ready', () => {
     console.log('I am ready!');
@@ -95,7 +97,7 @@ Client.on('ready', () => {
 var make_table = "CREATE TABLE Infos ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
 
 //MO.connect();
-var endTime = new Date().getTime()+9000;
+});
 
 
 Client.on('message', message => {
