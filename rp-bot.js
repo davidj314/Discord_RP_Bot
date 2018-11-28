@@ -74,21 +74,17 @@ while (new Date().getTime() < endTime)
 {
  continue;    
 }
-MO.query(make_table, (err, res) => {
+const query = MO.query(make_table, (err, res) => {
   if (err) throw err;
   for (let row of res.rows) {
     console.log(JSON.stringify(row));
   }
   client.end();
 });
-endTime = new Date().getTime()+7000;
-while (new Date().getTime() < endTime)
-{
- continue;    
-}
+
+query.on('end', () => { MO.end(); });
 console.log('TABLE MADE???');
 console.log(MO);
-MO.end();
 
 Client.on('ready', () => {
     console.log('I am ready!');
