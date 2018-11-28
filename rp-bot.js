@@ -1,7 +1,7 @@
 function add_info(k, v){
     console.log('in the add info function');
     var  pg  = require('pg');
-    var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2)";
+    var insert_query = "INSERT INTO Testimundo (InfoKey, InfoValue) VALUES($1, $2)";
     var values = [k, v];
     var pool = new Momo.Pool({
   connectionString: process.env.DATABASE_URL,
