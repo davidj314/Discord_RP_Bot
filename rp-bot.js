@@ -45,7 +45,7 @@ function convert_to_userid(guildList, input)
         if (guildMember.user.username == input)
         {
             console.log(guildMember.user);
-            return guildMember.user.user.id ; 
+            return guildMember.user.User.id ; 
         }
            
         if (guildMember.user.nickname == input)
