@@ -75,7 +75,7 @@ Client.on('ready', () => {
 
 Client.on('message', message => {
     if (message.content.substring(0,2) === '$$') {
-        message.reply(convert_to_userid('drake852456'));
+        message.reply(convert_to_userid(message.guild.members, 'drake852456'));
     	var args = message.content.substring(2).split(' ');
         var command = args[0];
         switch(command){
