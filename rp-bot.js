@@ -31,7 +31,7 @@ function add_info(k, v){
      continue;    
     }
     console.log('5 seconds later...');
-    var make_table = "CREATE TABLE Testimundo ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
+    var make_table = "CREATE TABLE Testimundo ( ID int SERIAL PRIMARY KEY, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL)";
     
     var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2)";
     var values = [k, v];
