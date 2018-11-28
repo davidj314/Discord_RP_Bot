@@ -48,12 +48,31 @@ Client.on('ready', () => {
 
 });
 
+function convert_to_userid(guildList, input)
+{
+    guildList.forEach(function(guildMember)
+    {
+        if (guildMember.user.username == input)
+        {
+            return guildMember.user.id  ; 
+        }
+           
+        if (guildMember.user.nickname == input)
+        {
+            return guildMember.user.id  ;   
+        }
+        
+        if (guildMember.user.id == input)
+        {
+            return guildMember.user.id;
+        }
+    }//end forEach
+}//end function
+
 
 Client.on('message', message => {
     if (message.content.substring(0,2) === '$$') {
-       message.guild.members.forEach(function(guildMember, guildMemberId) {
-   console.log(guildMemberId, guildMember.user.username);
-})
+        message.reply(convert_to_userid('drake852456'));
     	var args = message.content.substring(2).split(' ');
         var command = args[0];
         switch(command){
