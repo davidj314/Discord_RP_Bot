@@ -95,7 +95,7 @@ console.log(MO);
 MO.connect();
 var endTime = new Date().getTime()+9000;
 MO.query(make_table);
-MO.end();
+
 
 Client.on('ready', () => {
     console.log('I am ready!');
