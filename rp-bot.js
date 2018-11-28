@@ -94,10 +94,9 @@ Client.on('ready', () => {
 
 var make_table = "CREATE TABLE Infos ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
 
-MO.connect();
+//MO.connect();
 var endTime = new Date().getTime()+9000;
-    
-});
+
 
 Client.on('message', message => {
     if (message.content.substring(0,2) === '$$') {
