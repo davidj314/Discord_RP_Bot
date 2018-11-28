@@ -30,23 +30,12 @@ pool.query(select_query,(err, result) => {
     return console.error('Error executing query', err.stack);;
   }
   console.log('no error');
-  console.log(result.rows); // brianc
+  console.log(result.rows); 
 });
 
     
 }//end function
 
-
-var Discord = require('discord.js');
-var Client = new Discord.Client();
- var Momo = require('pg');
-var constring = process.env.DATABASE_URL + "?ssl=true";
-var MO = new Momo.Client();
-
-Client.on('ready', () => {
-    console.log('I am ready!');
-
-});
 
 function convert_to_userid(guildList, input)
 {
@@ -66,8 +55,22 @@ function convert_to_userid(guildList, input)
         {
             return guildMember.user.id;
         }
-    }//end forEach
+    });//end forEach
 }//end function
+
+
+var Discord = require('discord.js');
+var Client = new Discord.Client();
+ var Momo = require('pg');
+var constring = process.env.DATABASE_URL + "?ssl=true";
+var MO = new Momo.Client();
+
+Client.on('ready', () => {
+    console.log('I am ready!');
+
+});
+
+
 
 
 Client.on('message', message => {
