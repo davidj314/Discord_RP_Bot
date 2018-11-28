@@ -67,7 +67,7 @@ var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2)";
 var values = ['Ice', 'Cold'];
 console.log('SO SICK OF THIS');
 
-MO.connect().then(() => MO.query(make_table)).then(()=> MO.close());
+var meh = MO.connect().then(() => MO.query(make_table)).then(()=> MO.close());
 console.log(MO);
 
 
