@@ -67,8 +67,10 @@ var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2)";
 var values = ['Ice', 'Cold'];
 console.log('SO SICK OF THIS');
 
-var pool = new Momo.Pool();
-
+var pool = new Momo.Pool({
+  connectionString: process.env.DATABASE_URL,
+  SSL: true
+});
 // connection using created pool
 pool.connect(function(err, client, done) {
   client.query(make_table);
