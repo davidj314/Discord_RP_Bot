@@ -67,16 +67,11 @@ var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2)";
 var values = ['Ice', 'Cold'];
 console.log('SO SICK OF THIS');
 
-MO.connect();
+MO.connect().then(() => MO.query(make_table)).then(()=> MO.close());
 console.log(MO);
 
-const query = MO.query(make_table, (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
-  client.end();
-});
+
+  
 
 query.on('end', () => { MO.end(); });
 console.log('TABLE MADE???');
