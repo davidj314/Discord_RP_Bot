@@ -37,7 +37,7 @@ pool.query(select_query,(err, result) => {
 }//end function
 
 
-function convert_to_userid(guildList, input)
+function convert_to_userid(guildList, input, callback)
 {
     guildList.forEach(function(guildMember)
     {
@@ -45,17 +45,17 @@ function convert_to_userid(guildList, input)
         if (guildMember.user.username == input)
         {
             console.log(guildMember.user.id);
-            return String(guildMember.user.id) ; 
+            callback(String(guildMember.user.id)) ; 
         }
            
         if (guildMember.user.nickname == input)
         {
-            return guildMember.user.id  ;   
+            callback(String(guildMember.user.id)) ;   
         }
         
         if (guildMember.user.id == input)
         {
-            return guildMember.user.id;
+            callback(String(guildMember.user.id));
         }
     });//end forEach
 }//end function
