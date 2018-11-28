@@ -71,10 +71,11 @@ var pool = new Momo.Pool({
   connectionString: process.env.DATABASE_URL,
   SSL: true
 });
+console.log('after pool initialization');
 // connection using created pool
-pool.connect(function(err, client, done) {
-  client.query(make_table);
-  done();
+pool.query(make_table, (err, res) => {
+  console.log(err, res);
+  pool.end();
 });
 
 // pool shutdown
