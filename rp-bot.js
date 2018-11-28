@@ -13,6 +13,7 @@ pool.query(insert_query, values,  (err, res) => {
   console.log(err, res);
   pool.end();
 });
+}
     
 function get_all_infos(){
     console.log('getting all infos');
