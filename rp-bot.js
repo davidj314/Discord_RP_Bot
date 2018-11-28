@@ -85,16 +85,11 @@ const query = MO.query(make_table, (err, res) => {
 query.on('end', () => { MO.end(); });
 console.log('TABLE MADE???');
 console.log(MO);
+MO.end();
 
 Client.on('ready', () => {
     console.log('I am ready!');
-    
-    
 
-
-var make_table = "CREATE TABLE Infos ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
-
-//MO.connect();
 });
 
 
