@@ -30,7 +30,7 @@ pool.query(select_query,(err, result) => {
     return console.error('Error executing query', err.stack);;
   }
   console.log('no error');
-  console.log(result.rows[0].name); // brianc
+  console.log(result.rows[0]); // brianc
 });
 
     
