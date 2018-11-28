@@ -51,7 +51,7 @@ Client.on('ready', () => {
 
 Client.on('message', message => {
     if (message.content.substring(0,2) === '$$') {
-        var uname = message.author.user["username"];
+        var uname = message.author.username;
         message.reply('You are ' + uname);
     	var args = message.content.substring(2).split(' ');
         var command = args[0];
