@@ -24,10 +24,13 @@ function get_all_infos(){
 });
 console.log('after pool initialization in get all info');
 // connection using created pool
-pool.query(select_query,  (err, res) => {
-  console.log(err, res);
-  console.log(res)
-  pool.end();
+pool.query(select_query,(err, result) => {
+  if (err) {
+    console.log('error occurred');
+    return console.error('Error executing query', err.stack);;
+  }
+  console.log('no error');
+  console.log(result.rows[0].name); // brianc
 });
 
     
