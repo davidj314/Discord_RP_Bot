@@ -31,9 +31,9 @@ function add_info(k, v){
      continue;    
     }
     console.log('5 seconds later...');
-    var make_table = "CREATE TABLE Infos ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
+    var make_table = "CREATE TABLE Testimundo ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
     
-    var insert_query = "INSERT INTO Infos (InfoKey, InfoValue) VALUES($1, $2)";
+    var insert_query = "INSERT INTO Testimundo (InfoKey, InfoValue) VALUES($1, $2)";
     var values = [k, v];
     console.log(values);
     pg_client.query(make_table); 
@@ -57,37 +57,6 @@ function add_info(k, v){
 }//end function
 
 
-function barebones ()
-{
-
-
-/*var MO = new Momo.Client({
-user: 'tfxdiyrtqafcsg',
-database: 'dcaet7lhppmpnr',
-password: '016d85a5be0b32798c3380daf41972fd16c7ace8802f4cc43d95ee42e1bbc319',
-host: 'ec2-54-225-110-156.compute-1.amazonaws.com',
-port: 5432,
-max: 10,
-idleTimeoutMillis: 10000,
-});
-*/
-var constring = process.env.DATABASE_URL + "?ssl=true";
-var MO = new Momo.Client();
-var make_table = "CREATE TABLE Infos ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
-console.log('SO SICK OF THIS');
-
-MO.connect(constring);
-var endTime = new Date().getTime()+7000;
-while (new Date().getTime() < endTime)
-{
- continue;    
-}
-console.log(MO);
-MO.query(make_table);
-
-}
-
-
 var Discord = require('discord.js');
 var Client = new Discord.Client();
  var Momo = require('pg');
@@ -103,8 +72,14 @@ while (new Date().getTime() < endTime)
 {
  continue;    
 }
-console.log(MO);
 MO.query(make_table);
+endTime = new Date().getTime()+7000;
+while (new Date().getTime() < endTime)
+{
+ continue;    
+}
+console.log('TABLE MADE???');
+console.log(MO);
 MO.end();
 
 Client.on('ready', () => {
