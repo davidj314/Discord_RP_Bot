@@ -45,7 +45,7 @@ function convert_to_userid(guildList, input)
         if (guildMember.user.username == input)
         {
             console.log(guildMember.user);
-            return guildMember.user['id']  ; 
+            return guildMember.user.id ; 
         }
            
         if (guildMember.user.nickname == input)
@@ -77,7 +77,9 @@ Client.on('ready', () => {
 
 Client.on('message', message => {
     if (message.content.substring(0,2) === '$$') {
-        message.reply(convert_to_userid(message.guild.members, 'drake852456'));
+        var meow = convert_to_userid(message.guild.members, 'drake852456');
+        console.log(meow);
+        message.reply(meow);
     	var args = message.content.substring(2).split(' ');
         var command = args[0];
         switch(command){
