@@ -81,7 +81,7 @@ const query = MO.query(make_table, (err, res) => {
 query.on('end', () => { MO.end(); });
 console.log('TABLE MADE???');
 console.log(MO);
-conosole.log('STARTING 30 SEC WAIT');
+console.log('STARTING 30 SEC WAIT');
 var endTime = new Date().getTime()+30000;
 while (new Date().getTime() < endTime)
 {
