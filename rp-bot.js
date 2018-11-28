@@ -61,28 +61,22 @@ var Discord = require('discord.js');
 var Client = new Discord.Client();
  var Momo = require('pg');
 var constring = process.env.DATABASE_URL + "?ssl=true";
-var MO = new Momo.Client(constring);
+var MO = new Momo.Client();
 var make_table = "CREATE TABLE Testimundo ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID));";
 var insert_query = "INSERT INTO Info (InfoKey, InfoValue) VALUES($1, $2)";
 var values = ['Ice', 'Cold'];
 console.log('SO SICK OF THIS');
 
-var meh = MO.connect().then(() => MO.query(make_table)).then(()=> MO.close());
-console.log(MO);
+Momo.connect(constring, function(err, client, done) {
+   client.query(make_table, function(err, result) {
+      done();
+      if(err) return console.error(err);
+      console.log(result.rows);
+   });
+});
 
-
-  
-
-query.on('end', () => { MO.end(); });
 console.log('TABLE MADE???');
-console.log(MO);
-console.log('STARTING 30 SEC WAIT');
-var endTime = new Date().getTime()+30000;
-while (new Date().getTime() < endTime)
-{
- continue;    
-}
-MO.end();
+
 
 Client.on('ready', () => {
     console.log('I am ready!');
