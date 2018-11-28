@@ -72,7 +72,7 @@ idleTimeoutMillis: 10000,
 });
 */
 var constring = process.env.DATABASE_URL + "sslmode=require";
-var MO = new Momo.client({ connectionstring: constring});
+var MO = new Momo.Client(constring);
 var make_table = "CREATE TABLE Infos ( ID int NOT NULL AUTO_INCREMENT, InfoKey varchar(255) NOT NULL, InfoValue varchar(255) NOT NULL, PRIMARY KEY (ID))";
 console.log('SO SICK OF THIS');
 console.log(MO);
