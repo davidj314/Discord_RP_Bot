@@ -13,6 +13,21 @@ pool.query(insert_query, values,  (err, res) => {
   console.log(err, res);
   pool.end();
 });
+    
+function get_all_infos(){
+    console.log('getting all infos');
+    var select_query = "SELECT * FROM Testimundo";
+    var pool = new Momo.Pool({
+  connectionString: process.env.DATABASE_URL,
+  SSL: true
+});
+console.log('after pool initialization in get all info');
+// connection using created pool
+pool.query(insert_query,  (err, res) => {
+  console.log(err, res);
+  console.log(res)
+  pool.end();
+});
 
     
 }//end function
@@ -46,6 +61,9 @@ Client.on('message', message => {
                     info_content += args[i];
                 }
                 add_info(info_key, info_content);
+                break;
+            case 'get_infos':
+                get_all_infos();
                 break;
         }
   	}
