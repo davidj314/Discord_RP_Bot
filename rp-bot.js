@@ -24,7 +24,7 @@ function get_all_infos(){
 });
 console.log('after pool initialization in get all info');
 // connection using created pool
-pool.query(insert_query,  (err, res) => {
+pool.query(select_query,  (err, res) => {
   console.log(err, res);
   console.log(res)
   pool.end();
