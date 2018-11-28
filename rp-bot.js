@@ -74,7 +74,13 @@ while (new Date().getTime() < endTime)
 {
  continue;    
 }
-MO.query(insert_query, values);
+MO.query(make_table, (err, res) => {
+  if (err) throw err;
+  for (let row of res.rows) {
+    console.log(JSON.stringify(row));
+  }
+  client.end();
+});
 endTime = new Date().getTime()+7000;
 while (new Date().getTime() < endTime)
 {
