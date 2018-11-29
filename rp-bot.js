@@ -60,10 +60,10 @@ pool.query(check_query, check_vals,(err, result) => {
              return console.error('Error executing query', err.stack);
           }//end error if
           console.log('inserted new name');
-      }//end query block
+      });//end query block
   }//end if
     
-}//end query                 
+});//end query                 
 }//end function
     
 function get_all_infos(){
