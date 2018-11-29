@@ -50,7 +50,7 @@ pool.query(check_query, check_vals,(err, result) => {
     console.log('error occurred');
     return console.error('Error executing query', err.stack);
   }//end error if
-  if (result.rows.count ==0)
+  if (result.rowCount ==0)
   {
       console.log('RESULTED 0 ROWS. NAME IS FREEEEE');
      var insert_vals = [serverId, name, userId];
