@@ -68,7 +68,7 @@ pool.query(check_query, check_vals,(err, result) => {
     
 function get_all_infos(){
     console.log('getting all infos');
-    var select_query = "SELECT * FROM Testimundo";
+    var select_query = "SELECT * FROM MainName";
     var pool = new Momo.Pool({
   connectionString: process.env.DATABASE_URL,
   SSL: true
@@ -116,7 +116,6 @@ var Discord = require('discord.js');
 var Client = new Discord.Client();
  var Momo = require('pg');
 
-make_main_names();
 
 
 
