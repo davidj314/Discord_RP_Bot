@@ -68,7 +68,7 @@ pool.query(check_query, check_vals,(err, result) => {
     
 function get_all_infos(){
     console.log('getting all infos');
-    var select_query = "SELECT * FROM MainName";
+    var select_query = "SELECT * FROM MainNames";
     var pool = new Momo.Pool({
   connectionString: process.env.DATABASE_URL,
   SSL: true
