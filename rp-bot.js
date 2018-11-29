@@ -132,9 +132,10 @@ Client.on('ready', () => {
 
 
 Client.on('message', message => {
-    var channel = message.channel;
-    channel.send('Testing this...');
-    if (message.content.substring(0,2) === '$$') {        
+    
+    if (message.content.substring(0,2) === '$$') { 
+        var channel = message.channel;
+        channel.send('Testing this...');
     	var args = message.content.substring(2).split(' ');
         var command = args[0];
         switch(command){
