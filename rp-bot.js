@@ -151,7 +151,7 @@ Client.on('message', message => {
                 get_all_infos();
                 break;
             case 'add_character':
-                insert_main_name(message.guild.id  serverId, message.author.id, args[1]);
+                insert_main_name(message.guild.id , serverId, message.author.id, args[1]);
                 break;
                 
         }
