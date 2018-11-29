@@ -16,7 +16,7 @@ pool.query(insert_query, values,  (err, res) => {
 }
 
 function make_main_names(){
-    var ceate_query = "CREATE TABLE MAinNames(Id SERIAL PRIMARY KEY, ServerId int NOT NULL, Name varchar(255) NOT NULL, OwnerId bigint NOT NULL)";
+    var ceate_query = "DROP TABLE MainNames ; CREATE TABLE MainNames(Id SERIAL PRIMARY KEY, ServerId bigint NOT NULL, Name varchar(255) NOT NULL, OwnerId bigint NOT NULL)";
     var pool = new Momo.Pool({
   connectionString: process.env.DATABASE_URL,
   SSL: true
@@ -116,7 +116,7 @@ var Discord = require('discord.js');
 var Client = new Discord.Client();
  var Momo = require('pg');
 
-
+make_main_names();
 
 
 
