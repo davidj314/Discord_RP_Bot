@@ -14,6 +14,25 @@ pool.query(insert_query, values,  (err, res) => {
   pool.end();
 });
 }
+
+function make_main_names(){
+    var ceate_query = "CREATE TABLE MAinNames(Id SERIAL PRIMARY KEY, ServerId int NOT NULL, Name varchar(255) NOT NULL, OwnerId bigint NOT NULL)";
+    var pool = new Momo.Pool({
+  connectionString: process.env.DATABASE_URL,
+  SSL: true
+});
+console.log('after pool initialization in make_main_names');
+// connection using created pool
+pool.query(ceate_query,(err, result) => {
+  if (err) {
+    console.log('error occurred');
+    return console.error('Error executing query', err.stack);;
+  }
+  console.log('no error');
+  console.log(result); 
+});
+    
+}//end function
     
 function get_all_infos(){
     console.log('getting all infos');
@@ -64,8 +83,10 @@ function convert_to_userid(guildList, input, callback)
 var Discord = require('discord.js');
 var Client = new Discord.Client();
  var Momo = require('pg');
-var constring = process.env.DATABASE_URL + "?ssl=true";
-var MO = new Momo.Client();
+make_main_names();
+
+
+
 
 Client.on('ready', () => {
     console.log('I am ready!');
