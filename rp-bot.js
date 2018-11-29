@@ -33,6 +33,38 @@ pool.query(ceate_query,(err, result) => {
 });
     
 }//end function
+
+function insert_main_name(serverId, userId, name)
+{   
+    var check_vals = [serverId, name];
+    var check_query = 'Select Id WHERE ServerId = $1 AND Name = $2';
+    var pool = new Momo.Pool({
+  connectionString: process.env.DATABASE_URL,
+  SSL: true
+});
+// connection using created pool
+pool.query(check_query, check_vals,(err, result) => {
+  if (err) 
+  {
+    console.log('error occurred');
+    return console.error('Error executing query', err.stack);
+  }//end error if
+  if (result.rows.count ==0)
+  {
+     var insert_vals = [serverId, name, userId];
+     var insert_query= "INSERT INTO MainNames (ServerId, Name, OwnerId) VALUES ($1,$2,$3,);
+      pool.query(insert_query, insert_vals, (err, result)=>{
+          if (err) 
+          {
+            console.log('error occurred');
+             return console.error('Error executing query', err.stack);
+          }//end error if
+          console.log('inserted new name');
+      }//end query block
+  }//end if
+    
+}//end query                 
+}//end function
     
 function get_all_infos(){
     console.log('getting all infos');
@@ -118,6 +150,10 @@ Client.on('message', message => {
             case 'get_infos':
                 get_all_infos();
                 break;
+            case 'add_character':
+                insert_main_name(message.guild.id  serverId, message.author.id, args[1]);
+                break;
+                
         }
   	}
 });
