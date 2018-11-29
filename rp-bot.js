@@ -39,35 +39,34 @@ function insert_main_name(serverId, userId, name)
     var check_vals = [serverId, name];
     var check_query = 'Select Id FROM MainNames WHERE ServerId = $1 AND Name = $2';
     var pool = new Momo.Pool({
-  connectionString: process.env.DATABASE_URL,
-  SSL: true
-});
-// connection using created pool
-pool.query(check_query, check_vals,(err, result) => {
+         connectionString: process.env.DATABASE_URL,
+         SSL: true
+     });
+    // connection using created pool
+    pool.query(check_query, check_vals,(err, result) => {
     console.log('checking mainnames');
-  if (err) 
-  {
-    console.log('error occurred');
-    return console.error('Error executing query', err.stack);
-  }//end error if
-  if (result.rowCount ==0)
-  {
-      console.log('RESULTED 0 ROWS. NAME IS FREEEEE');
-     var insert_vals = [serverId, name, userId];
-     var insert_char= "INSERT INTO MainNames (ServerId, Name, OwnerId) VALUES ($1,$2,$3)";
-      pool.query(insert_char, insert_vals, (err, result)=>{
-          if (err) 
-          {
-            console.log('error occurred');
-             return console.error('Error executing query', err.stack);
-          }//end error if
-          console.log('inserted new name');
+    if (err) 
+    {
+       console.log('error occurred');
+       return console.error('Error executing query', err.stack);
+    }//end error if
+    if (result.rowCount ==0) //there isn't a character by that name in the server 
+    {
+       var insert_vals = [serverId, name, userId];
+       var insert_char= "INSERT INTO MainNames (ServerId, Name, OwnerId) VALUES ($1,$2,$3)";
+       pool.query(insert_char, insert_vals, (err, result)=>{
+       if (err) 
+       {
+         console.log('error occurred');
+         return console.error('Error executing query', err.stack);
+       }//end error if
+       console.log('inserted new name');
       });//end query block
   }//end if
     
     else{
-     console.log('ROWS GREATER THAN 0??');
-     console.log(result);
+      console.log('ROWS GREATER THAN 0??');
+      console.log(result);
     }
 });//end query                 
 }//end function
@@ -122,7 +121,6 @@ var Discord = require('discord.js');
 var Client = new Discord.Client();
  var Momo = require('pg');
 
-make_main_names();
 
 
 Client.on('ready', () => {
@@ -134,9 +132,9 @@ Client.on('ready', () => {
 
 
 Client.on('message', message => {
-    if (message.content.substring(0,2) === '$$') {
-        convert_to_userid(message.guild.members, 'drake852456', function(result) {message.reply(result)});
-        
+    var channel = message.channel;
+    channel.send('Testing this...');
+    if (message.content.substring(0,2) === '$$') {        
     	var args = message.content.substring(2).split(' ');
         var command = args[0];
         switch(command){
