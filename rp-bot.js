@@ -44,6 +44,7 @@ function insert_main_name(serverId, userId, name)
 });
 // connection using created pool
 pool.query(check_query, check_vals,(err, result) => {
+    console.log('checking mainnames');
   if (err) 
   {
     console.log('error occurred');
@@ -51,6 +52,7 @@ pool.query(check_query, check_vals,(err, result) => {
   }//end error if
   if (result.rows.count ==0)
   {
+      console.log('RESULTED 0 ROWS. NAME IS FREEEEE');
      var insert_vals = [serverId, name, userId];
      var insert_char= "INSERT INTO MainNames (ServerId, Name, OwnerId) VALUES ($1,$2,$3)";
       pool.query(insert_char, insert_vals, (err, result)=>{
@@ -63,6 +65,10 @@ pool.query(check_query, check_vals,(err, result) => {
       });//end query block
   }//end if
     
+    else{
+     console.log('ROWS GREATER THAN 0??');
+     console.log(result);
+    }
 });//end query                 
 }//end function
     
