@@ -52,8 +52,8 @@ pool.query(check_query, check_vals,(err, result) => {
   if (result.rows.count ==0)
   {
      var insert_vals = [serverId, name, userId];
-     var insert_query= "INSERT INTO MainNames (ServerId, Name, OwnerId) VALUES ($1,$2,$3,);
-      pool.query(insert_query, insert_vals, (err, result)=>{
+     var insert_char= "INSERT INTO MainNames (ServerId, Name, OwnerId) VALUES ($1,$2,$3);
+      pool.query(insert_char, insert_vals, (err, result)=>{
           if (err) 
           {
             console.log('error occurred');
