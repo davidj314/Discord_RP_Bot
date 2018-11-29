@@ -115,7 +115,7 @@ function convert_to_userid(guildList, input, callback)
 var Discord = require('discord.js');
 var Client = new Discord.Client();
  var Momo = require('pg');
-make_main_names();
+
 
 
 
