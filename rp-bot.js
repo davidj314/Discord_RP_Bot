@@ -37,7 +37,7 @@ pool.query(ceate_query,(err, result) => {
 function insert_main_name(serverId, userId, name)
 {   
     var check_vals = [serverId, name];
-    var check_query = 'Select Id WHERE ServerId = $1 AND Name = $2';
+    var check_query = 'Select Id FROM MainNames WHERE ServerId = $1 AND Name = $2';
     var pool = new Momo.Pool({
   connectionString: process.env.DATABASE_URL,
   SSL: true
