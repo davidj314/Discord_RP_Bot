@@ -39,7 +39,7 @@ pool.query(ceate_query,(err, result) => {
 }//end function
 
 
-function get_lookup_val(server_id, key, callback){
+function get_lookup_val(server_id, key){
     console.log('getting lookup value');
     var select_query = "SELECT infoval FROM Lookup WHERE server_id = $1 AND infokey = $2";
     var query_values = [server_id, key];
@@ -141,7 +141,7 @@ function convert_to_userid(guildList, input, callback)
 }//end function
 
 
-function record_lookup(server_id, key, value)
+function record_lookup(server_id, key, value, callback)
 {
     console.log('in the add info function');
     var  pg  = require('pg');
