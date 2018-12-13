@@ -60,61 +60,6 @@ pool.query(select_query, query_values, (err, result) => {
 }//end function
 
 
-function insert_main_name(serverId, userId, name)
-{   
-    var check_vals = [serverId, name];
-    var check_query = 'Select Id FROM MainNames WHERE ServerId = $1 AND Name = $2';
-    var pool = new Momo.Pool({
-         connectionString: process.env.DATABASE_URL,
-         SSL: true
-     });
-    // connection using created pool
-    pool.query(check_query, check_vals,(err, result) => {
-    console.log('checking mainnames');
-    if (err) 
-    {
-       console.log('error occurred');
-       return console.error('Error executing query', err.stack);
-    }//end error if
-    if (result.rowCount ==0) //there isn't a character by that name in the server 
-    {
-       var insert_vals = [serverId, name, userId];
-       var insert_char= "INSERT INTO MainNames (ServerId, Name, OwnerId) VALUES ($1,$2,$3)";
-       pool.query(insert_char, insert_vals, (err, result)=>{
-       if (err) 
-       {
-         console.log('error occurred');
-         return console.error('Error executing query', err.stack);
-       }//end error if
-       console.log('inserted new name');
-      });//end query block
-  }//end if
-    
-    else{
-      console.log('ROWS GREATER THAN 0??');
-      console.log(result);
-    }
-});//end query                 
-}//end function
-    
-function get_all_infos(){
-    console.log('getting all infos');
-    var select_query = "SELECT * FROM MainNames";
-    var pool = new Momo.Pool({
-  connectionString: process.env.DATABASE_URL,
-  SSL: true
-});
-console.log('after pool initialization in get all info');
-// connection using created pool
-pool.query(select_query,(err, result) => {
-  if (err) {
-    console.log('error occurred');
-    return console.error('Error executing query', err.stack);;
-  }
-  console.log('no error');
-  console.log(result.rows); 
-});
-}//end function
 
 
 function convert_to_userid(guildList, input, callback)
@@ -155,11 +100,15 @@ console.log('after pool initialization in add info');
 // connection using created pool
 pool.query(insert_query, values,  (err, res) => {
       //23505
-    if(err.code == '23505') callback('That key is already being used')
+    if(err.code == '23505')
+    {
+        var error_string = 'The key ' + key + ' is already in use.'
+        callback(error_string)
+    }
   console.log(err, res);
   pool.end();
 });
-}
+}//end function
 
 var Discord = require('discord.js');
 var Client = new Discord.Client();
