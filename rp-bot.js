@@ -16,7 +16,7 @@ pool.query(insert_query, values,  (err, res) => {
 }
 
 function make_Names(){
-    var ceate_query = "CREATE TABLE Lookup(id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, name varchar(255) NOT NULL, UNIQUE(server_id, name))";
+    var ceate_query = "CREATE TABLE Names(id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, name varchar(255) NOT NULL, UNIQUE(server_id, name))";
     var pool = new Momo.Pool({
   connectionString: process.env.DATABASE_URL,
   SSL: true
@@ -180,7 +180,7 @@ Client.on('message', message => {
         var command = args[0];
         switch(command){
             case 'make_em':
-                make_lookup();
+                //make_lookup();
                 make_Names();
                 break;
                 
