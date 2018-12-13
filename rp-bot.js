@@ -197,7 +197,7 @@ Client.on('message', message => {
                 for (i=2;i < args.length; i++){
                     info_content += args[i];
                 }
-                record_lookup(guild_id, info_key, info_content);
+                record_lookup(guild_id, info_key, info_content, (msg)=>{channel.send(msg)});
                 break;
                 
             case 'lookup':
