@@ -8,6 +8,7 @@ console.log('after pool initialization in make_main_names');
 // connection using created pool
 pool.query(ceate_query,(err, result) => {
   if (err) {
+      //23505 means unique key constraint error 
     console.log('error occurred');
     return console.error('Error executing query', err.stack);;
   }
@@ -28,6 +29,7 @@ console.log('after pool initialization in make_main_names');
 // connection using created pool
 pool.query(ceate_query,(err, result) => {
   if (err) {
+      
     console.log('error occurred');
     return console.error('Error executing query', err.stack);;
   }
@@ -37,7 +39,7 @@ pool.query(ceate_query,(err, result) => {
 }//end function
 
 
-function get_lookup_val(server_id, key){
+function get_lookup_val(server_id, key, callback){
     console.log('getting lookup value');
     var select_query = "SELECT infoval FROM Lookup WHERE server_id = $1 AND infokey = $2";
     var query_values = [server_id, key];
@@ -152,6 +154,8 @@ function record_lookup(server_id, key, value)
 console.log('after pool initialization in add info');
 // connection using created pool
 pool.query(insert_query, values,  (err, res) => {
+      //23505
+    if(err.code == '23505') callback('That key is already being used')
   console.log(err, res);
   pool.end();
 });
@@ -198,7 +202,7 @@ Client.on('message', message => {
                 
             case 'lookup':
                 var info_key = args[1];
-                get_lookup_val(guild_id, info_key);
+                get_lookup_val(guild_id, info_key, (msg)=>{channel.send(msg)});
                 
                 
             case 'record_name':
