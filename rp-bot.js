@@ -1,8 +1,8 @@
-function add_info(k, v){
+function add_info(s, k, v){
     console.log('in the add info function');
     var  pg  = require('pg');
-    var insert_query = "INSERT INTO Testimundo (InfoKey, InfoValue) VALUES($1, $2)";
-    var values = [k, v];
+    var insert_query = "INSERT INTO Lookup (server_id, infokey, infoval) VALUES($1, $2, $3)";
+    var values = [s, k, v];
     var pool = new Momo.Pool({
   connectionString: process.env.DATABASE_URL,
   SSL: true
@@ -15,8 +15,8 @@ pool.query(insert_query, values,  (err, res) => {
 });
 }
 
-function make_main_names(){
-    var ceate_query = "DROP TABLE Testimundo ; DROP TABLE Info; DROP TABLE Infos";
+function make_Names(){
+    var ceate_query = "CREATE TABLE Lookup(id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, name varchar(255) NOT NULL, UNIQUE(server_id, name))";
     var pool = new Momo.Pool({
   connectionString: process.env.DATABASE_URL,
   SSL: true
@@ -33,6 +33,27 @@ pool.query(ceate_query,(err, result) => {
 });
     
 }//end function
+
+
+function make_lookup(){
+    var ceate_query = "CREATE TABLE Lookup(id SERIAL, server_id bigint NOT NULL, infokey varchar(255) NOT NULL, infoval text NOT NULL, UNIQUE (server_id, infokey))";
+    var pool = new Momo.Pool({
+  connectionString: process.env.DATABASE_URL,
+  SSL: true
+});
+console.log('after pool initialization in make_main_names');
+// connection using created pool
+pool.query(ceate_query,(err, result) => {
+  if (err) {
+    console.log('error occurred');
+    return console.error('Error executing query', err.stack);;
+  }
+  console.log('no error');
+  console.log(result); 
+});
+    
+}//end function
+
 
 function insert_main_name(serverId, userId, name)
 {   
@@ -117,6 +138,24 @@ function convert_to_userid(guildList, input, callback)
 }//end function
 
 
+function record_lookup(server_id, key, value)
+{
+    console.log('in the add info function');
+    var  pg  = require('pg');
+    var insert_query = "INSERT INTO Lookup (server_id, infokey, infoval) VALUES($1, $2, $3)";
+    var values = [server_id, key, value];
+    var pool = new Momo.Pool({
+  connectionString: process.env.DATABASE_URL,
+  SSL: true
+});
+console.log('after pool initialization in add info');
+// connection using created pool
+pool.query(insert_query, values,  (err, res) => {
+  console.log(err, res);
+  pool.end();
+});
+}
+
 var Discord = require('discord.js');
 var Client = new Discord.Client();
  var Momo = require('pg');
@@ -132,13 +171,30 @@ Client.on('ready', () => {
 
 
 Client.on('message', message => {
-    
     if (message.content.substring(0,2) === '$$') { 
         var channel = message.channel;
+        var guild_id = message.guild.id
+        var author_id = message.author.id
         channel.send('Testing this...');
     	var args = message.content.substring(2).split(' ');
         var command = args[0];
         switch(command){
+            case 'make_em':
+                make_lookup();
+                make_Names();
+                break;
+                
+                
+            case 'record_lookup':
+                var info_key = args[1];
+                var info_content = '';
+                var i;
+                for (i=2;i < args.length; i++){
+                    info_content += args[i];
+                }
+                record_lookup(guild_id, info_key, info_content);
+                
+                
             case 'record_name':
                 break;
             case 'record_info':
@@ -155,7 +211,7 @@ Client.on('message', message => {
                 get_all_infos();
                 break;
             case 'add_character':
-                insert_main_name(message.guild.id , message.author.id, args[1]);
+                insert_main_name(guild_id , message.author.id , args[1]);
                 break;
                 
         }
