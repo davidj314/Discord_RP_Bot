@@ -8,7 +8,6 @@ console.log('after pool initialization in make_main_names');
 // connection using created pool
 pool.query(ceate_query,(err, result) => {
   if (err) {
-      //23505 means unique key constraint error 
     console.log('error occurred');
     return console.error('Error executing query', err.stack);;
   }
@@ -29,7 +28,6 @@ console.log('after pool initialization in make_main_names');
 // connection using created pool
 pool.query(ceate_query,(err, result) => {
   if (err) {
-      
     console.log('error occurred');
     return console.error('Error executing query', err.stack);;
   }
@@ -100,12 +98,14 @@ console.log('after pool initialization in add info');
 // connection using created pool
 pool.query(insert_query, values,  (err, res) => {
       //23505
-    if(err.code == '23505')
-    {
-        var error_string = 'The key ' + key + ' is already in use.'
-        callback(error_string)
+    if (err){
+        if(err.code == '23505')
+        {
+            var error_string = 'The key ' + key + ' is already in use.'
+            callback(error_string)
+        }
+    console.log(err, res);
     }
-  console.log(err, res);
   pool.end();
 });
 }//end function
