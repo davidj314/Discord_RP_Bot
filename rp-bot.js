@@ -205,7 +205,7 @@ Client.on('ready', () => {
 
 
 Client.on('message', message => {
-    if (message.content.substring(0,2) === '$$') { 
+    if (message.content.substring(0,2) === 'rp!') { 
         var channel = message.channel;
         var guild_id = message.guild.id
         var author_id = message.author.id
@@ -229,17 +229,17 @@ Client.on('message', message => {
                 {
                     var help_txt = '';
                     help_txt += "Bot comands are as follows:\n";
-                    help_txt += "$$id [username/nickname] -- Displays the id of a user \n";
-                    help_txt += "$$record_lookup [key] [Bigraphy, url, whatever text you like] -- records something to be paired with the key \n";
-                    help_txt += "$$lookup [key] -- Displays what was recorded with the key \n";
-                    help_txt += "$$record_name [name] -- Saves the character name supplied and associates it with the user \n";
-                    help_txt += "$$get_characters [username/nickname/id] -- Displays all characters saved by given user \n";
+                    help_txt += "rp!id [username/nickname] -- Displays the id of a user \n";
+                    help_txt += "rp!record [key] [Bigraphy, url, whatever text you like] -- records something to be paired with the key \n";
+                    help_txt += "rp!find [key] -- Displays what was recorded with the key \n";
+                    help_txt += "rp!save_character [name] -- Saves the character name supplied and associates it with the user \n";
+                    help_txt += "rp!get_characters [username/nickname/id] -- Displays all characters saved by given user \n";
                  channel.send( help_txt);
                 }
                 
                 break;
                 
-            case 'record_lookup':
+            case 'record':
                 var info_key = args[1];
                 var info_content = '';
                 var i;
@@ -250,12 +250,12 @@ Client.on('message', message => {
                 record_lookup(guild_id, info_key, info_content, (msg)=>{channel.send(msg)});
                 break;
                 
-            case 'lookup':
+            case 'find':
                 var info_key = args[1];
                 get_lookup_val(guild_id, info_key, (msg)=>{channel.send(msg)});
                 break;
                 
-            case 'record_name':
+            case 'save_character':
                 var name = '';
                 var i;
                 for (i=1;i < args.length; i++){
@@ -273,17 +273,6 @@ Client.on('message', message => {
                     author += args[i];
                 }
                 convert_to_userid(message.guild.members, author, (a_id)=>{ get_authors_names(guild_id, a_id, (msg)=>{channel.send(msg)})});
-                break;
-            case 'record_info':
-                if (args.length < 3) return; //must have a key and value following command
-                var info_key = args[1];
-                var info_content = '';
-                var i;
-                for (i=2;i < args.length; i++){
-                    if (i > 2) info_content += ' ';
-                    info_content += args[i];
-                }
-                add_info(info_key, info_content);
                 break;
         }
   	}
