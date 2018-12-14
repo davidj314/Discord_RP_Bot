@@ -202,6 +202,14 @@ Client.on('message', message => {
                 make_Names();
                 break;
                 
+            case 'id':
+                var info_key = args[1];
+                var info_content = '';
+                var i;
+                for (i=2;i < args.length; i++){
+                    info_content += args[i];
+                }
+                convert_to_userid(message.guild.members, info_key, (msg)=>{channel.send(msg)});
                 
             case 'record_lookup':
                 var info_key = args[1];
