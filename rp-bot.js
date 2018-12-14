@@ -207,6 +207,14 @@ function roll(high, callback,  low = 0)
     
     low_val = parseInt(low)
     high_val = parseInt(high)
+    
+    if (low_val > high_val) 
+    {
+     var temp = high_val;
+     high_val = low_val;
+     low_val = temp
+    }
+    
  callback(Math.floor(Math.random() * (high_val+1 - low_val) + low_val))
 }
 
