@@ -269,6 +269,7 @@ Client.on('message', message => {
                 break;
                 
             case 'record':
+                if (args[1] == '') break;
                 var info_key = args[1];
                 var info_content = '';
                 var i;
@@ -280,6 +281,7 @@ Client.on('message', message => {
                 break;
                 
             case 'find':
+                if (args[1] == '') break;
                 var info_key = args[1];
                 get_lookup_val(guild_id, info_key, (msg)=>{channel.send(msg)});
                 break;
@@ -289,16 +291,15 @@ Client.on('message', message => {
                 var first = args[1];
                 if (args[2] != null)
                 {
-                 roll(args[2], (msg)=>{channel.send(msg)}, first ) ;  
+                    roll(args[2], (msg)=>{channel.send(msg)}, first ) ;  
                 }
-                else{
-                 roll(first, (msg)=>{channel.send(msg)})
-                      }
-                
+                else
+                {
+                    roll(first, (msg)=>{channel.send(msg)})
+                } 
                 break;
                       
-                 
-                
+                           
             case 'save_character':
                 var name = '';
                 var i;
