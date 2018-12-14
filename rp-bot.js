@@ -189,6 +189,11 @@ pool.query(insert_query, values,  (err, res) => {
 });
 }//end function
 
+function roll(high, callback,  low = 0)
+{
+ callback(Math.random() * (high - low) + low)
+}
+
 
 var Discord = require('discord.js');
 var Client = new Discord.Client();
@@ -254,6 +259,22 @@ Client.on('message', message => {
                 var info_key = args[1];
                 get_lookup_val(guild_id, info_key, (msg)=>{channel.send(msg)});
                 break;
+                
+            case: 'roll':
+                if (args[1] == '') break;
+                var low = int(args[1]);
+                var high = -1;
+                if (args[2] != '')
+                {
+                 roll(low, (msg)=>{channel.send(msg)}, int(args[2])) ;  
+                }
+                else{
+                 roll(low, (msg)=>{channel.send(msg)})
+                      }
+                
+                break;
+                      
+                 
                 
             case 'save_character':
                 var name = '';
