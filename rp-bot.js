@@ -230,7 +230,7 @@ Client.on('message', message => {
                 for (i=2;i < args.length; i++){
                     author += args[i];
                 }
-                convert_to_userid(message.guild.members, author, get_authors_names(guild_id, author, (msg)=>{channel.send(msg)}));
+                convert_to_userid(message.guild.members, author, (a_id)=>{  get_authors_names(guild_id, a_id, (msg)=>{channel.send(msg)});)  });
                 break;
             case 'record_info':
                 if (args.length < 3) return; //must have a key and value following command
