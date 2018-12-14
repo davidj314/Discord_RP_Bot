@@ -127,7 +127,6 @@ function record_lookup(server_id, key, value, callback)
   connectionString: process.env.DATABASE_URL,
   SSL: true
 });
-console.log('after pool initialization in add info');
 // connection using created pool
 pool.query(insert_query, values,  (err, res) => {
       //23505
@@ -221,12 +220,17 @@ Client.on('message', message => {
                 for (i=2;i < args.length; i++){
                     name += args[i];
                 }
-                record_lookup(guild_id, author_id, name, (msg)=>{channel.send(msg)});
+                
+                record_name(guild_id, author_id, name, (msg)=>{channel.send(msg)});
                 break;
                 
             case 'get_characters':
-                var author = args[1];
-                record_lookup(guild_id, author, (msg)=>{channel.send(msg)});
+                var author = '';
+                var i;
+                for (i=2;i < args.length; i++){
+                    author += args[i];
+                }
+                convert_to_userid(message.guild.members, author, record_lookup(guild_id, author, (msg)=>{channel.send(msg)}));
                 break;
             case 'record_info':
                 if (args.length < 3) return; //must have a key and value following command
