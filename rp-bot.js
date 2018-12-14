@@ -100,21 +100,21 @@ function convert_to_userid(guildList, input, callback)
         //console.log(guildMember.user);
         if (guildMember.user.username == input)
         {
-            console.log('Converted username to id);
+            console.log('Converted username to id');
             console.log(guildMember.user.id);
             callback(String(guildMember.user.id)) ; 
         }
            
         if (guildMember.user.nickname == input)
         {
-            console.log('Converted nickname to id);
+            console.log('Converted nickname to id');
             console.log(guildMember.user.id);
             callback(String(guildMember.user.id)) ;   
         }
         
         if (guildMember.user.id == input)
         {
-            console.log('Converted id to id);
+            console.log('Converted id to id');
             console.log(guildMember.user.id);
             callback(String(guildMember.user.id));
         }
