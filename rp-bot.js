@@ -107,31 +107,31 @@ pool.query(select_query, query_values, (err, result) => {
 
 function convert_to_userid(guildList, input, callback)
 {
-    var found = False;
+    var found = false;
     guildList.forEach(function(guildMember)
     {
         if (guildMember.user.username == input)
         {
             console.log('username match')
             callback(String(guildMember.user.id)) ;
-            found = True;
+            found = true;
         }
         if (guildMember.nickname == input)
         {
              console.log('nickname match')
             callback(guildMember.user.id) ; 
-            found = True;
+            found = true;
         }
         
         if (guildMember.user.id == input)
         {
              console.log('id match')
             callback(String(guildMember.user.id));
-            found = True;
+            found = true;
         }
     });//end forEach
     
-    if (found == False)
+    if (found == false)
     {
         callback("None");   
     }
