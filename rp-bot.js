@@ -210,6 +210,20 @@ Client.on('message', message => {
                 convert_to_userid(message.guild.members, info_key, (msg)=>{channel.send(msg)});
                 break;
                 
+            case 'help':
+                var com = args[1];
+                if (com == '')
+                {
+                    var help_txt = '';
+                    help_txt += "Bot comands are as follows:\n";
+                    help_txt += "$$id [username/nickname] -- Displays the id of a user \n";
+                    help_txt += "$$record_lookup [key] [Bigraphy, url, whatever text you like] -- records something to be paired with the key \n";
+                    help_txt += "$$lookup [key] -- Displays what was recorded with the key \n";
+                    help_txt += "$$record_name [name] -- Saves the character name supplied and associates it with the user \n";
+                    help_txt += "$$get_characters [username/nickname/id] -- Displays all characters saved by given user \n";
+                 channel.send( help_txt);
+                }
+                
             case 'record_lookup':
                 var info_key = args[1];
                 var info_content = '';
@@ -256,13 +270,6 @@ Client.on('message', message => {
                 }
                 add_info(info_key, info_content);
                 break;
-            case 'get_infos':
-                get_all_infos();
-                break;
-            case 'add_character':
-                insert_main_name(guild_id , message.author.id , args[1]);
-                break;
-                
         }
   	}
 });
