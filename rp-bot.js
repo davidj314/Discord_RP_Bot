@@ -50,9 +50,10 @@ console.log('after pool initialization in get all info');
 pool.query(select_query, query_values, (err, result) => {
   if (err) {
     console.log('error occurred');
-    return console.error('Error executing query', err.stack);;
+    return console.error('Error executing query', err.stack);
   }
-    elif (result.rows.count == 0) {
+    print(result.rows);
+    elif (result.rows == 0) {
         callback('No entry found for ' + key)
     }
   console.log('no error');
