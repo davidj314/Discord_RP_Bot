@@ -99,8 +99,9 @@ function convert_to_userid(guildList, input, callback)
     console.log(input);
     guildList.forEach(function(guildMember)
     {
-        //console.log(guildMember);
-        console.log(guildMember.user);
+        console.log(guildMember);
+        console.log('and the nicknames:::');
+        console.log(guildMember.nickname);
         if (guildMember.user.username == input)
         {
             console.log('Converted username to id');
