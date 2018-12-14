@@ -191,13 +191,14 @@ pool.query(insert_query, values,  (err, res) => {
 
 function roll(high, callback,  low = 0)
 {
- var regex = '/[\D]/g';
+ var regex = /[\D]/g;
  var found = high.match(regex);
- if (len(found) > 0)
+ if (found.length > 0)
  {
   callback('Invalid Input. Only use numbers');   
  }
     found = low.match(regex)
+    if (found.length > 0)
     {
      callback('Invalid Input. Only use numbers');     
     }
