@@ -225,7 +225,7 @@ Client.on('message', message => {
                 
             case 'help':
                 var com = args[1];
-                if (com == '')
+                if (com == args[1])
                 {
                     var help_txt = '';
                     help_txt += "Bot comands are as follows:\n";
@@ -236,6 +236,8 @@ Client.on('message', message => {
                     help_txt += "$$get_characters [username/nickname/id] -- Displays all characters saved by given user \n";
                  channel.send( help_txt);
                 }
+                
+                break;
                 
             case 'record_lookup':
                 var info_key = args[1];
