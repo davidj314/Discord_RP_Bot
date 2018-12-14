@@ -233,7 +233,7 @@ Client.on('message', message => {
             case 'get_characters':
                 var author = '';
                 var i;
-                for (i=2;i < args.length; i++){
+                for (i=1;i < args.length; i++){
                     author += args[i];
                 }
                 convert_to_userid(message.guild.members, author, (a_id)=>{ get_authors_names(guild_id, a_id, (msg)=>{channel.send(msg)})});
