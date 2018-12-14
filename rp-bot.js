@@ -238,6 +238,7 @@ Client.on('message', message => {
                     help_txt += "rp!find [key] -- Displays what was recorded with the key \n";
                     help_txt += "rp!save_character [name] -- Saves the character name supplied and associates it with the user \n";
                     help_txt += "rp!get_characters [username/nickname/id] -- Displays all characters saved by given user \n";
+                    help_txt += "rp!roll [*minumum] [maximum] -- Generates number between minimum and maximum. Minimum is assumed 0 if omitted"
                  channel.send( help_txt);
                 }
                 
