@@ -149,7 +149,7 @@ function record_name(server_id, owner_id, name, callback)
 {
     console.log('in the add info function');
     var  pg  = require('pg');
-    var insert_query = "INSERT INTO Lookup (server_id, owner_id, name ) VALUES($1, $2, $3)";
+    var insert_query = "INSERT INTO Names (server_id, owner_id, name ) VALUES($1, $2, $3)";
     var values = [server_id, owner_id, name];
     var pool = new Momo.Pool({
   connectionString: process.env.DATABASE_URL,
