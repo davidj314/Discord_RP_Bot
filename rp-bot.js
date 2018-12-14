@@ -37,7 +37,7 @@ pool.query(ceate_query,(err, result) => {
 }//end function
 
 
-function get_lookup_val(server_id, key){
+function get_lookup_val(server_id, key, callback){
     console.log('getting lookup value');
     var select_query = "SELECT infoval FROM Lookup WHERE server_id = $1 AND infokey = $2";
     var query_values = [server_id, key];
@@ -52,6 +52,9 @@ pool.query(select_query, query_values, (err, result) => {
     console.log('error occurred');
     return console.error('Error executing query', err.stack);;
   }
+    elif (result.result.rows == 0) {
+        callback('No entry found for ' + key)
+    }
   console.log('no error');
   console.log(result.rows); 
 });
@@ -110,6 +113,33 @@ pool.query(insert_query, values,  (err, res) => {
 });
 }//end function
 
+
+function record_name(server_id, owner_id, name, callback)
+{
+    console.log('in the add info function');
+    var  pg  = require('pg');
+    var insert_query = "INSERT INTO Lookup (server_id, owner_id, name ) VALUES($1, $2, $3)";
+    var values = [server_id, owner_id, name];
+    var pool = new Momo.Pool({
+  connectionString: process.env.DATABASE_URL,
+  SSL: true
+});
+// connection using created pool
+pool.query(insert_query, values,  (err, res) => {
+      //23505
+    if (err){
+        if(err.code == '23505')
+        {
+            var error_string = 'The name "' + name + '" is already in use.'
+            callback(error_string)
+        }
+    console.log(err, res);
+    }
+  pool.end();
+});
+}//end function
+
+
 var Discord = require('discord.js');
 var Client = new Discord.Client();
  var Momo = require('pg');
@@ -155,6 +185,13 @@ Client.on('message', message => {
                 
                 
             case 'record_name':
+                var info_key = args[1];
+                var name = '';
+                var i;
+                for (i=2;i < args.length; i++){
+                    name += args[i];
+                }
+                record_lookup(guild_id, author_id, name, (msg)=>{channel.send(msg)});
                 break;
             case 'record_info':
                 if (args.length < 3) return; //must have a key and value following command
