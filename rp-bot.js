@@ -262,11 +262,11 @@ Client.on('message', message => {
                 
             case 'roll':
                 if (args[1] == '') break;
-                var low = int(args[1]);
+                var low = parseInt(args[1]);
                 var high = -1;
                 if (args[2] != '')
                 {
-                 roll(low, (msg)=>{channel.send(msg)}, int(args[2])) ;  
+                 roll(low, (msg)=>{channel.send(msg)}, parseInt(args[2])) ;  
                 }
                 else{
                  roll(low, (msg)=>{channel.send(msg)})
