@@ -86,10 +86,15 @@ pool.query(select_query, query_values, (err, result) => {
         callback('No characters found')
     }
   else{
-   callback(result.rows)   
+   var txt = '';
+   var i;
+   for (i=2;i < result.rows.length; i++)
+   {
+        txt += result.rows[i].name;
+   }
+   callback(txt)   
   }
   console.log('no error');
-  console.log(result.rows[0].name); 
 });
 }
 
