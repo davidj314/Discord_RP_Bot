@@ -191,6 +191,16 @@ pool.query(insert_query, values,  (err, res) => {
 
 function roll(high, callback,  low = 0)
 {
+ var regex = '/[\D]/g';
+ var found = high.match(regex);
+ if (len(found) > 0)
+ {
+  callback('Invalid Input. Only use numbers');   
+ }
+    found = low.match(regex)
+    {
+     callback('Invalid Input. Only use numbers');     
+    }
  callback(Math.floor(Math.random() * (high+1 - low) + low))
 }
 
