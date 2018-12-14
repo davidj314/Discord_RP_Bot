@@ -56,6 +56,9 @@ pool.query(select_query, query_values, (err, result) => {
   else if (result.rows.length == 0) {
         callback('No entry found for ' + key)
     }
+  else{
+   callback(result.rows[0])   
+  }
   console.log('no error');
   console.log(result.rows); 
 });
