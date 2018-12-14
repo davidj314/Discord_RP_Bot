@@ -272,10 +272,10 @@ Client.on('message', message => {
                 
             case 'roll':
                 if (args[1] == '') break;
-                var first = parseInt(args[1], 10);
+                var first = args[1];
                 if (args[2] != null)
                 {
-                 roll(parseInt(args[2]), (msg)=>{channel.send(msg)}, first ) ;  
+                 roll(args[2], (msg)=>{channel.send(msg)}, first ) ;  
                 }
                 else{
                  roll(first, (msg)=>{channel.send(msg)})
