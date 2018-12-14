@@ -193,7 +193,7 @@ function roll(high, callback,  low = 0)
 {
  var regex = /[\D]/g;
  var found = high.match(regex);
- if (found.length != null)
+ if (found != null)
  {
   callback('Invalid Input. Only use numbers');   
      return;
