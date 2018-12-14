@@ -260,7 +260,7 @@ Client.on('message', message => {
                 get_lookup_val(guild_id, info_key, (msg)=>{channel.send(msg)});
                 break;
                 
-            case: 'roll':
+            case 'roll':
                 if (args[1] == '') break;
                 var low = int(args[1]);
                 var high = -1;
