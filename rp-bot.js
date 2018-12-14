@@ -96,6 +96,7 @@ pool.query(select_query, query_values, (err, result) => {
 function convert_to_userid(guildList, input, callback)
 {
     console.log('In convert function.');
+    console.log(input);
     guildList.forEach(function(guildMember)
     {
         console.log(guildMember);
