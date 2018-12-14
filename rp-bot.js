@@ -48,11 +48,12 @@ function get_lookup_val(server_id, key, callback){
 console.log('after pool initialization in get all info');
 // connection using created pool
 pool.query(select_query, query_values, (err, result) => {
+  print(result);
   if (err) {
     console.log('error occurred');
     return console.error('Error executing query', err.stack);
   }
-  else if (result.length == 0) {
+  else if (result.rows.length == 0) {
         callback('No entry found for ' + key)
     }
   console.log('no error');
@@ -182,7 +183,7 @@ Client.on('message', message => {
             case 'lookup':
                 var info_key = args[1];
                 get_lookup_val(guild_id, info_key, (msg)=>{channel.send(msg)});
-                
+                break;
                 
             case 'record_name':
                 var info_key = args[1];
