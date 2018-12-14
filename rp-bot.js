@@ -270,6 +270,7 @@ Client.on('message', message => {
                 
             case 'record':
                 if (args[1] == null) break;
+                if (args[2] == null) break;
                 var info_key = args[1];
                 var info_content = '';
                 var i;
