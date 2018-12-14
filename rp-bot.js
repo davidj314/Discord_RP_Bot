@@ -89,7 +89,7 @@ pool.query(select_query, query_values, (err, result) => {
    callback(result.rows)   
   }
   console.log('no error');
-  console.log(result.rows); 
+  console.log(result.rows[0].name); 
 });
 }
 
