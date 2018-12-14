@@ -205,12 +205,12 @@ Client.on('ready', () => {
 
 
 Client.on('message', message => {
-    if (message.content.substring(0,2) === 'rp!') { 
+    if (message.content.substring(0,3) === 'rp!') { 
         var channel = message.channel;
         var guild_id = message.guild.id
         var author_id = message.author.id
         channel.send('Testing this...');
-    	var args = message.content.substring(2).split(' ');
+    	var args = message.content.substring(3).split(' ');
         var command = args[0];
         switch(command){
             case 'make_em':
