@@ -288,7 +288,7 @@ Client.on('message', message => {
                 break;
                 
             case 'roll':
-                if (args[1] == '') break;
+                if (args[1] == null) break;
                 var first = args[1];
                 if (args[2] != null)
                 {
