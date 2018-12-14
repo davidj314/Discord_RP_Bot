@@ -48,7 +48,7 @@ function get_lookup_val(server_id, key, callback){
 console.log('after pool initialization in get all info');
 // connection using created pool
 pool.query(select_query, query_values, (err, result) => {
-  print(result);
+  console.log(result);
   if (err) {
     console.log('error occurred');
     return console.error('Error executing query', err.stack);
