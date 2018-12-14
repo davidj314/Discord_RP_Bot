@@ -215,6 +215,7 @@ Client.on('message', message => {
                 var info_content = '';
                 var i;
                 for (i=2;i < args.length; i++){
+                    if (i > 2) info_content += ' ';
                     info_content += args[i];
                 }
                 record_lookup(guild_id, info_key, info_content, (msg)=>{channel.send(msg)});
@@ -229,6 +230,7 @@ Client.on('message', message => {
                 var name = '';
                 var i;
                 for (i=1;i < args.length; i++){
+                    if (i > 1) name += ' ';
                     name += args[i];
                 }
                 record_name(guild_id, author_id, name, (msg)=>{channel.send(msg)});
@@ -238,6 +240,7 @@ Client.on('message', message => {
                 var author = '';
                 var i;
                 for (i=1;i < args.length; i++){
+                    if (i > 1) author += ' ';
                     author += args[i];
                 }
                 convert_to_userid(message.guild.members, author, (a_id)=>{ get_authors_names(guild_id, a_id, (msg)=>{channel.send(msg)})});
@@ -248,6 +251,7 @@ Client.on('message', message => {
                 var info_content = '';
                 var i;
                 for (i=2;i < args.length; i++){
+                    if (i > 2) info_content += ' ';
                     info_content += args[i];
                 }
                 add_info(info_key, info_content);
