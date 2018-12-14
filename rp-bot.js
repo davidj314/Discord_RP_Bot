@@ -99,9 +99,6 @@ function convert_to_userid(guildList, input, callback)
     console.log(input);
     guildList.forEach(function(guildMember)
     {
-        console.log(guildMember);
-        console.log('and the nicknames:::');
-        console.log(guildMember.nickname);
         if (guildMember.user.username == input)
         {
             console.log('Converted username to id');
@@ -109,7 +106,7 @@ function convert_to_userid(guildList, input, callback)
             callback(String(guildMember.user.id)) ; 
         }
         console.log(guildMember.user.nickname);
-        if (guildMember.user.nickname == input)
+        if (guildMember.nickname == input)
         {
             console.log('Converted nickname to id');
             console.log(guildMember.user.id);
@@ -119,7 +116,7 @@ function convert_to_userid(guildList, input, callback)
         if (guildMember.user.id == input)
         {
             console.log('Converted id to id');
-            console.log(guildMember.user.id);
+            console.log(guildMember.id);
             callback(String(guildMember.user.id));
         }
     });//end forEach
