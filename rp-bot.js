@@ -68,6 +68,7 @@ pool.query(select_query, query_values, (err, result) => {
 function get_authors_names(server_id, author_id, callback)
 {
     console.log('getting authors characters');
+    console.log(author_id);
     var select_query = "SELECT Name FROM Names WHERE server_id = $1 AND owner_id = $2";
     var query_values = [server_id, author_id];
     var pool = new Momo.Pool({
@@ -96,28 +97,24 @@ pool.query(select_query, query_values, (err, result) => {
 function convert_to_userid(guildList, input, callback)
 {
     console.log('In convert function.');
-    console.log(input);
     guildList.forEach(function(guildMember)
     {
         if (guildMember.user.username == input)
         {
-            console.log('Converted username to id');
-            console.log(guildMember.user.id);
             callback(String(guildMember.user.id)) ; 
+            break;
         }
         console.log(guildMember.user.nickname);
         if (guildMember.nickname == input)
         {
-            console.log('Converted nickname to id');
-            console.log(guildMember.user.id);
-            callback(String(guildMember.user.id)) ;   
+            callback(String(guildMember.user.id)) ; 
+            break;
         }
         
         if (guildMember.user.id == input)
         {
-            console.log('Converted id to id');
-            console.log(guildMember.id);
             callback(String(guildMember.user.id));
+            break;
         }
     });//end forEach
 }//end function
