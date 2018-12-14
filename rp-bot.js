@@ -220,13 +220,11 @@ Client.on('message', message => {
                 break;
                 
             case 'record_name':
-                var info_key = args[1];
                 var name = '';
                 var i;
-                for (i=2;i < args.length; i++){
+                for (i=1;i < args.length; i++){
                     name += args[i];
                 }
-                
                 record_name(guild_id, author_id, name, (msg)=>{channel.send(msg)});
                 break;
                 
