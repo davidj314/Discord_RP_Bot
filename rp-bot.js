@@ -91,6 +91,7 @@ pool.query(select_query, query_values, (err, result) => {
    for (i=0;i < result.rows.length; i++)
    {
         txt += result.rows[i].name;
+       txt += "\n";
    }
    callback(txt)   
   }
