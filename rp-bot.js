@@ -65,6 +65,32 @@ pool.query(select_query, query_values, (err, result) => {
 }//end function
 
 
+function get_authors_names(server_id, author_id, callback)
+{
+    console.log('getting authors characters');
+    var select_query = "SELECT Name FROM Names WHERE server_id = $1 AND owner_id = $2";
+    var query_values = [server_id, author_id];
+    var pool = new Momo.Pool({
+  connectionString: process.env.DATABASE_URL,
+  SSL: true
+});
+// connection using created pool
+pool.query(select_query, query_values, (err, result) => {
+  console.log(result);
+  if (err) {
+    console.log('error occurred');
+    return console.error('Error executing query', err.stack);
+  }
+  else if (result.rows.length == 0) {
+        callback('No characters found')
+    }
+  else{
+   callback(result.rows)   
+  }
+  console.log('no error');
+  console.log(result.rows); 
+});
+}
 
 
 function convert_to_userid(guildList, input, callback)
@@ -196,6 +222,11 @@ Client.on('message', message => {
                     name += args[i];
                 }
                 record_lookup(guild_id, author_id, name, (msg)=>{channel.send(msg)});
+                break;
+                
+            case 'get_characters':
+                var author = args[1];
+                record_lookup(guild_id, author, (msg)=>{channel.send(msg)});
                 break;
             case 'record_info':
                 if (args.length < 3) return; //must have a key and value following command
