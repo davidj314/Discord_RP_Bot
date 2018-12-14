@@ -67,6 +67,11 @@ pool.query(select_query, query_values, (err, result) => {
 
 function get_authors_names(server_id, author_id, callback)
 {
+    if (author_id == "None")
+    {
+        callback('No user by that name found'); 
+        return;
+    }
     console.log('getting authors characters');
     console.log(author_id);
     var select_query = "SELECT Name FROM Names WHERE server_id = $1 AND owner_id = $2";
@@ -102,26 +107,34 @@ pool.query(select_query, query_values, (err, result) => {
 
 function convert_to_userid(guildList, input, callback)
 {
-    console.log('In convert function.');
+    var found = False;
     guildList.forEach(function(guildMember)
     {
         if (guildMember.user.username == input)
         {
             console.log('username match')
-            callback(String(guildMember.user.id)) ; 
+            callback(String(guildMember.user.id)) ;
+            found = True;
         }
         if (guildMember.nickname == input)
         {
              console.log('nickname match')
             callback(guildMember.user.id) ; 
+            found = True;
         }
         
         if (guildMember.user.id == input)
         {
              console.log('id match')
             callback(String(guildMember.user.id));
+            found = True;
         }
     });//end forEach
+    
+    if (found == False)
+    {
+        callback("None");   
+    }
 }//end function
 
 
