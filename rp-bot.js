@@ -268,7 +268,7 @@ Client.on('message', message => {
                  roll(parseInt(args[2]), (msg)=>{channel.send(msg)}, first ) ;  
                 }
                 else{
-                 roll(first, (msg)=>{channel.send(msg)}, second)
+                 roll(first, (msg)=>{channel.send(msg)})
                       }
                 
                 break;
