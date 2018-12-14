@@ -52,7 +52,7 @@ pool.query(select_query, query_values, (err, result) => {
     console.log('error occurred');
     return console.error('Error executing query', err.stack);
   }
-    print(result.rows);
+    //print(result.rows);
     elif (result.rows == 0) {
         callback('No entry found for ' + key)
     }
