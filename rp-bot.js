@@ -243,10 +243,11 @@ Client.on('message', message => {
         switch(command){
             case 'make_em':
                 //make_lookup();
-                make_Names();
+                //make_Names();
                 break;
                 
             case 'id':
+                if (args[1] == null) break;
                 var info_key = args[1];
                 convert_to_userid(message.guild.members, info_key, (msg)=>{channel.send(msg)});
                 break;
@@ -265,11 +266,10 @@ Client.on('message', message => {
                     help_txt += "rp!roll [*minumum] [maximum] -- Generates number between minimum and maximum. Minimum is assumed 0 if omitted"
                  channel.send( help_txt);
                 }
-                
                 break;
                 
             case 'record':
-                if (args[1] == '') break;
+                if (args[1] == null) break;
                 var info_key = args[1];
                 var info_content = '';
                 var i;
@@ -281,7 +281,7 @@ Client.on('message', message => {
                 break;
                 
             case 'find':
-                if (args[1] == '') break;
+                if (args[1] == null) break;
                 var info_key = args[1];
                 get_lookup_val(guild_id, info_key, (msg)=>{channel.send(msg)});
                 break;
@@ -301,6 +301,7 @@ Client.on('message', message => {
                       
                            
             case 'save_character':
+                if (args[1] == null) break;
                 var name = '';
                 var i;
                 for (i=1;i < args.length; i++){
@@ -311,6 +312,7 @@ Client.on('message', message => {
                 break;
                 
             case 'get_characters':
+                if (args[1] == null) break;
                 var author = '';
                 var i;
                 for (i=1;i < args.length; i++){
