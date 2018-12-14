@@ -101,16 +101,18 @@ function convert_to_userid(guildList, input, callback)
     {
         if (guildMember.user.username == input)
         {
+            console.log('username match')
             callback(String(guildMember.user.id)) ; 
         }
-        console.log(guildMember.user.nickname);
         if (guildMember.nickname == input)
         {
-            callback(String(guildMember.user.id)) ; 
+             console.log('nickname match')
+            callback(guildMember.user.id) ; 
         }
         
         if (guildMember.user.id == input)
         {
+             console.log('id match')
             callback(String(guildMember.user.id));
         }
     });//end forEach
