@@ -196,13 +196,18 @@ function roll(high, callback,  low = 0)
  if (found.length > 0)
  {
   callback('Invalid Input. Only use numbers');   
+     return;
  }
     found = low.match(regex)
     if (found.length > 0)
     {
-     callback('Invalid Input. Only use numbers');     
+     callback('Invalid Input. Only use numbers'); 
+        return;
     }
- callback(Math.floor(Math.random() * (high+1 - low) + low))
+    
+    low_val = parseInt(low)
+    high_val = parseInt(high)
+ callback(Math.floor(Math.random() * (high_val+1 - low_val) + low_val))
 }
 
 var Discord = require('discord.js');
