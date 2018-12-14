@@ -195,13 +195,13 @@ function roll(high, callback,  low = 0)
  var found = high.match(regex);
  if (found != null)
  {
-  callback('Invalid Input. Only use numbers');   
+  callback('Invalid Input. Please use only non-negative itegers [0,1,2,...]');   
      return;
  }
     found = low.match(regex)
     if (found != null)
     {
-     callback('Invalid Input. Only use numbers'); 
+  callback('Invalid Input. Please use only non-negative itegers [0,1,2,...]');   
         return;
     }
     
