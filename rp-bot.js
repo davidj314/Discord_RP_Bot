@@ -95,6 +95,7 @@ pool.query(select_query, query_values, (err, result) => {
 
 function convert_to_userid(guildList, input, callback)
 {
+    console.log('In convert function.');
     guildList.forEach(function(guildMember)
     {
         //console.log(guildMember.user);
@@ -204,12 +205,8 @@ Client.on('message', message => {
                 
             case 'id':
                 var info_key = args[1];
-                var info_content = '';
-                var i;
-                for (i=2;i < args.length; i++){
-                    info_content += args[i];
-                }
                 convert_to_userid(message.guild.members, info_key, (msg)=>{channel.send(msg)});
+                break;
                 
             case 'record_lookup':
                 var info_key = args[1];
