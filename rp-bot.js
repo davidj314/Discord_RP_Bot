@@ -191,9 +191,8 @@ pool.query(insert_query, values,  (err, res) => {
 
 function roll(high, callback,  low = 0)
 {
- callback(Math.random() * (high - low) + low)
+ callback(Math.floor(Math.random() * (high+1 - low) + low))
 }
-
 
 var Discord = require('discord.js');
 var Client = new Discord.Client();
@@ -262,11 +261,11 @@ Client.on('message', message => {
                 
             case 'roll':
                 if (args[1] == '') break;
-                var low = parseInt(args[1]);
+                var low = parseInt(args[1], 10);
                 var high = -1;
                 if (args[2] != '')
                 {
-                 roll(low, (msg)=>{channel.send(msg)}, parseInt(args[2])) ;  
+                 roll(low, (msg)=>{channel.send(msg)}, parseInt(args[2], 10)) ;  
                 }
                 else{
                  roll(low, (msg)=>{channel.send(msg)})
