@@ -126,6 +126,34 @@ function get_all_names(server_id, callback)
     pool.end()
 }//end function
 
+
+function get_all_vals(server_id, callback)
+{
+    var select_query = "SELECT infokey FROM Lookup WHERE server_id = $1";
+    var query_values = [server_id];
+    var pool = new Momo.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        else if (result.rows.length == 0) {
+            callback('No records found')
+        }
+        else{
+            var txt = 'Records retrievable with $$find command:\n';
+            var i;
+            for (i=0;i < result.rows.length; i++){
+                txt += result.rows[i].name;
+                txt += "\n";
+            }
+            callback(txt);   
+        }
+        console.log('no error');
+    });//end pool.query
+    pool.end()
+}//end function
+
 function convert_to_userid(guildList, input, callback)
 {
     var found = false;
@@ -265,7 +293,7 @@ Client.on('message', message => {
                 help_txt += "rp!record [key] [Bigraphy, url, whatever text you like] -- records something to be paired with the key \n";
                 help_txt += "rp!find [key] -- Displays what was recorded with the key \n";
                 help_txt += "rp!save_character [name] -- Saves the character name supplied and associates it with the user \n";
-                help_txt += "rp!get_characters [*username/nickname/id] -- Displays all characters saved by given user. Omit user to get all characters. \n";
+                help_txt += "rp!characters [*username/nickname/id] -- Displays all characters saved by given user. Omit user to get all characters. \n";
                 help_txt += "rp!roll [*minumum] [maximum] -- Generates number between minimum and maximum. Minimum is assumed 0 if omitted"
                 channel.send( help_txt);
                 break;
@@ -284,7 +312,10 @@ Client.on('message', message => {
                 break;
                 
             case 'find':
-                if (args[1] == null) break;
+                if (args[1] == null){
+                    get_all_vals(guild_id, (msg) => {channel.send(msg)})   
+                    break
+                }
                 var info_key = args[1];
                 get_lookup_val(guild_id, info_key, (msg)=>{channel.send(msg)});
                 break;
@@ -311,7 +342,7 @@ Client.on('message', message => {
                 record_name(guild_id, author_id, name, (msg)=>{channel.send(msg)});
                 break;
                 
-            case 'get_characters':
+            case 'characters':
                 if (args[1] == null){
                     get_all_names(guild_id, (msg)=>{channel.send(msg)});
                     break;
