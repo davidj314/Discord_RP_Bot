@@ -64,6 +64,38 @@ pool.query(select_query, query_values, (err, result) => {
 });
 }//end function
 
+function get_all_names(server_id, callback)
+{
+    var select_query = "SELECT Name FROM Names WHERE server_id = $1";
+    var query_values = [server_id];
+    var pool = new Momo.Pool({
+  connectionString: process.env.DATABASE_URL,
+  SSL: true
+});
+// connection using created pool
+pool.query(select_query, query_values, (err, result) => {
+  console.log(result);
+  if (err) {
+    console.log('error occurred');
+    return console.error('Error executing query', err.stack);
+  }
+  else if (result.rows.length == 0) {
+        callback('No characters found')
+    }
+  else{
+   var txt = '';
+   var i;
+   for (i=0;i < result.rows.length; i++)
+   {
+        txt += result.rows[i].name;
+       txt += "\n";
+   }
+   callback(txt)   
+  }
+  console.log('no error');
+});
+}
+}//end function
 
 function get_authors_names(server_id, author_id, callback)
 {
@@ -313,7 +345,11 @@ Client.on('message', message => {
                 break;
                 
             case 'get_characters':
-                if (args[1] == null) break;
+                if (args[1] == null)
+                {
+                    get_all_names(guild_id, (msg)=>{channel.send(msg)});
+                    break;
+                }
                 var author = '';
                 var i;
                 for (i=1;i < args.length; i++){
