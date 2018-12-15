@@ -61,7 +61,7 @@ function get_lookup_val(server_id, key, callback){
 
 
 
-function delete_lookup_val(server_id, key){
+function delete_lookup_val(server_id, key, callback){
     var select_query = "DELETE FROM Lookup WHERE server_id = $1 AND infokey = $2";
     var query_values = [server_id, key];
     var pool = new Momo.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
@@ -383,7 +383,7 @@ Client.on('message', message => {
             case 'delete':
                 if (args[1] == null)break;
                 if (message.member.hasPermission("ADMINISTRATOR") == false) channel.send('Need admin permission for that command')
-                else delete_lookup_val(guild_id, args[1]);
+                else delete_lookup_val(guild_id, args[1], (msg)=>{channel.send(msg)});
                 break;
         }
   	}
