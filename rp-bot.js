@@ -1,39 +1,30 @@
 function make_Names(){
     var ceate_query = "CREATE TABLE Names(id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, name varchar(255) NOT NULL, UNIQUE(server_id, name))";
-    var pool = new Momo.Pool({
-  connectionString: process.env.DATABASE_URL,
-  SSL: true
-});
-console.log('after pool initialization in make_main_names');
-// connection using created pool
-pool.query(ceate_query,(err, result) => {
-  if (err) {
-    console.log('error occurred');
-    return console.error('Error executing query', err.stack);;
-  }
-  console.log('no error');
-  console.log(result); 
-});
-    
+    var pool = new Momo.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    pool.query(ceate_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+        console.log('no error');
+        console.log(result); 
+    });//end pool.query   
+    pool.end()
 }//end function
 
 
 function make_lookup(){
     var ceate_query = "CREATE TABLE Lookup(id SERIAL, server_id bigint NOT NULL, infokey varchar(255) NOT NULL, infoval text NOT NULL, UNIQUE (server_id, infokey))";
-    var pool = new Momo.Pool({
-  connectionString: process.env.DATABASE_URL,
-  SSL: true
-});
-console.log('after pool initialization in make_main_names');
-// connection using created pool
-pool.query(ceate_query,(err, result) => {
-  if (err) {
-    console.log('error occurred');
-    return console.error('Error executing query', err.stack);;
-  }
-  console.log('no error');
-  console.log(result); 
-});   
+    var pool = new Momo.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    pool.query(ceate_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+        console.log('no error');
+        console.log(result); 
+    });   //end pool.query
+    pool.end()
 }//end function
 
 
@@ -54,9 +45,10 @@ function get_lookup_val(server_id, key, callback){
         else{
             callback(result.rows[0].infoval)   
         }
-    console.log('no error');
-    console.log(result.rows); 
-}); //end pool.query 
+        console.log('no error');
+        console.log(result.rows); 
+    }); //end pool.query 
+    pool.end()
 }//end function
 
 
@@ -77,85 +69,68 @@ function delete_lookup_val(server_id, key, callback){
             callback(result.rows[0].infoval)   
         }
     console.log('no error');
-    }); //end pool.query 
+    }); //end pool.query
+    pool.end()
 }//end function
 
 
 function get_authors_names(server_id, author_id, callback)
 {
-    if (author_id == "None")
-    {
+    if (author_id == "None"){
         callback('No user by that name found'); 
         return;
     }
-    console.log('getting authors characters');
-    console.log(author_id);
     var select_query = "SELECT Name FROM Names WHERE server_id = $1 AND owner_id = $2";
     var query_values = [server_id, author_id];
-    var pool = new Momo.Pool({
-  connectionString: process.env.DATABASE_URL,
-  SSL: true
-});
-// connection using created pool
-pool.query(select_query, query_values, (err, result) => {
-  console.log(result);
-  if (err) {
-    console.log('error occurred');
-    return console.error('Error executing query', err.stack);
-  }
-  else if (result.rows.length == 0) {
-        callback('No characters found')
-    }
-  else{
-   var txt = 'Characters belonging to that person:\n';
-   var i;
-   for (i=0;i < result.rows.length; i++)
-   {
-        txt += result.rows[i].name;
-       txt += "\n";
-   }
-   callback(txt)   
-  }
-  console.log('no error');
-});
-}
-
-
-
+    var pool = new Momo.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        else if (result.rows.length == 0) {
+            callback('No characters found')
+        }
+        else{
+            var txt = 'Characters belonging to that person:\n';
+            var i;
+            for (i=0;i < result.rows.length; i++){
+                txt += result.rows[i].name;
+                txt += "\n";
+            }
+            callback(txt)   
+        }
+        console.log('no error');
+    });//end pool.query
+    pool.end()
+}//end function
 
 function get_all_names(server_id, callback)
 {
     var select_query = "SELECT Name FROM Names WHERE server_id = $1";
     var query_values = [server_id];
-    var pool = new Momo.Pool({
-  connectionString: process.env.DATABASE_URL,
-  SSL: true
-});
-// connection using created pool
-pool.query(select_query, query_values, (err, result) => {
-  console.log(result);
-  if (err) {
-    console.log('error occurred');
-    return console.error('Error executing query', err.stack);
-  }
-  else if (result.rows.length == 0) {
-        callback('No characters found')
-    }
-  else{
-   var txt = '';
-   var i;
-   for (i=0;i < result.rows.length; i++)
-   {
-        txt += result.rows[i].name;
-       txt += "\n";
-   }
-   callback(txt)   
-  }
-  console.log('no error');
-});
-}
-
-
+    var pool = new Momo.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        else if (result.rows.length == 0) {
+            callback('No characters found')
+        }
+        else{
+            var txt = '';
+            var i;
+            for (i=0;i < result.rows.length; i++){
+                txt += result.rows[i].name;
+                txt += "\n";
+            }
+            callback(txt);   
+        }
+        console.log('no error');
+    });//end pool.query
+    pool.end()
+}//end function
 
 function convert_to_userid(guildList, input, callback)
 {
@@ -222,16 +197,11 @@ function record_name(server_id, owner_id, name, callback)
     var  pg  = require('pg');
     var insert_query = "INSERT INTO Names (server_id, owner_id, name ) VALUES($1, $2, $3)";
     var values = [server_id, owner_id, name];
-    var pool = new Momo.Pool({
-  connectionString: process.env.DATABASE_URL,
-  SSL: true
-});
-// connection using created pool
-pool.query(insert_query, values,  (err, res) => {
-      //23505
+    var pool = new Momo.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(insert_query, values,  (err, res) => {
+    //23505 is unique restriction violation
     if (err){
-        if(err.code == '23505')
-        {
+        if(err.code == '23505'){
             var error_string = 'The name "' + name + '" is already in use.'
             callback(error_string)
         }
@@ -243,17 +213,15 @@ pool.query(insert_query, values,  (err, res) => {
 
 function roll(high, callback,  low = 0)
 {
- var regex = /[\D]/g;
- var found = high.match(regex);
- if (found != null)
- {
-  callback('Invalid Input. Please use only non-negative itegers [0,1,2,...]');   
-     return;
- }
+    var regex = /[\D]/g;
+    var found = high.match(regex);
+    if (found != null){
+        callback('Invalid Input. Please use only non-negative itegers [0,1,2,...]');   
+        return;
+    }
     found = low.match(regex)
-    if (found != null)
-    {
-  callback('Invalid Input. Please use only non-negative itegers [0,1,2,...]');   
+    if (found != null){
+        callback('Invalid Input. Please use only non-negative itegers [0,1,2,...]');   
         return;
     }
     
@@ -262,27 +230,20 @@ function roll(high, callback,  low = 0)
     
     if (low_val > high_val) 
     {
-     var temp = high_val;
-     high_val = low_val;
-     low_val = temp
+        var temp = high_val;
+        high_val = low_val;
+        low_val = temp
     }
-    
- callback(Math.floor(Math.random() * (high_val+1 - low_val) + low_val))
+    callback(Math.floor(Math.random() * (high_val+1 - low_val) + low_val))
 }
 
 var Discord = require('discord.js');
 var Client = new Discord.Client();
- var Momo = require('pg');
-
-
-
+var Momo = require('pg');
 Client.on('ready', () => {
     console.log('I am ready!');
 
 });
-
-
-
 
 Client.on('message', message => {
     if (message.content.substring(0,3) === 'rp!') { 
@@ -304,19 +265,15 @@ Client.on('message', message => {
                 break;
                 
             case 'help':
-                var com = args[1];
-                if (com == args[1])
-                {
-                    var help_txt = '';
-                    help_txt += "Bot comands are as follows:\n";
-                    help_txt += "rp!id [username/nickname] -- Displays the id of a user \n";
-                    help_txt += "rp!record [key] [Bigraphy, url, whatever text you like] -- records something to be paired with the key \n";
-                    help_txt += "rp!find [key] -- Displays what was recorded with the key \n";
-                    help_txt += "rp!save_character [name] -- Saves the character name supplied and associates it with the user \n";
-                    help_txt += "rp!get_characters [*username/nickname/id] -- Displays all characters saved by given user. Omit user to get all characters. \n";
-                    help_txt += "rp!roll [*minumum] [maximum] -- Generates number between minimum and maximum. Minimum is assumed 0 if omitted"
-                 channel.send( help_txt);
-                }
+                var help_txt = '';
+                help_txt += "Bot comands are as follows:\n";
+                help_txt += "rp!id [username/nickname] -- Displays the id of a user \n";
+                help_txt += "rp!record [key] [Bigraphy, url, whatever text you like] -- records something to be paired with the key \n";
+                help_txt += "rp!find [key] -- Displays what was recorded with the key \n";
+                help_txt += "rp!save_character [name] -- Saves the character name supplied and associates it with the user \n";
+                help_txt += "rp!get_characters [*username/nickname/id] -- Displays all characters saved by given user. Omit user to get all characters. \n";
+                help_txt += "rp!roll [*minumum] [maximum] -- Generates number between minimum and maximum. Minimum is assumed 0 if omitted"
+                channel.send( help_txt);
                 break;
                 
             case 'record':
@@ -341,17 +298,14 @@ Client.on('message', message => {
             case 'roll':
                 if (args[1] == null) break;
                 var first = args[1];
-                if (args[2] != null)
-                {
+                if (args[2] != null){
                     roll(args[2], (msg)=>{channel.send(msg)}, first ) ;  
                 }
-                else
-                {
+                else{
                     roll(first, (msg)=>{channel.send(msg)})
                 } 
                 break;
-                      
-                           
+                                            
             case 'save_character':
                 if (args[1] == null) break;
                 var name = '';
@@ -364,8 +318,7 @@ Client.on('message', message => {
                 break;
                 
             case 'get_characters':
-                if (args[1] == null)
-                {
+                if (args[1] == null){
                     get_all_names(guild_id, (msg)=>{channel.send(msg)});
                     break;
                 }
@@ -388,5 +341,4 @@ Client.on('message', message => {
   	}
 });
 
-// THIS  MUST  BE  THIS  WAY
 Client.login(process.env.BOT_TOKEN);
