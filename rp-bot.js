@@ -107,7 +107,7 @@ pool.query(select_query, query_values, (err, result) => {
         callback('No characters found')
     }
   else{
-   var txt = 'Characters belonging to that person:';
+   var txt = 'Characters belonging to that person:\n';
    var i;
    for (i=0;i < result.rows.length; i++)
    {
