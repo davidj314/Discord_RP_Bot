@@ -62,12 +62,6 @@ function delete_lookup_val(server_id, key, callback){
             console.log('error occurred');
             return console.error('Error executing query', err.stack);
         }
-        else if (result.rows.length == 0) {
-            callback('No entry found for ' + key)
-        }
-        else{
-            callback(result.rows[0].infoval)   
-        }
     console.log('no error');
     }); //end pool.query
     pool.end()
