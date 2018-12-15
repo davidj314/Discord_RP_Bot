@@ -289,7 +289,6 @@ Client.on('message', message => {
         var channel = message.channel;
         var guild_id = message.guild.id
         var author_id = message.author.id
-        channel.send('Testing this...');
     	var args = message.content.substring(3).split(' ');
         var command = args[0];
         switch(command){
