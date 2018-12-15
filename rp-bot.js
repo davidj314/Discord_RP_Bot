@@ -41,29 +41,44 @@ function get_lookup_val(server_id, key, callback){
     console.log('getting lookup value');
     var select_query = "SELECT infoval FROM Lookup WHERE server_id = $1 AND infokey = $2";
     var query_values = [server_id, key];
-    var pool = new Momo.Pool({
-  connectionString: process.env.DATABASE_URL,
-  SSL: true
-});
-console.log('after pool initialization in get all info');
-// connection using created pool
-pool.query(select_query, query_values, (err, result) => {
-  console.log(result);
-  if (err) {
-    console.log('error occurred');
-    return console.error('Error executing query', err.stack);
-  }
-  else if (result.rows.length == 0) {
-        callback('No entry found for ' + key)
-    }
-  else{
-   callback(result.rows[0].infoval)   
-  }
-  console.log('no error');
-  console.log(result.rows); 
-});
+    var pool = new Momo.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        else if (result.rows.length == 0) {
+            callback('No entry found for ' + key)
+        }
+        else{
+            callback(result.rows[0].infoval)   
+        }
+    console.log('no error');
+    console.log(result.rows); 
+}); //end pool.query 
 }//end function
 
+
+
+function delete_lookup_val(server_id, key){
+    var select_query = "DELETE FROM Lookup WHERE server_id = $1 AND infokey = $2";
+    var query_values = [server_id, key];
+    var pool = new Momo.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        else if (result.rows.length == 0) {
+            callback('No entry found for ' + key)
+        }
+        else{
+            callback(result.rows[0].infoval)   
+        }
+    console.log('no error');
+    }); //end pool.query 
+}//end function
 
 
 function get_authors_names(server_id, author_id, callback)
@@ -299,7 +314,7 @@ Client.on('message', message => {
                     help_txt += "rp!record [key] [Bigraphy, url, whatever text you like] -- records something to be paired with the key \n";
                     help_txt += "rp!find [key] -- Displays what was recorded with the key \n";
                     help_txt += "rp!save_character [name] -- Saves the character name supplied and associates it with the user \n";
-                    help_txt += "rp!get_characters [username/nickname/id] -- Displays all characters saved by given user \n";
+                    help_txt += "rp!get_characters [*username/nickname/id] -- Displays all characters saved by given user. Omit user to get all characters. \n";
                     help_txt += "rp!roll [*minumum] [maximum] -- Generates number between minimum and maximum. Minimum is assumed 0 if omitted"
                  channel.send( help_txt);
                 }
@@ -362,6 +377,13 @@ Client.on('message', message => {
                     author += args[i];
                 }
                 convert_to_userid(message.guild.members, author, (a_id)=>{ get_authors_names(guild_id, a_id, (msg)=>{channel.send(msg)})});
+                break;
+                
+                
+            case 'delete':
+                if (args[1] == null)break;
+                if (message.member.hasPermission("ADMINISTRATOR") == false) channel.send('Need admin permission for that command')
+                else delete_lookup_val(guild_id, args[1]);
                 break;
         }
   	}
