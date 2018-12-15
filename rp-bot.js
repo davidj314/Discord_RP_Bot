@@ -144,7 +144,7 @@ function get_all_vals(server_id, callback)
             var txt = 'Records retrievable with $$find command:\n';
             var i;
             for (i=0;i < result.rows.length; i++){
-                txt += result.rows[i].name;
+                txt += result.rows[i].infokey;
                 txt += "\n";
             }
             callback(txt);   
