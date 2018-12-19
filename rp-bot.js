@@ -1,6 +1,7 @@
+//Creates table to hold character names. Does not check for table existing beforehand.
 function make_Names(){
     var ceate_query = "CREATE TABLE Names(id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, name varchar(255) NOT NULL, UNIQUE(server_id, name))";
-    var pool = new Momo.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
     pool.query(ceate_query,(err, result) => {
         if (err) {
             console.log('error occurred');
@@ -12,10 +13,10 @@ function make_Names(){
     pool.end()
 }//end function
 
-
+//Creates table for key-value lookups. Does not check for pre-existing table.
 function make_lookup(){
     var ceate_query = "CREATE TABLE Lookup(id SERIAL, server_id bigint NOT NULL, infokey varchar(255) NOT NULL, infoval text NOT NULL, UNIQUE (server_id, infokey))";
-    var pool = new Momo.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
     pool.query(ceate_query,(err, result) => {
         if (err) {
             console.log('error occurred');
@@ -29,40 +30,38 @@ function make_lookup(){
 
 
 function get_lookup_val(server_id, key, callback){
-    console.log('getting lookup value');
     var select_query = "SELECT infoval FROM Lookup WHERE server_id = $1 AND infokey = $2";
     var query_values = [server_id, key];
-    var pool = new Momo.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
         console.log(result);
         if (err) {
             console.log('error occurred');
             return console.error('Error executing query', err.stack);
         }
+        //No returned rows indicate provided key is not associated with any row
         else if (result.rows.length == 0) {
             callback('No entry found for ' + key)
         }
+        //successfully found a result. Passes associated value to the callback function
         else{
             callback(result.rows[0].infoval)   
         }
-        console.log('no error');
-        console.log(result.rows); 
     }); //end pool.query 
     pool.end()
 }//end function
 
 
-
-function delete_lookup_val(server_id, key, callback){
+//Deletes row for indicated key. This function is only accessed after checking for proper permissions beforehand
+function delete_lookup_val(server_id, key){
     var select_query = "DELETE FROM Lookup WHERE server_id = $1 AND infokey = $2";
     var query_values = [server_id, key];
-    var pool = new Momo.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
         if (err) {
             console.log('error occurred');
             return console.error('Error executing query', err.stack);
         }
-    console.log('no error');
     }); //end pool.query
     pool.end()
 }//end function
@@ -70,21 +69,24 @@ function delete_lookup_val(server_id, key, callback){
 
 function get_authors_names(server_id, author_id, callback)
 {
-    if (author_id == "None"){
+    //"NoNicknameOrIDMatch" is a default value passed when there is no ID associated with the provided nickname/username
+    if (author_id == "NoNicknameOrIDMatch"){
         callback('No user by that name found'); 
         return;
     }
     var select_query = "SELECT Name FROM Names WHERE server_id = $1 AND owner_id = $2";
     var query_values = [server_id, author_id];
-    var pool = new Momo.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
         if (err) {
-            console.log('error occurred');
             return console.error('Error executing query', err.stack);
         }
+        //no rows found indicates that the user does not have a character name associated with them
         else if (result.rows.length == 0) {
             callback('No characters found')
         }
+        //rows returning means user has 1 or more character names associated with them
+        //use callback function on a per-row basis
         else{
             var txt = 'Characters belonging to that person:\n';
             var i;
@@ -94,16 +96,16 @@ function get_authors_names(server_id, author_id, callback)
             }
             callback(txt)   
         }
-        console.log('no error');
     });//end pool.query
     pool.end()
 }//end function
 
+//obtains all character names associated with particular server_id and uses callback function on a string containing all
 function get_all_names(server_id, callback)
 {
     var select_query = "SELECT Name FROM Names WHERE server_id = $1";
     var query_values = [server_id];
-    var pool = new Momo.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
         if (err) {
             console.log('error occurred');
@@ -126,12 +128,12 @@ function get_all_names(server_id, callback)
     pool.end()
 }//end function
 
-
+//obtains all keys with associated values and uses callback function on a string containing all
 function get_all_vals(server_id, callback)
 {
     var select_query = "SELECT infokey FROM Lookup WHERE server_id = $1";
     var query_values = [server_id];
-    var pool = new Momo.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
         if (err) {
             console.log('error occurred');
@@ -154,6 +156,8 @@ function get_all_vals(server_id, callback)
     pool.end()
 }//end function
 
+//converts a given name or nickname into the user's id. The id is what associates the user with their associated content.
+//This function is used in conjunction with any function where a user passes another user as an attribute to the bot's functions.
 function convert_to_userid(guildList, input, callback)
 {
     var found = false;
@@ -161,39 +165,36 @@ function convert_to_userid(guildList, input, callback)
     {
         if (guildMember.user.username == input)
         {
-            console.log('username match')
             callback(String(guildMember.user.id)) ;
             found = true;
         }
         if (guildMember.nickname == input)
         {
-             console.log('nickname match')
             callback(guildMember.user.id) ; 
             found = true;
         }
         
         if (guildMember.user.id == input)
         {
-             console.log('id match')
             callback(String(guildMember.user.id));
             found = true;
         }
     });//end forEach
     
+    //This value indicates that there was no id associated with the provided nickname/username
     if (found == false)
     {
-        callback("None");   
+        callback("NoNicknameOrIDMatch");   
     }
 }//end function
 
-
+//this function creates a row with given key-value pair to be accessed later.
 function record_lookup(server_id, key, value, callback)
 {
     console.log('in the add info function');
-    var  pg  = require('pg');
     var insert_query = "INSERT INTO Lookup (server_id, infokey, infoval) VALUES($1, $2, $3)";
     var values = [server_id, key, value];
-    var pool = new Momo.Pool({
+    var pool = new PG.Pool({
   connectionString: process.env.DATABASE_URL,
   SSL: true
 });
@@ -212,14 +213,13 @@ pool.query(insert_query, values,  (err, res) => {
 });
 }//end function
 
-
+//Saves a provided name to be associated with user's id and server's id.
 function record_name(server_id, owner_id, name, callback)
 {
     console.log('in the add info function');
-    var  pg  = require('pg');
     var insert_query = "INSERT INTO Names (server_id, owner_id, name ) VALUES($1, $2, $3)";
     var values = [server_id, owner_id, name];
-    var pool = new Momo.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(insert_query, values,  (err, res) => {
     //23505 is unique restriction violation
     if (err){
@@ -233,6 +233,8 @@ function record_name(server_id, owner_id, name, callback)
 });
 }//end function
 
+//A simple function to generate a random whole number with the range being between min and max inclusively
+//High and low are given in whichever order. If only one number is give, the range is between 0 and that number.
 function roll(high, callback,  low = 0)
 {
     var regex = /[\D]/g;
@@ -249,7 +251,6 @@ function roll(high, callback,  low = 0)
     
     low_val = parseInt(low)
     high_val = parseInt(high)
-    
     if (low_val > high_val) 
     {
         var temp = high_val;
@@ -261,7 +262,7 @@ function roll(high, callback,  low = 0)
 
 var Discord = require('discord.js');
 var Client = new Discord.Client();
-var Momo = require('pg');
+var PG = require('pg');
 Client.on('ready', () => {
     console.log('I am ready!');
 
@@ -293,8 +294,8 @@ Client.on('message', message => {
                 help_txt += "rp!record [key] [Bigraphy, url, whatever text you like] -- records something to be paired with the key \n";
                 help_txt += "rp!find [key] -- Displays what was recorded with the key \n";
                 help_txt += "rp!save_character [name] -- Saves the character name supplied and associates it with the user \n";
-                help_txt += "rp!characters [*username/nickname/id] -- Displays all characters saved by given user. Omit user to get all characters. \n";
-                help_txt += "rp!roll [*minumum] [maximum] -- Generates number between minimum and maximum. Minimum is assumed 0 if omitted"
+                help_txt += "rp!characters [username/nickname/id] -- Displays all characters saved by given user. Omit user to get all characters. \n";
+                help_txt += "rp!roll [minumum] [maximum] -- Generates number between minimum and maximum. Minimum is assumed 0 if omitted"
                 channel.send( help_txt);
                 break;
                 
@@ -359,8 +360,9 @@ Client.on('message', message => {
                 
             case 'delete':
                 if (args[1] == null)break;
+                //if caller lacks Administrator permissions, don't let them delete rows
                 if (message.member.hasPermission("ADMINISTRATOR") == false) channel.send('Need admin permission for that command')
-                else delete_lookup_val(guild_id, args[1], (msg)=>{channel.send(msg)});
+                else delete_lookup_val(guild_id, args[1]);
                 break;
         }
   	}
