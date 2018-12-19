@@ -143,7 +143,7 @@ function get_all_vals(server_id, callback)
             callback('No records found')
         }
         else{
-            var txt = 'Records retrievable with $$find command:\n';
+            var txt = 'Records retrievable with rp!find command:\n';
             var i;
             for (i=0;i < result.rows.length; i++){
                 txt += result.rows[i].infokey;
