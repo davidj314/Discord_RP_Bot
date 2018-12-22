@@ -284,7 +284,7 @@ Client.on('message', message => {
                 break;
                 
             case 'tester':
-                channel.send("<@!269338190547124235> is a doot");
+                channel.send("!add-moey <@!269338190547124235> 19");
                 break;
                 
             case 'id':
