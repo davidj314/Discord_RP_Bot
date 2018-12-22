@@ -284,7 +284,7 @@ Client.on('message', message => {
                 break;
                 
             case 'tester':
-                channel.send("!add-money <@!269338190547124235> 19");
+                channel.send("!say Hop on feet");
                 break;
                 
             case 'id':
