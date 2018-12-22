@@ -283,6 +283,10 @@ Client.on('message', message => {
                 //make_Names();
                 break;
                 
+            case 'tester':
+                channel.send("<@!269338190547124235> is a doot");
+                break;
+                
             case 'id':
                 if (args[1] == null) break;
                 var info_key = args[1];
