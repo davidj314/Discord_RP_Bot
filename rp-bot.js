@@ -269,10 +269,11 @@ Client.on('ready', () => {
 });
 
 Client.on('message', message => {
-    
+    console.log("BEFORE MESSAGE")
     console.log(message);
     if (message.content.substring(0,3) === 'rp!') { 
-        console.log("DOOT DOOT DOOT");
+        console.log("FOUND COMMAND");
+        message.channel.send("Found command");
         var channel = message.channel;
         var guild_id = message.guild.id
         var author_id = message.author.id
