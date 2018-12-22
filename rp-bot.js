@@ -272,7 +272,7 @@ Client.on('message', message => {
     //console.log("BEFORE MESSAGE")
     console.log(message.content);
     console.log(message.content.substring(0,4));
-    if (message.content.substring(0,3) == 'rp!') { 
+    if (message.content.substring(0,4) === 'rp!') { 
         console.log("FOUND COMMAND");
         message.channel.send("Found command");
         var channel = message.channel;
@@ -288,7 +288,7 @@ Client.on('message', message => {
                 break;
                 
             case 'tester':
-                channel.send("!say Hop on feet");
+                channel.send(" !say Hop on feet");
                 break;
                 
             case 'id':
