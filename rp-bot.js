@@ -272,7 +272,7 @@ Client.on('message', message => {
     //console.log("BEFORE MESSAGE")
     console.log(message.content);
     console.log(message.content.substring(1,4));
-    if (message.content.substring(0,4) === 'rp!') { 
+    if (message.content.substring(1,4) === 'rp!') { 
         console.log("FOUND COMMAND");
         message.channel.send("Found command");
         var channel = message.channel;
