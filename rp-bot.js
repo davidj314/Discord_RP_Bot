@@ -270,7 +270,8 @@ Client.on('ready', () => {
 
 Client.on('message', message => {
     //console.log("BEFORE MESSAGE")
-    console.log(message.content.substring(0,3));
+    console.log(message.content);
+    console.log(message.content.substring(0,4));
     if (message.content.substring(0,3) == 'rp!') { 
         console.log("FOUND COMMAND");
         message.channel.send("Found command");
