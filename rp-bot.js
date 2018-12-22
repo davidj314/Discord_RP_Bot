@@ -269,6 +269,8 @@ Client.on('ready', () => {
 });
 
 Client.on('message', message => {
+    
+    console.log(message);
     if (message.content.substring(0,3) === 'rp!') { 
         var channel = message.channel;
         var guild_id = message.guild.id
