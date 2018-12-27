@@ -361,7 +361,7 @@ Client.on('message', message => {
         var command = args[0];
         switch(command){
             case 'make_em':
-                make_Bumps(populate_test_bumps());
+                populate_test_bumps();
                 break;
                 
             case 'bumps':
