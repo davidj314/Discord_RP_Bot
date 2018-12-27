@@ -406,6 +406,7 @@ Client.on('message', message => {
             channel.send(message.embeds[0].description);
             channel.send('Doot');
         }
+        console.log(message.embeds);
         switch(command){
             case 'make_em':
                 make_Bumps();
