@@ -421,8 +421,8 @@ Client.on('message', message => {
     if (message.content.match(/^!disboard +(B|b)(U|u)(M|m)(P|p).*/)){
             message.channel.send('MATCHED');
         }
-    if (message.author.id == '302050872383242240'){ //Disboard Bot
-        var regex = /(Bump done)/g;
+    if (message.author.id == '292953664492929025'){ //Disboard Bot
+        var regex = /(cash)/g;
         var found = message.embeds[0].description.match(regex);
         if (found != null){
             message.channel.fetchMessages({ limit: 9 })
