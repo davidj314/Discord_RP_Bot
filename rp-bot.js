@@ -413,7 +413,20 @@ Client.on('message', message => {
             var prev_id = parseInt(message.id) - 1;
             //convert to string?
             message.channel.fetchMessages({ limit: 2 })
-            .then(messages => {console.log(messages.array());}  )
+            .then(messages => {
+                var m_array = messages.array();
+                var i;
+                var found_bump = false;
+                for (i=0;i < args.length; i++){
+                    if (m_array[i].content.match(/(cash balance)/g)){
+                        found_bump = true;
+                    }
+                    if (found_bump){
+                        console.log('id='+m_array[i].author.id)
+                        i = args.length;
+                    }
+                }   
+            })
             .catch(console.error);
             console.log('past the fetch');
         }
