@@ -413,11 +413,10 @@ Client.on('message', message => {
             var prev_id = parseInt(message.id) - 1;
             //convert to string?
             message.channel.fetchMessages({ limit: 2 })
-            .then(messages => console.log(messages))
+            .then(messages => message.channel.send("Hello " + messages[1].author.username))
             .catch(console.error);
             console.log('past the fetch');
         }
-        message.channel.send('Detected pizzabot');       
     }
     if (message.content.substring(1,4) === 'rp!') { 
         var regex = /[\D]/g;
