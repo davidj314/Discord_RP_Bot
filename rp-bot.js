@@ -404,7 +404,7 @@ Client.on('message', message => {
             message.channel.send('Doot');
         }*/
    // console.log(message.id);
-    if (message.content.match(/!disboard +(B|b)(U|u)(M|m)(P|p).*/)){
+    if (message.content.match(/^!disboard +(B|b)(U|u)(M|m)(P|p).*/)){
             message.channel.send('MATCHED');
         }
     if (message.author.id == '292953664492929025'){ //pizzabot
