@@ -428,17 +428,9 @@ Client.on('ready', () => {
 });
 
 Client.on('message', message => {
-    //console.log("BEFORE MESSAGE")
-    /*if (message.embeds.length > 0){
-            message.channel.send(message.embeds[0].description);
-            message.channel.send('Doot');
-        }*/
-   // console.log(message.id);
-    if (message.content.match(/^!disboard +(B|b)(U|u)(M|m)(P|p).*/)){
-            message.channel.send('MATCHED');
-        }
-    if (message.author.id == '292953664492929025'){ //Disboard Bot
-        var regex = /(cash)/g;
+    if (message.author.id == '302050872383242240'){ //Disboard Bot
+        console.log(message);
+        var regex = /(Bump done)/g;
         var found = message.embeds[0].description.match(regex);
         if (found != null){
             message.channel.fetchMessages({ limit: 9 })
@@ -463,8 +455,7 @@ Client.on('message', message => {
             .catch(console.error);
         }
     }
-    if (message.content.substring(1,4) === 'rp!') { 
-        var regex = /[\D]/g;
+    if (message.content.substring(0,3) === 'rp!') { 
         var channel = message.channel;
         var guild_id = message.guild.id
         var author_id = message.author.id
@@ -472,11 +463,7 @@ Client.on('message', message => {
         var command = args[0];
         switch(command){
             case 'make_em':
-                make_Bumps();
-                break;
-                
-            case 'pop':
-                populate_test_bumps();
+                //make_Bumps();
                 break;
                 
             case 'bumps':
@@ -487,10 +474,6 @@ Client.on('message', message => {
                     get_bump_names((msg) => {message.author.send(msg)});
                     //get_bumps((msg) => {message.author.send(msg)});
                 }
-                break;
-                
-            case 'tester':
-                channel.send(" !say Hop on feet");
                 break;
                 
             case 'id':
