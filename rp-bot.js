@@ -456,6 +456,7 @@ Client.on('message', message => {
         }
     }
     if (message.content.substring(0,3) === 'rp!') { 
+        console.log('Command detected');
         var channel = message.channel;
         var guild_id = message.guild.id
         var author_id = message.author.id
