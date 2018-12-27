@@ -411,9 +411,9 @@ Client.on('message', message => {
         if (found != null){
             var prev_id = parseInt(message.id) - 1;
             //convert to string?
-            var prev = message.channel.fetchMessage(prev_id);
-            var iseeyou = prev.author.username + " did the thing";
-            message.channel.send(iseeyou); 
+            var prev = message.channel.fetchMessages(2);
+            console.log(prev);
+            message.channel.send(prev[0].author.username); 
         }
         message.channel.send('Detected pizzabot');
         
