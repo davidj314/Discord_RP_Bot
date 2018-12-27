@@ -419,7 +419,7 @@ Client.on('message', message => {
                 var found_bump = false;
                 for (i=0;i < m_array.length; i++){
                     console.log(m_array[i].content);
-                    if (m_array[i].content.match(/(cash balance)/g)){
+                    if (m_array[i].embeds[0].description.match(/(cash balance)/g)){
                         found_bump = true;
                     }
                     if (found_bump){
