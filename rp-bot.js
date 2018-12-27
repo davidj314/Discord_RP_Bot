@@ -67,6 +67,7 @@ function get_bump_names(callback){
         //No returned rows indicate provided key is not associated with any row
         else if (result.rows.length == 0) {
             callback('No successful bumps since last call')
+            return;
         }
         //successfully found a result. Passes associated value to the callback function
         else{
@@ -78,8 +79,7 @@ function get_bump_names(callback){
                 txt += result.rows[i].bumper_name;
                 txt += '. ID is <' + result.rows[i].bumper_id + '>';
                 txt += "\n";
-            }      
-           callback(txt) ;  
+            }       
         }
     }); //end pool.query 
     
@@ -92,6 +92,7 @@ function get_bump_names(callback){
         //No returned rows indicate provided key is not associated with any row
         else if (result.rows.length == 0) {
             callback('No successful bumps since last call');
+            return;
         }
         //successfully found a result. Passes associated value to the callback function
         else{
