@@ -394,17 +394,12 @@ Client.on('message', message => {
     console.log(message.embeds);
     if (message.content.substring(1,4) === 'rp!') { 
         var regex = /[\D]/g;
-        var found = high.match(regex);
-        if (found != null){
-            callback('Invalid Input. Please use only non-negative itegers [0,1,2,...]');   
-            return;
-        }
+        
         
         var channel = message.channel;
         var guild_id = message.guild.id
         var author_id = message.author.id
     	var args = message.content.substring(4).split(' ');
-        console.log(message);
         var command = args[0];
         if (message.embeds.length > 0){
             channel.send(message.embeds[0].description);
