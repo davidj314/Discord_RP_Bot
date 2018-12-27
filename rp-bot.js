@@ -28,6 +28,19 @@ function make_Bumps(){
     //callback();//population function
 }//end function
 
+function add_bump(bumper, name){
+    var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES($1, $2)";
+    var values = [bumper, name];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    // connection using created pool
+    pool.query(insert_query, values, (err, res) => {
+        if (err){
+            console.log(err, res);
+        }
+        pool.end();
+    });    
+}//end function
+
 function populate_test_bumps(){
     var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES('9992','Drake'),('9992','Drakenwoof'),('1234','Phil')";
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
@@ -38,7 +51,6 @@ function populate_test_bumps(){
         }
         pool.end();
     });    
-    
 }//end function
 
 function get_bump_names(callback){
@@ -391,6 +403,23 @@ Client.on('message', message => {
             message.channel.send(message.embeds[0].description);
             message.channel.send('Doot');
         }
+    
+    if (message.author.id == '269338190547124235'){
+        message.channel.send('Hi Drake');
+    }
+    if (message.author.id == '292953664492929025'){ //pizzabot
+        var regex = /(cash balance)/g;
+        var found = message.embeds[0].description.match(regex);
+        if (found != null){
+            var prev_id = parseInt(message.id) - 1;
+            //convert to string?
+            var prev = message.channel.fetchMessage(messageID)(prev_id);
+            var iseeyou = prev.author.username + " did the thing";
+            message.channel.send(iseeyou); 
+        }
+        message.channel.send('Detected pizzabot');
+        
+    }
     console.log(message.embeds);
     if (message.content.substring(1,4) === 'rp!') { 
         var regex = /[\D]/g;
