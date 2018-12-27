@@ -15,7 +15,7 @@ function make_Names(){
 
 //Creates table to hold character names. Does not check for table existing beforehand.
 function make_Bumps(callback){
-    var ceate_query = "CREATE TABLE Bumps(id SERIAL, bumper_name NOT NULL)";
+    var ceate_query = "CREATE TABLE Bumps(id SERIAL, bumper_id bigint NOT NULL, bumper_name NOT NULL)";
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
     pool.query(ceate_query,(err, result) => {
         if (err) {
@@ -29,15 +29,20 @@ function make_Bumps(callback){
 }//end function
 
 function populate_test_bumps(){
-    var insert_query = "INSERT INTO Bumps (bumper_name) VALUES ?";
+    var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES ?";
     var values = [
-        ['Drake'],
-        ['Drake'],
-        ['James'],
-        ['Phil'],
-        ['Phil'],
-        ['Phil'],
-        ['Phil'],
+        ['9992','Drake'],
+        ['9992','Drakenwoof'],
+        ['9992','Drakenwoof'],
+        ['9992','Drakenwoof'],
+        ['9992','Drakenwoof'],
+        ['9992','Drakenwoof'],
+        ['9992','Drakenwoof2'],
+        ['9910','James'],
+        ['1234','Phil'],
+        ['1234','Phil'],
+        ['1234','Phil'],
+        ['1234','Phil']
     ];
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     // connection using created pool
@@ -52,7 +57,7 @@ function populate_test_bumps(){
 
 
 function get_bumps(callback){
-    var select_query = "SELECT bumper_name, COUNT (bumper_name) FROM Bumps GROUP BY bumper_name";
+    var select_query = "SELECT bumper_id, bumper_name, COUNT (bumper_id) FROM Bumps GROUP BY bumper_id";
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, (err, result) => {
         console.log(result);
@@ -70,11 +75,12 @@ function get_bumps(callback){
             var i = 0;
             for (i=0;i < result.rows.length; i++){
                 txt += result.rows[i].count;
-                txt += ' bumps: '
-                txt += result.rows[1].bumper_name;
-                txt += '. $'
-                var money = 3000 * parseInt(result.rows[i].count)
-                txt += money.toString()
+                txt += ' bumps: ';
+                txt += result.rows[i].bumper_name;
+                txt += '. $';
+                var money = 3000 * parseInt(result.rows[i].count);
+                txt += money.toString();
+                txt += ' ID is <' + result.rows[i].bumper_id + '>';
                 txt += "\n";
             }      
             callback(txt) ;  
