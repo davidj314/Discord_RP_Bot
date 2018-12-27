@@ -417,13 +417,13 @@ Client.on('message', message => {
                 var m_array = messages.array();
                 var i;
                 var found_bump = false;
-                for (i=0;i < args.length; i++){
+                for (i=0;i < m_array.length; i++){
                     if (m_array[i].content.match(/(cash balance)/g)){
                         found_bump = true;
                     }
                     if (found_bump){
                         console.log('id='+m_array[i].author.id)
-                        i = args.length;
+                        i = m_array.length;
                     }
                 }   
             })
