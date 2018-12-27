@@ -32,7 +32,7 @@ function populate_test_bumps(){
     var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES('9992','Drake'),('9992','Drakenwoof'),('1234','Phil')";
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     // connection using created pool
-    pool.query(insert_query, values,  (err, res) => {
+    pool.query(insert_query ,  (err, res) => {
         if (err){
             console.log(err, res);
         }
