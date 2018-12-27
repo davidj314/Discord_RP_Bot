@@ -42,9 +42,10 @@ function populate_test_bumps(){
 }//end function
 
 function get_bump_names(callback){
-    var select_query = "SELECT bumper_name, bumper_id, COUNT (bumper_name) FROM Bumps GROUP BY bumper_name, bumper_id";
+    var names_query = "SELECT bumper_name, bumper_id, COUNT (bumper_name) FROM Bumps GROUP BY bumper_name, bumper_id";
+    var ids_query = "SELECT bumper_id, COUNT (bumper_id) FROM Bumps GROUP BY bumper_id";
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
-    pool.query(select_query, (err, result) => {
+    pool.query(names_query, (err, result) => {
         console.log(result);
         if (err) {
             console.log('error occurred');
@@ -68,6 +69,31 @@ function get_bump_names(callback){
             callback(txt) ;  
         }
     }); //end pool.query 
+    
+    pool.query(ids_query, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        //No returned rows indicate provided key is not associated with any row
+        else if (result.rows.length == 0) {
+            callback('No successful bumps since last call');
+        }
+        //successfully found a result. Passes associated value to the callback function
+        else{
+            var txt = 'Add-money calls:\n';
+            var i = 0;
+            for (i=0;i < result.rows.length; i++){
+                txt += '$add-money  ';
+                txt += result.rows[i].bumper_id;
+                txt += " ";
+                var money = 3000 * parseInt(result.rows[i].count);
+                txt += money.toString() + "\n";
+            }      
+            callback(txt) ;  
+        }
+    }); //end pool.query     
     pool.end()
 }//end function
 
@@ -387,7 +413,7 @@ Client.on('message', message => {
                 }
                 else{
                     get_bump_names((msg) => {message.author.send(msg)});
-                    get_bumps((msg) => {message.author.send(msg)});
+                    //get_bumps((msg) => {message.author.send(msg)});
                 }
                 break;
                 
