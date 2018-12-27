@@ -395,15 +395,17 @@ Client.on('message', message => {
             callback('Invalid Input. Please use only non-negative itegers [0,1,2,...]');   
             return;
         }
-        if (message.embeds.length > 0){
-            channel.send(message.embeds[0].description);
-        }
+        
         var channel = message.channel;
         var guild_id = message.guild.id
         var author_id = message.author.id
     	var args = message.content.substring(4).split(' ');
         console.log(message);
         var command = args[0];
+        if (message.embeds.length > 0){
+            channel.send(message.embeds[0].description);
+            channel.send('Doot');
+        }
         switch(command){
             case 'make_em':
                 make_Bumps();
