@@ -389,8 +389,15 @@ Client.on('message', message => {
     //console.log("BEFORE MESSAGE")
     console.log(message);
     if (message.content.substring(1,4) === 'rp!') { 
-        console.log("FOUND COMMAND");
-        message.channel.send("Found command");
+        var regex = /[\D]/g;
+        var found = high.match(regex);
+        if (found != null){
+            callback('Invalid Input. Please use only non-negative itegers [0,1,2,...]');   
+            return;
+        }
+        if (message.embeds.length > 0){
+            console.log(message.embeds[0].description);
+        }
         var channel = message.channel;
         var guild_id = message.guild.id
         var author_id = message.author.id
