@@ -396,7 +396,7 @@ Client.on('message', message => {
         var guild_id = message.guild.id
         var author_id = message.author.id
     	var args = message.content.substring(4).split(' ');
-        console.log(args[0]);
+        console.log(message);
         var command = args[0];
         switch(command){
             case 'make_em':
