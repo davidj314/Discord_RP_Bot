@@ -41,9 +41,8 @@ function populate_test_bumps(){
     
 }//end function
 
-
-function get_bumps(callback){
-    var select_query = "SELECT bumper_id, COUNT (bumper_id) FROM Bumps GROUP BY bumper_id";
+function get_bump_names(){
+    var select_query = "SELECT bumper_name, bumper_id, COUNT (bumper_name) FROM Bumps GROUP BY bumper_name";
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, (err, result) => {
         console.log(result);
@@ -62,12 +61,41 @@ function get_bumps(callback){
             for (i=0;i < result.rows.length; i++){
                 txt += result.rows[i].count;
                 txt += ' bumps: ';
-                txt += result.rows[i].bumper_id;
-                txt += '. $';
-                var money = 3000 * parseInt(result.rows[i].count);
-                txt += money.toString();
+                txt += result.rows[i].bumper_name;
                 txt += ' ID is <' + result.rows[i].bumper_id + '>';
                 txt += "\n";
+            }      
+            callback(txt) ;  
+        }
+    }); //end pool.query 
+    pool.end()
+}//end function
+}//end function
+
+
+function get_bumps(callback){
+    var select_query = "SELECT bumper_id, COUNT (bumper_id) FROM Bumps GROUP BY bumper_id";
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        //No returned rows indicate provided key is not associated with any row
+        else if (result.rows.length == 0) {
+            callback('No successful bumps since last call');
+        }
+        //successfully found a result. Passes associated value to the callback function
+        else{
+            var txt = 'Add-money calls:\n';
+            var i = 0;
+            for (i=0;i < result.rows.length; i++){
+                txt += '$add-money  ";
+                txt += result.rows[i].bumper_id;
+                txt += " ";
+                var money = 3000 * parseInt(result.rows[i].count);
+                txt += money.toString() + "\n";
             }      
             callback(txt) ;  
         }
@@ -355,6 +383,7 @@ Client.on('message', message => {
                 break;
                 
             case 'bumps':
+                get_bump_names((msg) => {message.author.send(msg)})
                 get_bumps((msg) => {message.author.send(msg)})
                 break;
                 
