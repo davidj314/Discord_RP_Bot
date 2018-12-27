@@ -78,7 +78,7 @@ function get_bump_names(callback){
                 txt += '. ID is <' + result.rows[i].bumper_id + '>';
                 txt += "\n";
             }      
-            callback(txt) ;  
+           await callback(txt) ;  
         }
     }); //end pool.query 
     
@@ -104,6 +104,7 @@ function get_bump_names(callback){
                 txt += money.toString() + "\n";
             }      
             callback(txt) ;  
+            clear_bumps();
             
             
         }
