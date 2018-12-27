@@ -14,7 +14,7 @@ function make_Names(){
 }//end function
 
 //Creates table to hold character names. Does not check for table existing beforehand.
-function make_Bumps(callback){
+function make_Bumps(){
     var ceate_query = "CREATE TABLE Bumps(id SERIAL, bumper_id bigint NOT NULL, bumper_name NOT NULL)";
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
     pool.query(ceate_query,(err, result) => {
@@ -25,7 +25,7 @@ function make_Bumps(callback){
         console.log(result); 
     });//end pool.query   
     pool.end();
-    callback();//population function
+    //callback();//population function
 }//end function
 
 function populate_test_bumps(){
@@ -347,6 +347,10 @@ Client.on('message', message => {
         var command = args[0];
         switch(command){
             case 'make_em':
+                make_Bumps();
+                break;
+                
+            case 'pop':
                 populate_test_bumps();
                 break;
                 
