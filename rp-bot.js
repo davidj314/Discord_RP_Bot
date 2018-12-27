@@ -396,7 +396,7 @@ Client.on('message', message => {
             return;
         }
         if (message.embeds.length > 0){
-            console.log(message.embeds[0].description);
+            channel.send(message.embeds[0].description);
         }
         var channel = message.channel;
         var guild_id = message.guild.id
