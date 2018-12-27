@@ -409,6 +409,7 @@ Client.on('message', message => {
         var regex = /(cash balance)/g;
         var found = message.embeds[0].description.match(regex);
         if (found != null){
+            message.channel.send('Reg matched');  
             var prev_id = parseInt(message.id) - 1;
             //convert to string?
             message.channel.fetchMessages({ limit: 10 })
