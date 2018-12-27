@@ -104,8 +104,22 @@ function get_bump_names(callback){
                 txt += money.toString() + "\n";
             }      
             callback(txt) ;  
+            
+            
         }
     }); //end pool.query     
+    pool.end()
+}//end function
+
+function clear_bumps(){
+    var select_query = "DELETE FROM Bumps WHERE id > 0";
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, (err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+    }); //end pool.query
     pool.end()
 }//end function
 
@@ -135,6 +149,7 @@ function get_bumps(callback){
                 txt += money.toString() + "\n";
             }      
             callback(txt) ;  
+            clear_bumps();
         }
     }); //end pool.query 
     pool.end()
