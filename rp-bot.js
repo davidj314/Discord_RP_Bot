@@ -43,7 +43,7 @@ function populate_test_bumps(){
 
 
 function get_bumps(callback){
-    var select_query = "SELECT bumper_id, bumper_name, COUNT (bumper_id) FROM Bumps GROUP BY bumper_id";
+    var select_query = "SELECT bumper_id, COUNT (bumper_id) FROM Bumps GROUP BY bumper_id";
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, (err, result) => {
         console.log(result);
