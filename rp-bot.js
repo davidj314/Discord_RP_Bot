@@ -70,7 +70,6 @@ function get_bump_names(){
     }); //end pool.query 
     pool.end()
 }//end function
-}//end function
 
 
 function get_bumps(callback){
