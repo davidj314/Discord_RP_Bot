@@ -28,9 +28,9 @@ function make_Bumps(){
     //callback();//population function
 }//end function
 
-function add_bump(bumper, name){
+function add_bump(id, name){
     var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES($1, $2)";
-    var values = [bumper, name];
+    var values = [id, name];
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     // connection using created pool
     pool.query(insert_query, values, (err, res) => {
@@ -139,6 +139,20 @@ function get_bumps(callback){
     }); //end pool.query 
     pool.end()
 }//end function
+
+function add_bump(id, name){
+    var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES($1, $2)";
+    var values = [id, name];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    // connection using created pool
+    pool.query(insert_query, values,  (err, res) => {
+        if (err){
+            console.log(err, res);
+        }
+        pool.end();
+    });    
+    
+}
 
 
 
@@ -407,13 +421,10 @@ Client.on('message', message => {
     if (message.content.match(/^!disboard +(B|b)(U|u)(M|m)(P|p).*/)){
             message.channel.send('MATCHED');
         }
-    if (message.author.id == '292953664492929025'){ //pizzabot
-        var regex = /(cash balance)/g;
+    if (message.author.id == '302050872383242240'){ //Disboard Bot
+        var regex = /(Bump done)/g;
         var found = message.embeds[0].description.match(regex);
         if (found != null){
-            message.channel.send('Reg matched');  
-            var prev_id = parseInt(message.id) - 1;
-            //convert to string?
             message.channel.fetchMessages({ limit: 9 })
             .then(messages => {
                 var m_array = messages.array();
@@ -425,6 +436,7 @@ Client.on('message', message => {
                         if (!m_array[i].content.match(/^!disboard +(B|b)(U|u)(M|m)(P|p).*/)) continue;
                         console.log('message is ' + m_array[i].content);
                         console.log(m_array[i].author.username + " is " + m_array[i].author.id);
+                        add_bump(m_array[i].author.id, m_array[i].author.username);
                         i = m_array.length;
                     }
                     else if (m_array[i].embeds.length > 0 && m_array[i].embeds[0].description.match(/(cash balance)/g)){
