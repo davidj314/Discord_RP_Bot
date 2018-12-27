@@ -57,12 +57,12 @@ function get_bumps(callback){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
-            var txt = 'Successful bumps since last call:';
+            var txt = 'Successful bumps since last call:\n';
             var i = 0;
             for (i=0;i < result.rows.length; i++){
                 txt += result.rows[i].count;
                 txt += ' bumps: ';
-                txt += result.rows[i].bumper_name;
+                txt += result.rows[i].bumper_id;
                 txt += '. $';
                 var money = 3000 * parseInt(result.rows[i].count);
                 txt += money.toString();
