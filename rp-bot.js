@@ -412,23 +412,23 @@ Client.on('message', message => {
             message.channel.send('Reg matched');  
             var prev_id = parseInt(message.id) - 1;
             //convert to string?
-            message.channel.fetchMessages({ limit: 2 })
+            message.channel.fetchMessages({ limit: 4 })
             .then(messages => {
                 var m_array = messages.array();
                 var i;
                 var found_bump = false;
                 for (i=0;i < m_array.length; i++){
+                    console.log(m_array[i].content);
                     if (m_array[i].content.match(/(cash balance)/g)){
                         found_bump = true;
                     }
                     if (found_bump){
-                        console.log('id='+m_array[i].author.id)
+                        console.log(m_array[i].author.id)
                         i = m_array.length;
                     }
                 }   
             })
             .catch(console.error);
-            console.log('past the fetch');
         }
     }
     if (message.content.substring(1,4) === 'rp!') { 
