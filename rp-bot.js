@@ -355,7 +355,7 @@ Client.on('message', message => {
                 break;
                 
             case 'bumps':
-                get_bumps((msg) => {channel.send(msg)})
+                get_bumps((msg) => {message.author.send(msg)})
                 break;
                 
             case 'tester':
