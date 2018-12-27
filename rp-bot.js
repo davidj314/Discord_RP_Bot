@@ -404,7 +404,7 @@ Client.on('message', message => {
             message.channel.send('Doot');
         }*/
    // console.log(message.id);
-    if (message.content.match(\!disboard +(B|b)(U|u)(M|m)(P|p)\){
+    if (message.content.match(/!disboard +(B|b)(U|u)(M|m)(P|p)/)){
             message.channel.send('MATCHED');
         }
     if (message.author.id == '292953664492929025'){ //pizzabot
@@ -422,7 +422,7 @@ Client.on('message', message => {
                 for (i=0;i < m_array.length; i++){
                     console.log(m_array[i].content);
                     if (found_bump){
-                        if (!m_array[i].content.match(\!disboard +(B|b)(U|u)(M|m)(P|p)\)continue;
+                        if (!m_array[i].content.match(/!disboard +(B|b)(U|u)(M|m)(P|p)/)continue;
                         console.log(m_array[i].author.username + " is " + m_array[i].author.id);
                         i = m_array.length;
                     }
