@@ -412,8 +412,8 @@ Client.on('message', message => {
             message.channel.send('Reg matched');  
             var prev_id = parseInt(message.id) - 1;
             //convert to string?
-            message.channel.fetchMessages({ limit: 10 })
-            .then(messages => console.log(`Received ${messages.size} messages`))
+            message.channel.fetchMessages({ limit: 2 })
+            .then(messages => console.log(messages))
             .catch(console.error);
             console.log('past the fetch');
         }
