@@ -387,7 +387,11 @@ Client.on('ready', () => {
 
 Client.on('message', message => {
     //console.log("BEFORE MESSAGE")
-    console.log(message);
+    if (message.embeds.length > 0){
+            channel.send(message.embeds[0].description);
+            channel.send('Doot');
+        }
+    console.log(message.embeds);
     if (message.content.substring(1,4) === 'rp!') { 
         var regex = /[\D]/g;
         var found = high.match(regex);
