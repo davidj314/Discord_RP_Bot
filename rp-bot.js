@@ -423,7 +423,7 @@ Client.on('message', message => {
                         console.log(m_array[i].author.username + " is " + m_array[i].author.id);
                         i = m_array.length;
                     }
-                    if (m_array[i].embeds.length > 0 && m_array[i].embeds[0].description.match(/(cash balance)/g)){
+                    else if (m_array[i].embeds.length > 0 && m_array[i].embeds[0].description.match(/(cash balance)/g)){
                         found_bump = true;
                     }   
                 }   
