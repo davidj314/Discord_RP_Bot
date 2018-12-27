@@ -112,6 +112,7 @@ function get_bump_names(callback){
 }//end function
 
 function clear_bumps(){
+    console.log('Deleting stuff');
     var select_query = "DELETE FROM Bumps WHERE id > 0";
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, (err, result) => {
