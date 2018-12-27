@@ -402,8 +402,8 @@ Client.on('message', message => {
     	var args = message.content.substring(4).split(' ');
         var command = args[0];
         if (message.embeds.length > 0){
-            channel.send(message.embeds[0].description);
-            channel.send('Doot');
+            message.channel.send(message.embeds[0].description);
+            message.channel.send('Doot');
         }
         console.log(message.embeds);
         switch(command){
