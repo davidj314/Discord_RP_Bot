@@ -403,7 +403,7 @@ Client.on('message', message => {
             message.channel.send(message.embeds[0].description);
             message.channel.send('Doot');
         }*/
-    console.log(message.id);
+   // console.log(message.id);
 
     if (message.author.id == '292953664492929025'){ //pizzabot
         var regex = /(cash balance)/g;
@@ -415,8 +415,7 @@ Client.on('message', message => {
             message.channel.fetchMessages({ limit: 10 })
             .then(messages => console.log(`Received ${messages.size} messages`))
             .catch(console.error);
-            console.log(prev);
-            message.channel.send(prev[0].author.username); 
+            console.log('past the fetch');
         }
         message.channel.send('Detected pizzabot');       
     }
