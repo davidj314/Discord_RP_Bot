@@ -411,7 +411,9 @@ Client.on('message', message => {
         if (found != null){
             var prev_id = parseInt(message.id) - 1;
             //convert to string?
-            message.channel.fetchMessages(2).then(messages => console.log(messages`));
+            message.channel.fetchMessages({ limit: 10 })
+            .then(messages => console.log(`Received ${messages.size} messages`))
+            .catch(console.error);
             console.log(prev);
             message.channel.send(prev[0].author.username); 
         }
