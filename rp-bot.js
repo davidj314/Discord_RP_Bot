@@ -13,6 +13,78 @@ function make_Names(){
     pool.end()
 }//end function
 
+//Creates table to hold character names. Does not check for table existing beforehand.
+function make_Bumps(callback){
+    var ceate_query = "CREATE TABLE Bumps(id SERIAL, bumper_name NOT NULL)";
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    pool.query(ceate_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+        console.log(result); 
+    });//end pool.query   
+    pool.end();
+    callback();//population function
+}//end function
+
+function populate_test_bumps(){
+    var insert_query = "INSERT INTO Bumps (bumper_name) VALUES ?";
+    var values = [
+        ['Drake'],
+        ['Drake'],
+        ['James'],
+        ['Phil'],
+        ['Phil'],
+        ['Phil'],
+        ['Phil'],
+    ];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    // connection using created pool
+    pool.query(insert_query, values,  (err, res) => {
+        if (err){
+            console.log(err, res);
+        }
+        pool.end();
+    });    
+    
+}//end function
+
+
+function get_bumps(callback){
+    var select_query = "SELECT bumper_name, COUNT (bumper_name) FROM Bumps GROUP BY bumper_name";
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        //No returned rows indicate provided key is not associated with any row
+        else if (result.rows.length == 0) {
+            callback('No successful bumps since last call')
+        }
+        //successfully found a result. Passes associated value to the callback function
+        else{
+            var txt = 'Successful bumps since last call:';
+            var i = 0;
+            for (i=0;i < result.rows.length; i++){
+                txt += result.rows[i].count;
+                txt += ' bumps: '
+                txt += result.rows[1].bumper_name;
+                txt += '. $'
+                var money = 3000 * parseInt(result.rows[i].count)
+                txt += money.toString()
+                txt += "\n";
+            }      
+            callback(txt) ;  
+        }
+    }); //end pool.query 
+    pool.end()
+}//end function
+
+
+
 //Creates table for key-value lookups. Does not check for pre-existing table.
 function make_lookup(){
     var ceate_query = "CREATE TABLE Lookup(id SERIAL, server_id bigint NOT NULL, infokey varchar(255) NOT NULL, infoval text NOT NULL, UNIQUE (server_id, infokey))";
@@ -283,8 +355,11 @@ Client.on('message', message => {
         var command = args[0];
         switch(command){
             case 'make_em':
-                //make_lookup();
-                //make_Names();
+                make_Bumps(populate_test_bumps());
+                break;
+                
+            case 'bumps':
+                get_bumps((msg) => {channel.send(msg)})
                 break;
                 
             case 'tester':
