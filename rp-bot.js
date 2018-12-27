@@ -15,7 +15,7 @@ function make_Names(){
 
 //Creates table to hold character names. Does not check for table existing beforehand.
 function make_Bumps(){
-    var ceate_query = "CREATE TABLE Bumps(id SERIAL, bumper_id bigint NOT NULL, bumper_name NOT NULL)";
+    var ceate_query = "CREATE TABLE Bumps(id SERIAL, bumper_id bigint NOT NULL, bumper_name varchar(255) NOT NULL)";
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
     pool.query(ceate_query,(err, result) => {
         if (err) {
