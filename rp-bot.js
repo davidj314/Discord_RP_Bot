@@ -399,21 +399,18 @@ Client.on('ready', () => {
 
 Client.on('message', message => {
     //console.log("BEFORE MESSAGE")
-    if (message.embeds.length > 0){
+    /*if (message.embeds.length > 0){
             message.channel.send(message.embeds[0].description);
             message.channel.send('Doot');
-        }
-    
-    if (message.author.id == '269338190547124235'){
-        message.channel.send('Hi Drake');
-    }
+        }*/
+
     if (message.author.id == '292953664492929025'){ //pizzabot
         var regex = /(cash balance)/g;
         var found = message.embeds[0].description.match(regex);
         if (found != null){
             var prev_id = parseInt(message.id) - 1;
             //convert to string?
-            var prev = message.channel.fetchMessage(messageID)(prev_id);
+            var prev = message.channel.fetchMessage(prev_id);
             var iseeyou = prev.author.username + " did the thing";
             message.channel.send(iseeyou); 
         }
