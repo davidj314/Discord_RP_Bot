@@ -411,14 +411,12 @@ Client.on('message', message => {
         if (found != null){
             var prev_id = parseInt(message.id) - 1;
             //convert to string?
-            var prev = message.channel.fetchMessages(2);
+            var prev = message.channel.fetchMessages(2).then(messages => console.log(messages`));
             console.log(prev);
             message.channel.send(prev[0].author.username); 
         }
-        message.channel.send('Detected pizzabot');
-        
+        message.channel.send('Detected pizzabot');       
     }
-    console.log(message.embeds);
     if (message.content.substring(1,4) === 'rp!') { 
         var regex = /[\D]/g;
         var channel = message.channel;
