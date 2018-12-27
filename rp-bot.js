@@ -413,7 +413,7 @@ Client.on('message', message => {
             var prev_id = parseInt(message.id) - 1;
             //convert to string?
             message.channel.fetchMessages({ limit: 2 })
-            .then(messages => for var k in messages {console.log(k.content}     )
+            .then(messages => {for var k in messages {console.log(k.content}  }   )
             .catch(console.error);
             console.log('past the fetch');
         }
