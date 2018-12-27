@@ -403,6 +403,7 @@ Client.on('message', message => {
             message.channel.send(message.embeds[0].description);
             message.channel.send('Doot');
         }*/
+    console.log(message.id);
 
     if (message.author.id == '292953664492929025'){ //pizzabot
         var regex = /(cash balance)/g;
@@ -425,7 +426,6 @@ Client.on('message', message => {
         var author_id = message.author.id
     	var args = message.content.substring(4).split(' ');
         var command = args[0];
-        console.log(message.embeds);
         switch(command){
             case 'make_em':
                 make_Bumps();
