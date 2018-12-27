@@ -388,23 +388,17 @@ Client.on('ready', () => {
 Client.on('message', message => {
     //console.log("BEFORE MESSAGE")
     if (message.embeds.length > 0){
-            channel.send(message.embeds[0].description);
-            channel.send('Doot');
+            message.channel.send(message.embeds[0].description);
+            message.channel.send('Doot');
         }
     console.log(message.embeds);
     if (message.content.substring(1,4) === 'rp!') { 
         var regex = /[\D]/g;
-        
-        
         var channel = message.channel;
         var guild_id = message.guild.id
         var author_id = message.author.id
     	var args = message.content.substring(4).split(' ');
         var command = args[0];
-        if (message.embeds.length > 0){
-            message.channel.send(message.embeds[0].description);
-            message.channel.send('Doot');
-        }
         console.log(message.embeds);
         switch(command){
             case 'make_em':
