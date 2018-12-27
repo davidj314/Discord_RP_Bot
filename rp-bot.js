@@ -60,9 +60,9 @@ function get_bump_names(callback){
             var i = 0;
             for (i=0;i < result.rows.length; i++){
                 txt += result.rows[i].count;
-                txt += ' bumps: ';
+                txt += ' bumps - ';
                 txt += result.rows[i].bumper_name;
-                txt += ' ID is <' + result.rows[i].bumper_id + '>';
+                txt += '. ID is <' + result.rows[i].bumper_id + '>';
                 txt += "\n";
             }      
             callback(txt) ;  
@@ -382,8 +382,13 @@ Client.on('message', message => {
                 break;
                 
             case 'bumps':
-                get_bump_names((msg) => {message.author.send(msg)})
-                get_bumps((msg) => {message.author.send(msg)})
+                if (message.member.hasPermission("ADMINISTRATOR") == false){
+                    channel.send('Need admin permission for that command');
+                }
+                else{
+                    get_bump_names((msg) => {message.author.send(msg)});
+                    get_bumps((msg) => {message.author.send(msg)});
+                }
                 break;
                 
             case 'tester':
