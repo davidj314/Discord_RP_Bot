@@ -90,7 +90,7 @@ function get_bumps(callback){
             var txt = 'Add-money calls:\n';
             var i = 0;
             for (i=0;i < result.rows.length; i++){
-                txt += '$add-money  ";
+                txt += '$add-money  ';
                 txt += result.rows[i].bumper_id;
                 txt += " ";
                 var money = 3000 * parseInt(result.rows[i].count);
