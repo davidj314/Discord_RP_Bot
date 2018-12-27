@@ -56,6 +56,7 @@ function populate_test_bumps(){
 function get_bump_names(callback){
     var names_query = "SELECT bumper_name, bumper_id, COUNT (bumper_name) FROM Bumps GROUP BY bumper_name, bumper_id";
     var ids_query = "SELECT bumper_id, COUNT (bumper_id) FROM Bumps GROUP BY bumper_id";
+    var txt = '';
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(names_query, (err, result) => {
         console.log(result);
@@ -69,7 +70,7 @@ function get_bump_names(callback){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
-            var txt = 'Successful bumps since last call:\n';
+            txt += 'Successful bumps since last call:\n';
             var i = 0;
             for (i=0;i < result.rows.length; i++){
                 txt += result.rows[i].count;
@@ -94,7 +95,7 @@ function get_bump_names(callback){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
-            var txt = 'Add-money calls:\n';
+            txt = 'Add-money calls:\n';
             var i = 0;
             for (i=0;i < result.rows.length; i++){
                 txt += '$add-money  ';
