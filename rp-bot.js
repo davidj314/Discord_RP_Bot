@@ -523,13 +523,10 @@ Client.on('ready', () => {
     var server = Client.guilds.array();
     for(var i = 0; i < server.length; i++){
         if (server[i].id == '457996924491005953'){
-            console.log('FOUND THE SERVER');
             var channel = server[i].channels.array();
             for (var j = 0; j < channel.length; j++){
                 if (channel[j].id == '457996925145186306'){
-                    console.log('FOUND THE CHANNEL');
                     channel[j].fetchMessage('528438369617707059').then(message=>{
-                    console.log(message.author);
                     }).catch(console.error);
                 }
             }
@@ -537,14 +534,10 @@ Client.on('ready', () => {
     }
 });
 
-function message_channel(channel, message){
-    channel.send(message);
-}
-
 function disboard_check(message){
-    if (message.author.id == '292953664492929025'){ //Pizza Bot
+    if (message.author.id == '302050872383242240'){ //Disboard Bot
         if (message.embeds.length == 0)return;
-        var regex = /(cash balance)/g;
+        var regex = /(Bump done)/g;
         var found = message.embeds[0].description.match(regex);
         if (found != null){
             message.channel.fetchMessages({ limit: 9 })
@@ -556,12 +549,10 @@ function disboard_check(message){
                     console.log(m_array[i].content);
                     if (found_bump){
                         if (!m_array[i].content.match(/^!disboard +(B|b)(U|u)(M|m)(P|p).*/)) continue;
-                        console.log('message is ' + m_array[i].content);
-                        console.log(m_array[i].author.username + " is " + m_array[i].author.id);
                         add_bump(m_array[i].author.id, m_array[i].author.username);
                         i = m_array.length;
                     }
-                    else if (m_array[i].embeds.length > 0 && m_array[i].embeds[0].description.match(/(cash balance)/g)){
+                    else if (m_array[i].embeds.length > 0 && m_array[i].embeds[0].description.match(/(Bump done)/g)){
                         found_bump = true;
                     }   
                 }   
