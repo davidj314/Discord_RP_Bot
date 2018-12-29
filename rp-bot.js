@@ -443,7 +443,7 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
             replyer.addRole(role);
             return
         }
-        messageReaction.message.channel.send("Role title is" + role[i].name);
+        messageReaction.message.channel.send("Role title is" + role_arr[i].name);
     }
 });
 
