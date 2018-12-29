@@ -482,6 +482,20 @@ var Client = new Discord.Client();
 var PG = require('pg');
 Client.on('ready', () => {
     console.log('I am ready!');
+    var g = Client.guilds.array();
+    for(var i = 0; i < g.length; i++){
+        if (g[i].id == '457996924491005953'){
+            console.log('FOUND THE SERVER');
+            var c = g[i].channels.array();
+            for (var j = 0; j < c.length; j++){
+                if (c[j].id == '457996925145186306'){
+                    console.log('FOUND THE CHANNEL');
+                    var t = c[j].fetchMessage('528438369617707059');
+                    console.log(t.author);
+                }
+            }
+        }
+    }
 
 });
 
