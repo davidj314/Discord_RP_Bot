@@ -434,15 +434,14 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
     var message_id = messageReaction.message.id;
     //if (message_id != '469357939463946240') return;
     var server = messageReaction.message.guild;
-    var replyer = server.fetchMember(user);
+    let replyer = server.fetchMember(user);
     console.log(replyer);
     var roleid = '';
     var i = 0;
     var role_arr = server.roles.array();
     for (i = 0; i < role_arr.length; i++){
         if (role_arr[i].name=="dingus"){
-            server.fetchMember(user).then(guildMember => {
-                guildMember.addrole(role_arr[i]).catch(console.error);
+            replyer.addRole(role_arr[i]);
             })
             return;
         }
