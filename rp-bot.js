@@ -428,6 +428,22 @@ Client.on('ready', () => {
 
 });
 
+Client.on('messageReactionAdd', (messageReaction, user)  => {
+    console.log("Caught reaction event");
+    messageReaction.message.channel.send("Reaction noted");
+    var message_id = messageReaction.message.id;
+    //if (message_id != '469357939463946240') return;
+    var server = messageReaction.message.guild;
+    var replyer = server.fetchMember(user);
+    var roleid = '';
+    for (role in server.fetchRoles()){
+        if (role.name=="dingus"){
+            replyer.addRole(role);
+            return
+        }
+    }
+}
+
 Client.on('message', message => {
     if (message.author.id == '302050872383242240'){ //Disboard Bot
         console.log(message);
