@@ -13,6 +13,40 @@ function make_Names(){
     pool.end()
 }//end function
 
+function make_triggers(){
+    var ceate_query = "CREATE TABLE Triggers(id SERIAL, server_id bigint NOT NULL, message_id bigint NOT NULL, emoji varchar (255) NOT NULL, role varchar(255) NOT NULL, UNIQUE(emoji, message_id))";
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    pool.query(ceate_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+        console.log('no error');
+        console.log(result); 
+    });//end pool.query   
+    pool.end()
+}//end function
+
+function insert_new_trigger_message(server_id, message_id, emoji, role, callback)
+{
+    var insert_query = "INSERT INTO Triggers (server_id, message_id, emoji, role) VALUES($1, $2, $3, $4)";
+    var values = [server_id, message_id, emoji, role];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    // connection using created pool
+    pool.query(insert_query, values,  (err, res) => {
+        if (err){
+            if(err.code == '23505')
+            {
+                var error_string = 'A role is already assigned to that reaction.'
+                callback(error_string)
+            }
+            console.log(err, res);
+        }
+        pool.end();
+    });
+}//end function
+
+
 //Creates table to hold character names. Does not check for table existing beforehand.
 function make_Bumps(){
     var ceate_query = "CREATE TABLE Bumps(id SERIAL, bumper_id bigint NOT NULL, bumper_name varchar(255) NOT NULL)";
@@ -429,16 +463,11 @@ Client.on('ready', () => {
 });
 
 Client.on('messageReactionAdd', (messageReaction, user)  => {
-    console.log("Caught reaction event");
-    console.log(messageReaction.emoji);
-    return;
     messageReaction.message.channel.send("Reaction noted");
     var message_id = messageReaction.message.id;
-    //if (message_id != '469357939463946240') return;
     var server = messageReaction.message.guild;
-    let replyer = server.fetchMember(user);
-    console.log(replyer);
-    var roleid = '';
+    
+    check_id(message_id, server.id, messageReaction.name
     var i = 0;
     var role_arr = server.roles.array();
     for (i = 0; i < role_arr.length; i++){
@@ -484,7 +513,7 @@ Client.on('message', message => {
         }
     }
     if (message.content.substring(0,3) === 'rp!') { 
-        console.log('Command detected');
+        console.log(message.content);
         var channel = message.channel;
         var guild_id = message.guild.id
         var author_id = message.author.id
@@ -492,7 +521,15 @@ Client.on('message', message => {
         var command = args[0];
         switch(command){
             case 'make_em':
-                //make_Bumps();
+                make_triggers();
+                break;
+                
+            case 'trigger':
+                if(args.length != 4)break;
+                var message_id = args[1];
+                var trigger = args[2];
+                var role = args[3];
+                insert_new_trigger_message(guild_id, message_id, trigger, role, (msg)=>{channel.send(msg)});
                 break;
                 
             case 'bumps':
