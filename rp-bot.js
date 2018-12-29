@@ -430,7 +430,7 @@ Client.on('ready', () => {
 
 Client.on('messageReactionAdd', (messageReaction, user)  => {
     console.log("Caught reaction event");
-    console.log(messageReaction.emoji.name);
+    console.log(messageReaction.emoji);
     return;
     messageReaction.message.channel.send("Reaction noted");
     var message_id = messageReaction.message.id;
