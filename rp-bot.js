@@ -604,6 +604,7 @@ Client.on('message', message => {
         switch(command){
             case 'make_em':
                 //make_triggers();
+                make_disboard_details();
                 break;
                 
             case 'trigger':
