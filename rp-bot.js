@@ -441,11 +441,12 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
             replyer.addRole(role);
             return
         }
+        messageReaction.message.channel.send("Role title is" + role.name);
     }
 });
 
 Client.on('message', message => {
-    message.react('🤔');
+   // message.react('🤔');
     if (message.author.id == '302050872383242240'){ //Disboard Bot
         console.log(message);
         var regex = /(Bump done)/g;
