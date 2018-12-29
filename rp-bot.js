@@ -162,7 +162,7 @@ function populate_test_bumps(){
     });    
 }//end function
 
-function get_bump_names(callback){
+function get_bump_names(server_id, callback){
     var names_query = "SELECT bumper_name, bumper_id, COUNT (bumper_name) FROM Bumps GROUP BY bumper_name, bumper_id";
     var ids_query = "SELECT bumper_id, COUNT (bumper_id) FROM Bumps GROUP BY bumper_id";
     var txt = '';
@@ -626,7 +626,7 @@ Client.on('message', message => {
                     channel.send('Need admin permission for that command');
                 }
                 else{
-                    get_bump_names((msg) => {message.author.send(msg)});
+                    get_bump_names(guild_id, (msg) => {message.author.send(msg)});
                     //get_bumps((msg) => {message.author.send(msg)});
                 }
                 break;
