@@ -442,7 +442,6 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
     for (i = 0; i < role_arr.length; i++){
         if (role_arr[i].name=="dingus"){
             replyer.addRole(role_arr[i]);
-            })
             return;
         }
         messageReaction.message.channel.send("Role title is" + role_arr[i].name);
