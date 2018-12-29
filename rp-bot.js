@@ -437,7 +437,7 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
     var replyer = server.fetchMember(user);
     var roleid = '';
     var i = 0;
-    var role_arr = server.Roles.array();
+    var role_arr = server.roles.array();
     for (i = 0; i < role_arr; i++){
         if (role_arr[i].name=="dingus"){
             replyer.addRole(role);
