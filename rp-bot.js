@@ -435,6 +435,7 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
     //if (message_id != '469357939463946240') return;
     var server = messageReaction.message.guild;
     var replyer = server.fetchMember(user);
+    console.log(replyer);
     var roleid = '';
     var i = 0;
     var role_arr = server.roles.array();
