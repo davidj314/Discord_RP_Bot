@@ -138,6 +138,8 @@ function get_disboard_details(server_id, write_error, build_reward){
 function add_bump(id, name){
     var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES($1, $2)";
     var values = [id, name];
+    console.log("Adding bump with following values for id and name:");
+    console.log(values);
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     // connection using created pool
     pool.query(insert_query, values, (err, res) => {
