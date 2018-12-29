@@ -7,8 +7,6 @@ function make_Names(){
             console.log('error occurred');
             return console.error('Error executing query', err.stack);;
         }
-        console.log('no error');
-        console.log(result); 
     });//end pool.query   
     pool.end()
 }//end function
@@ -21,8 +19,6 @@ function make_triggers(){
             console.log('error occurred');
             return console.error('Error executing query', err.stack);;
         }
-        console.log('no error');
-        console.log(result); 
     });//end pool.query   
     pool.end()
 }//end function
@@ -72,7 +68,7 @@ function check_trigger(server_id, message_id, emoji, callback){
 
 //Creates table to hold character names. Does not check for table existing beforehand.
 function make_Bumps(){
-    var ceate_query = "CREATE TABLE Bumps(id SERIAL, bumper_id bigint NOT NULL, bumper_name varchar(255) NOT NULL)";
+    var ceate_query = "CREATE TABLE Bumps(id SERIAL, server_id bigint NOT NULL, bumper_id bigint NOT NULL, bumper_name varchar(255) NOT NULL)";
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
     pool.query(ceate_query,(err, result) => {
         if (err) {
@@ -84,6 +80,60 @@ function make_Bumps(){
     pool.end();
     //callback();//population function
 }//end function
+
+function make_disboard_details(){
+    var create_query = "CREATE TABLE Disboard_Details(id SERIAL, server_id bigint NOT NULL, command_char char(255) NOT NULL, reward bigint NOT NULL, UNIQUE(server_id))";
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    pool.query(ceate_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+        console.log(result); 
+    });//end pool.query   
+    pool.end();
+}
+
+function insert_disboard_details(server_id, command, reward){
+    var insert_query = "INSERT INTO Disboard_Details(server_id, command_char, reward) VALUES ($1, $2, $3);
+    var values = [server_id, command, reward];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    pool.query(insert_query,(err, result) => {
+        if (err) {
+            if(err.code == '23505'){
+                var error_string = 'The key ' + key + ' is already in use.'
+                callback(error_string)
+            }
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+        console.log(result); 
+    });//end pool.query   
+    pool.end();
+}
+
+function get_disboard_details(server_id, write_error, build_reward){
+    var select_query = "SELECT command_char, reward FROM Disboard_Details WHERE server_id = $1";
+    var query_values = [server_id];
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        //No returned rows indicate provided key is not associated with any row
+        else if (result.rows.length == 0) {
+            write_error("Disboard bump rewards not set up in this server.");
+            return;
+        }
+        //successfully found a result. Passes associated value to the callback function
+        else{
+            callback(result.rows[0].command_char, result.rows[0].reward);
+        }
+    }); //end pool.query 
+    pool.end()
+}
 
 function add_bump(id, name){
     var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES($1, $2)";
@@ -121,7 +171,7 @@ function get_bump_names(callback){
             console.log('error occurred');
             return console.error('Error executing query', err.stack);
         }
-        //No returned rows indicate provided key is not associated with any row
+        //No returned rows indicates no successful bumps were logged
         else if (result.rows.length == 0) {
             callback('No successful bumps since last call')
             return;
@@ -153,17 +203,19 @@ function get_bump_names(callback){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
-            txt = 'Add-money calls:\n';
-            var i = 0;
-            for (i=0;i < result.rows.length; i++){
-                txt += '$add-money  ';
-                txt += result.rows[i].bumper_id;
-                txt += " ";
-                var money = 3000 * parseInt(result.rows[i].count);
-                txt += money.toString() + "\n";
-            }      
-            callback(txt) ;  
-            clear_bumps();     
+            get_disboard_details(server_id, callback, (command, reward)=>{
+                txt += 'Add-money calls:\n';
+                for (var i=0;i < result.rows.length; i++){
+                    txt += command;
+                    txt += 'add-money  ';
+                    txt += result.rows[i].bumper_id;
+                    txt += " ";
+                    var money = parseInt(reward) * parseInt(result.rows[i].count);
+                    txt += money.toString() + "\n";
+                }      
+                callback(txt) ;  
+                clear_bumps();
+            }       
         }
     }); //end pool.query     
     pool.end()
@@ -198,17 +250,19 @@ function get_bumps(callback){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
-            var txt = 'Add-money calls:\n';
-            var i = 0;
-            for (i=0;i < result.rows.length; i++){
-                txt += '$add-money  ';
-                txt += result.rows[i].bumper_id;
-                txt += " ";
-                var money = 3000 * parseInt(result.rows[i].count);
-                txt += money.toString() + "\n";
-            }      
-            callback(txt) ;  
-            clear_bumps();
+            get_disboard_details(server_id, callback, (command, reward)=>{
+                var txt = 'Add-money calls:\n';
+                for (var i=0;i < result.rows.length; i++){
+                    txt += command;
+                    txt += 'add-money  ';
+                    txt += result.rows[i].bumper_id;
+                    txt += " ";
+                    var money = parseInt(reward) * parseInt(result.rows[i].count);
+                    txt += money.toString() + "\n";
+                }      
+                callback(txt) ;  
+                clear_bumps();
+            });
         }
     }); //end pool.query 
     pool.end()
@@ -479,15 +533,16 @@ var Client = new Discord.Client();
 var PG = require('pg');
 Client.on('ready', () => {
     console.log('I am ready!');
-    var g = Client.guilds.array();
-    for(var i = 0; i < g.length; i++){
-        if (g[i].id == '457996924491005953'){
+    //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
+    var server = Client.guilds.array();
+    for(var i = 0; i < server.length; i++){
+        if (server[i].id == '457996924491005953'){
             console.log('FOUND THE SERVER');
-            var c = g[i].channels.array();
-            for (var j = 0; j < c.length; j++){
-                if (c[j].id == '457996925145186306'){
+            var channel = server[i].channels.array();
+            for (var j = 0; j < channel.length; j++){
+                if (channel[j].id == '457996925145186306'){
                     console.log('FOUND THE CHANNEL');
-                    c[j].fetchMessage('528438369617707059').then(message=>{
+                    channel[j].fetchMessage('528438369617707059').then(message=>{
                     console.log(message.author);
                     }).catch(console.error);
                 }
@@ -496,28 +551,11 @@ Client.on('ready', () => {
     }
 });
 
-Client.on('messageReactionAdd', (messageReaction, user)  => {
-    messageReaction.message.channel.send("Reaction noted");
-    var message_id = messageReaction.message.id;
-    var server = messageReaction.message.guild;
-    check_trigger(server.id, message_id, messageReaction.emoji.name, (role)=>{
-        var i = 0;
-        var role_arr = server.roles.array();
-        for (i = 0; i < role_arr.length; i++){
-            if (role_arr[i].name==role){
-                server.fetchMember(user).then(fetched => {
-                    console.log(fetched.nickname);
-                    fetched.addRole(role_arr[i]);
-                }).catch(console.error);
-                return;
-            }
-        }
-        messageReaction.message.channel.send("Role title is" + role_arr[i].name);
-    });
-});
+function message_channel(channel, message){
+    channel.send(message);
+}
 
-Client.on('message', message => {
-   // message.react('🤔');
+function disboard_check(message){
     if (message.author.id == '302050872383242240'){ //Disboard Bot
         console.log(message);
         var regex = /(Bump done)/g;
@@ -544,7 +582,32 @@ Client.on('message', message => {
             })
             .catch(console.error);
         }
-    }
+    }    
+}
+
+
+Client.on('messageReactionAdd', (messageReaction, user)  => {
+    messageReaction.message.channel.send("Reaction noted");
+    var message_id = messageReaction.message.id;
+    var server = messageReaction.message.guild;
+    check_trigger(server.id, message_id, messageReaction.emoji.name, (role)=>{
+        var role_arr = server.roles.array();
+        for (var i = 0; i < role_arr.length; i++){
+            if (role_arr[i].name==role){
+                server.fetchMember(user).then(fetched => {
+                    console.log(fetched.nickname);
+                    fetched.addRole(role_arr[i]);
+                }).catch(console.error);
+                return;
+            }
+        }
+        messageReaction.message.channel.send("Role title is" + role_arr[i].name);
+    });
+});
+
+
+Client.on('message', message => {
+    disboard_check(message);
     if (message.content.substring(0,3) === 'rp!') { 
         console.log(message.content);
         var channel = message.channel;
@@ -554,7 +617,7 @@ Client.on('message', message => {
         var command = args[0];
         switch(command){
             case 'make_em':
-                make_triggers();
+                //make_triggers();
                 break;
                 
             case 'trigger':
@@ -578,7 +641,7 @@ Client.on('message', message => {
             case 'id':
                 if (args[1] == null) break;
                 var info_key = args[1];
-                convert_to_userid(message.guild.members, info_key, (msg)=>{channel.send(msg)});
+                convert_to_userid(message.guild.members, info_key,  (msg)=>{channel.send(msg)});
                 break;
                 
             case 'help':
@@ -594,12 +657,11 @@ Client.on('message', message => {
                 break;
                 
             case 'record':
-                if (args[1] == null) break;
-                if (args[2] == null) break;
+                if (args.length < 3) break;
                 var info_key = args[1];
                 var info_content = '';
-                var i;
-                for (i=2;i < args.length; i++){
+                //build value from all of remaining message
+                for (var i=2;i < args.length; i++){
                     if (i > 2) info_content += ' ';
                     info_content += args[i];
                 }
@@ -629,8 +691,7 @@ Client.on('message', message => {
             case 'save_character':
                 if (args[1] == null) break;
                 var name = '';
-                var i;
-                for (i=1;i < args.length; i++){
+                for (var i=1;i < args.length; i++){
                     if (i > 1) name += ' ';
                     name += args[i];
                 }
