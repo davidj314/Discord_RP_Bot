@@ -441,8 +441,10 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
     var role_arr = server.roles.array();
     for (i = 0; i < role_arr.length; i++){
         if (role_arr[i].name=="dingus"){
-            server.fetchMember(user).addRole(role_arr[i]);
-            return
+            server.fetchMember(user).then(guildMember => {
+                guildMember.addrole(role_arr[i]).catch(console.error);
+            })
+            return;
         }
         messageReaction.message.channel.send("Role title is" + role_arr[i].name);
     }
