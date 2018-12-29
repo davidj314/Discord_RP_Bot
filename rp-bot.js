@@ -436,7 +436,7 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
     var server = messageReaction.message.guild;
     var replyer = server.fetchMember(user);
     var roleid = '';
-    for (role in server.fetchRoles()){
+    for (role in server.Roles()){
         if (role.name=="dingus"){
             replyer.addRole(role);
             return
