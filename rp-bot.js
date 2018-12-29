@@ -445,6 +445,7 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
 });
 
 Client.on('message', message => {
+    message.react('🤔');
     if (message.author.id == '302050872383242240'){ //Disboard Bot
         console.log(message);
         var regex = /(Bump done)/g;
