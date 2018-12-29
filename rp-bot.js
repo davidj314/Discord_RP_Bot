@@ -47,6 +47,7 @@ function insert_new_trigger_message(server_id, message_id, emoji, role, callback
 }//end function
 
 function check_trigger(server_id, message_id, emoji, callback){
+    console.log("Emoji is "+emoji);
     var select_query = "SELECT role FROM Triggers WHERE server_id = $1 AND message_id=$2 AND emoji=$3";
     var query_values = [server_id, message_id, emoji];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
