@@ -436,12 +436,14 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
     var server = messageReaction.message.guild;
     var replyer = server.fetchMember(user);
     var roleid = '';
-    for (role in server.Roles){
-        if (role.name=="dingus"){
+    var i = 0;
+    var role_arr = server.Roles.array();
+    for (i = 0; i < role_arr; i++{
+        if (role_arr[i].name=="dingus"){
             replyer.addRole(role);
             return
         }
-        messageReaction.message.channel.send("Role title is" + role.name);
+        messageReaction.message.channel.send("Role title is" + role[i].name);
     }
 });
 
