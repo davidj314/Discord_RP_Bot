@@ -82,7 +82,7 @@ function make_Bumps(){
 }//end function
 
 function make_disboard_details(){
-    var create_query = "CREATE TABLE Disboard_Details(id SERIAL, server_id bigint NOT NULL, command_char char(255) NOT NULL, reward bigint NOT NULL, UNIQUE(server_id))";
+    var create_query = "CREATE TABLE Disboard_Details(id SERIAL, server_id bigint NOT NULL, command_char varchar(10) NOT NULL, reward bigint NOT NULL, UNIQUE(server_id))";
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
     pool.query(ceate_query,(err, result) => {
         if (err) {
@@ -555,9 +555,8 @@ function message_channel(channel, message){
 }
 
 function disboard_check(message){
-    if (message.author.id == '302050872383242240'){ //Disboard Bot
-        console.log(message);
-        var regex = /(Bump done)/g;
+    if (message.author.id == '292953664492929025'){ //Pizza Bot
+        var regex = /(cash balance)/g;
         var found = message.embeds[0].description.match(regex);
         if (found != null){
             message.channel.fetchMessages({ limit: 9 })
@@ -625,6 +624,13 @@ Client.on('message', message => {
                 var trigger = args[2];
                 var role = args[3];
                 insert_new_trigger_message(guild_id, message_id, trigger, role, (msg)=>{channel.send(msg)});
+                break;
+                
+            case 'bump_details':
+                if (args.length != 3)break;
+                var prefix = args[1];
+                var amount = args[2];
+                insert_disboard_details(guild_id, prefix, amount);
                 break;
                 
             case 'bumps':
