@@ -84,7 +84,7 @@ function make_Bumps(){
 function make_disboard_details(){
     var create_query = "CREATE TABLE Disboard_Details(id SERIAL, server_id bigint NOT NULL, command_char varchar(10) NOT NULL, reward bigint NOT NULL, UNIQUE(server_id))";
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-    pool.query(ceate_query,(err, result) => {
+    pool.query(create_query,(err, result) => {
         if (err) {
             console.log('error occurred');
             return console.error('Error executing query', err.stack);;
