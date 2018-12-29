@@ -46,6 +46,27 @@ function insert_new_trigger_message(server_id, message_id, emoji, role, callback
     });
 }//end function
 
+function check_trigger(server_id, message_id, emoji, callback){
+    var select_query = "SELECT role FROM Triggers WHERE server_id = $1 AND message_id=$2 AND emoji=$3";
+    var query_values = [server_id, message_id, emoji];
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        //No returned rows indicate provided key is not associated with any row
+        else if (result.rows.length == 0) {
+            return;
+        }
+        //successfully found a result. Passes associated value to the callback function
+        else{
+            callback(result[0].role)   
+        }
+    }); //end pool.query 
+    pool.end()
+}//end function
 
 //Creates table to hold character names. Does not check for table existing beforehand.
 function make_Bumps(){
@@ -466,18 +487,17 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
     messageReaction.message.channel.send("Reaction noted");
     var message_id = messageReaction.message.id;
     var server = messageReaction.message.guild;
-    
-    check_id(message_id, server.id, messageReaction.name
-    var i = 0;
-    var role_arr = server.roles.array();
-    for (i = 0; i < role_arr.length; i++){
-        if (role_arr[i].name=="dingus"){
-            server.fetchMember(user).then(fetched => {
-                console.log(fetched.nickname);
-                fetched.addRole(role_arr[i]);
-            }).catch(console.error);
-                
-            return;
+    check_trigger(server.id, message_id, messageReaction.emoji.name, (role)=>{
+        var i = 0;
+        var role_arr = server.roles.array();
+        for (i = 0; i < role_arr.length; i++){
+            if (role_arr[i].name==role){
+                server.fetchMember(user).then(fetched => {
+                    console.log(fetched.nickname);
+                    fetched.addRole(role_arr[i]);
+                }).catch(console.error);
+                return;
+            }
         }
         messageReaction.message.channel.send("Role title is" + role_arr[i].name);
     }
