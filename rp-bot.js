@@ -98,7 +98,7 @@ function insert_disboard_details(server_id, command, reward){
     var insert_query = "INSERT INTO Disboard_Details(server_id, command_char, reward) VALUES ($1, $2, $3)";
     var values = [server_id, command, reward];
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-    pool.query(insert_query,(err, result) => {
+    pool.query(insert_query, values, (err, result) => {
         if (err) {
             if(err.code == '23505'){
                 var error_string = 'The key ' + key + ' is already in use.'
