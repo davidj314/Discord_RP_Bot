@@ -129,7 +129,7 @@ function get_disboard_details(server_id, write_error, build_reward){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
-            callback(result.rows[0].command_char, result.rows[0].reward);
+            build_reward(result.rows[0].command_char, result.rows[0].reward);
         }
     }); //end pool.query 
     pool.end()
