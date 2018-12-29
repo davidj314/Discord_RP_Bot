@@ -215,7 +215,7 @@ function get_bump_names(callback){
                 }      
                 callback(txt) ;  
                 clear_bumps();
-            }       
+            });       
         }
     }); //end pool.query     
     pool.end()
