@@ -270,21 +270,6 @@ function get_bumps(callback){
     pool.end()
 }//end function
 
-function add_bump(id, name){
-    var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES($1, $2)";
-    var values = [id, name];
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
-    // connection using created pool
-    pool.query(insert_query, values,  (err, res) => {
-        if (err){
-            console.log(err, res);
-        }
-        pool.end();
-    });    
-    
-}
-
-
 
 //Creates table for key-value lookups. Does not check for pre-existing table.
 function make_lookup(){
