@@ -411,13 +411,10 @@ function record_lookup(server_id, key, value, callback)
     console.log('in the add info function');
     var insert_query = "INSERT INTO Lookup (server_id, infokey, infoval) VALUES($1, $2, $3)";
     var values = [server_id, key, value];
-    var pool = new PG.Pool({
-  connectionString: process.env.DATABASE_URL,
-  SSL: true
-});
-// connection using created pool
-pool.query(insert_query, values,  (err, res) => {
-      //23505
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    // connection using created pool
+    pool.query(insert_query, values,  (err, res) => {
+    //23505
     if (err){
         if(err.code == '23505')
         {
@@ -490,13 +487,13 @@ Client.on('ready', () => {
             for (var j = 0; j < c.length; j++){
                 if (c[j].id == '457996925145186306'){
                     console.log('FOUND THE CHANNEL');
-                    var t = c[j].fetchMessage('528438369617707059');
-                    console.log(t.author);
+                    c[j].fetchMessage('528438369617707059').then(message=>{
+                    console.log(message.author);
+                    }).catch(console.error);
                 }
             }
         }
     }
-
 });
 
 Client.on('messageReactionAdd', (messageReaction, user)  => {
