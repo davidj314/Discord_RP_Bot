@@ -415,8 +415,7 @@ function get_all_vals(server_id, callback)
         }
         else{
             var txt = 'Records retrievable with rp!find command:\n';
-            var i;
-            for (i=0;i < result.rows.length; i++){
+            for (var i=0;i < result.rows.length; i++){
                 txt += result.rows[i].infokey;
                 txt += "\n";
             }
@@ -432,7 +431,7 @@ function get_all_vals(server_id, callback)
 function convert_to_userid(guildList, input, callback)
 {
     var found = false;
-    guildList.forEach(function(guildMember)
+    guildList.forEach((guildMember)=>
     {
         if (guildMember.user.username == input)
         {
