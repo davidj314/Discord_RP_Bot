@@ -500,7 +500,7 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
             }
         }
         messageReaction.message.channel.send("Role title is" + role_arr[i].name);
-    }
+    });
 });
 
 Client.on('message', message => {
