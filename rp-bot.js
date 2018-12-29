@@ -442,7 +442,7 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
             return
         }
     }
-}
+});
 
 Client.on('message', message => {
     if (message.author.id == '302050872383242240'){ //Disboard Bot
