@@ -442,8 +442,8 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
     for (i = 0; i < role_arr.length; i++){
         if (role_arr[i].name=="dingus"){
             server.fetchMember(user).then(fetched => {
-                console.log(user.nickname);
-                user.addRole(role_arr[i]);
+                console.log(fetched.nickname);
+                fetched.addRole(role_arr[i]);
             }).catch(console.error);
                 
             return;
