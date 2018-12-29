@@ -58,6 +58,7 @@ function check_trigger(server_id, message_id, emoji, callback){
         }
         //No returned rows indicate provided key is not associated with any row
         else if (result.rows.length == 0) {
+            console.log('No rows returned')
             return;
         }
         //successfully found a result. Passes associated value to the callback function
