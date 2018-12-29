@@ -543,6 +543,7 @@ function message_channel(channel, message){
 
 function disboard_check(message){
     if (message.author.id == '292953664492929025'){ //Pizza Bot
+        if (message.embeds.length == 0)return;
         var regex = /(cash balance)/g;
         var found = message.embeds[0].description.match(regex);
         if (found != null){
