@@ -1,3 +1,5 @@
+//----------------------------------------TABLE CREATION---------------------------------------------------
+
 //Creates table to hold character names. Does not check for table existing beforehand.
 function make_Names(){
     var ceate_query = "CREATE TABLE Names(id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, name varchar(255) NOT NULL, UNIQUE(server_id, name))";
@@ -20,49 +22,6 @@ function make_triggers(){
             return console.error('Error executing query', err.stack);;
         }
     });//end pool.query   
-    pool.end()
-}//end function
-
-function insert_new_trigger_message(server_id, message_id, emoji, role, callback)
-{
-    var insert_query = "INSERT INTO Triggers (server_id, message_id, emoji, role) VALUES($1, $2, $3, $4)";
-    var values = [server_id, message_id, emoji, role];
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-    // connection using created pool
-    pool.query(insert_query, values,  (err, res) => {
-        if (err){
-            if(err.code == '23505')
-            {
-                var error_string = 'A role is already assigned to that reaction.'
-                callback(error_string)
-            }
-            console.log(err, res);
-        }
-        pool.end();
-    });
-}//end function
-
-function check_trigger(server_id, message_id, emoji, callback){
-    console.log("Emoji is "+emoji);
-    var select_query = "SELECT role FROM Triggers WHERE server_id = $1 AND message_id=$2 AND emoji=$3";
-    var query_values = [server_id, message_id, emoji];
-    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
-    pool.query(select_query, query_values, (err, result) => {
-        console.log(result);
-        if (err) {
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);
-        }
-        //No returned rows indicate provided key is not associated with any row
-        else if (result.rows.length == 0) {
-            console.log('No rows returned')
-            return;
-        }
-        //successfully found a result. Passes associated value to the callback function
-        else{
-            callback(result.rows[0].role)   
-        }
-    }); //end pool.query 
     pool.end()
 }//end function
 
@@ -94,6 +53,41 @@ function make_disboard_details(){
     pool.end();
 }
 
+//Creates table for key-value lookups. Does not check for pre-existing table.
+function make_lookup(){
+    var ceate_query = "CREATE TABLE Lookup(id SERIAL, server_id bigint NOT NULL, infokey varchar(255) NOT NULL, infoval text NOT NULL, UNIQUE (server_id, infokey))";
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    pool.query(ceate_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+        console.log('no error');
+        console.log(result); 
+    });   //end pool.query
+    pool.end()
+}//end function
+
+//----------------------------------------TABLE INSERTS---------------------------------------------------
+function insert_new_trigger_message(server_id, message_id, emoji, role, callback)
+{
+    var insert_query = "INSERT INTO Triggers (server_id, message_id, emoji, role) VALUES($1, $2, $3, $4)";
+    var values = [server_id, message_id, emoji, role];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    // connection using created pool
+    pool.query(insert_query, values,  (err, res) => {
+        if (err){
+            if(err.code == '23505')
+            {
+                var error_string = 'A role is already assigned to that reaction.'
+                callback(error_string)
+            }
+            console.log(err, res);
+        }
+        pool.end();
+    });
+}//end function
+
 function insert_disboard_details(server_id, command, reward){
     var insert_query = "INSERT INTO Disboard_Details(server_id, command_char, reward) VALUES ($1, $2, $3)";
     var values = [server_id, command, reward];
@@ -111,6 +105,66 @@ function insert_disboard_details(server_id, command, reward){
     });//end pool.query   
     pool.end();
 }
+
+function add_bump(id, name){
+    var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES($1, $2)";
+    var values = [id, name];
+    console.log("Adding bump with following values for id and name:");
+    console.log(values);
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    // connection using created pool
+    pool.query(insert_query, values, (err, res) => {
+        if (err){
+            console.log(err, res);
+        }
+        pool.end();
+    });    
+}//end function
+
+//Saves a provided name to be associated with user's id and server's id.
+function record_name(server_id, owner_id, name, callback)
+{
+    console.log('in the add info function');
+    var insert_query = "INSERT INTO Names (server_id, owner_id, name ) VALUES($1, $2, $3)";
+    var values = [server_id, owner_id, name];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(insert_query, values,  (err, res) => {
+    //23505 is unique restriction violation
+    if (err){
+        if(err.code == '23505'){
+            var error_string = 'The name "' + name + '" is already in use.'
+            callback(error_string)
+        }
+    console.log(err, res);
+    }
+  pool.end();
+});
+}//end function
+
+//----------------------------------------TABLE SELECTS---------------------------------------------------
+function check_trigger(server_id, message_id, emoji, callback){
+    console.log("Emoji is "+emoji);
+    var select_query = "SELECT role FROM Triggers WHERE server_id = $1 AND message_id=$2 AND emoji=$3";
+    var query_values = [server_id, message_id, emoji];
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        //No returned rows indicate provided key is not associated with any row
+        else if (result.rows.length == 0) {
+            console.log('No rows returned')
+            return;
+        }
+        //successfully found a result. Passes associated value to the callback function
+        else{
+            callback(result.rows[0].role)   
+        }
+    }); //end pool.query 
+    pool.end()
+}//end function
 
 function get_disboard_details(server_id, write_error, build_reward){
     var select_query = "SELECT command_char, reward FROM Disboard_Details WHERE server_id = $1";
@@ -134,33 +188,6 @@ function get_disboard_details(server_id, write_error, build_reward){
     }); //end pool.query 
     pool.end()
 }
-
-function add_bump(id, name){
-    var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES($1, $2)";
-    var values = [id, name];
-    console.log("Adding bump with following values for id and name:");
-    console.log(values);
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
-    // connection using created pool
-    pool.query(insert_query, values, (err, res) => {
-        if (err){
-            console.log(err, res);
-        }
-        pool.end();
-    });    
-}//end function
-
-function populate_test_bumps(){
-    var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES('9992','Drake'),('9992','Drakenwoof'),('1234','Phil')";
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
-    // connection using created pool
-    pool.query(insert_query ,  (err, res) => {
-        if (err){
-            console.log(err, res);
-        }
-        pool.end();
-    });    
-}//end function
 
 function get_bump_names(server_id, callback){
     var names_query = "SELECT bumper_name, bumper_id, COUNT (bumper_name) FROM Bumps GROUP BY bumper_name, bumper_id";
@@ -223,70 +250,6 @@ function get_bump_names(server_id, callback){
     pool.end()
 }//end function
 
-function clear_bumps(){
-    console.log('Deleting stuff');
-    var select_query = "DELETE FROM Bumps WHERE id > 0";
-    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
-    pool.query(select_query, (err, result) => {
-        if (err) {
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);
-        }
-    }); //end pool.query
-    pool.end()
-}//end function
-
-
-function get_bumps(callback){
-    var select_query = "SELECT bumper_id, COUNT (bumper_id) FROM Bumps GROUP BY bumper_id";
-    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
-    pool.query(select_query, (err, result) => {
-        console.log(result);
-        if (err) {
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);
-        }
-        //No returned rows indicate provided key is not associated with any row
-        else if (result.rows.length == 0) {
-            callback('No successful bumps since last call');
-        }
-        //successfully found a result. Passes associated value to the callback function
-        else{
-            get_disboard_details(server_id, callback, (command, reward)=>{
-                var txt = 'Add-money calls:\n';
-                for (var i=0;i < result.rows.length; i++){
-                    txt += command;
-                    txt += 'add-money  ';
-                    txt += result.rows[i].bumper_id;
-                    txt += " ";
-                    var money = parseInt(reward) * parseInt(result.rows[i].count);
-                    txt += money.toString() + "\n";
-                }      
-                callback(txt) ;  
-                clear_bumps();
-            });
-        }
-    }); //end pool.query 
-    pool.end()
-}//end function
-
-
-//Creates table for key-value lookups. Does not check for pre-existing table.
-function make_lookup(){
-    var ceate_query = "CREATE TABLE Lookup(id SERIAL, server_id bigint NOT NULL, infokey varchar(255) NOT NULL, infoval text NOT NULL, UNIQUE (server_id, infokey))";
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-    pool.query(ceate_query,(err, result) => {
-        if (err) {
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);;
-        }
-        console.log('no error');
-        console.log(result); 
-    });   //end pool.query
-    pool.end()
-}//end function
-
-
 function get_lookup_val(server_id, key, callback){
     var select_query = "SELECT infoval FROM Lookup WHERE server_id = $1 AND infokey = $2";
     var query_values = [server_id, key];
@@ -308,22 +271,6 @@ function get_lookup_val(server_id, key, callback){
     }); //end pool.query 
     pool.end()
 }//end function
-
-
-//Deletes row for indicated key. This function is only accessed after checking for proper permissions beforehand
-function delete_lookup_val(server_id, key){
-    var select_query = "DELETE FROM Lookup WHERE server_id = $1 AND infokey = $2";
-    var query_values = [server_id, key];
-    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
-    pool.query(select_query, query_values, (err, result) => {
-        if (err) {
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);
-        }
-    }); //end pool.query
-    pool.end()
-}//end function
-
 
 function get_authors_names(server_id, author_id, callback)
 {
@@ -358,6 +305,33 @@ function get_authors_names(server_id, author_id, callback)
     pool.end()
 }//end function
 
+//obtains all keys with associated values and uses callback function on a string containing all
+function get_all_vals(server_id, callback)
+{
+    var select_query = "SELECT infokey FROM Lookup WHERE server_id = $1";
+    var query_values = [server_id];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        else if (result.rows.length == 0) {
+            callback('No records found')
+        }
+        else{
+            var txt = 'Records retrievable with rp!find command:\n';
+            for (var i=0;i < result.rows.length; i++){
+                txt += result.rows[i].infokey;
+                txt += "\n";
+            }
+            callback(txt);   
+        }
+        console.log('no error');
+    });//end pool.query
+    pool.end()
+}//end function
+
 //obtains all character names associated with particular server_id and uses callback function on a string containing all
 function get_all_names(server_id, callback)
 {
@@ -386,32 +360,58 @@ function get_all_names(server_id, callback)
     pool.end()
 }//end function
 
-//obtains all keys with associated values and uses callback function on a string containing all
-function get_all_vals(server_id, callback)
+//this function creates a row with given key-value pair to be accessed later.
+function record_lookup(server_id, key, value, callback)
 {
-    var select_query = "SELECT infokey FROM Lookup WHERE server_id = $1";
-    var query_values = [server_id];
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    var insert_query = "INSERT INTO Lookup (server_id, infokey, infoval) VALUES($1, $2, $3)";
+    var values = [server_id, key, value];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    // connection using created pool
+    pool.query(insert_query, values,  (err, res) => {
+    //23505
+    if (err){
+        if(err.code == '23505')
+        {
+            var error_string = 'The key ' + key + ' is already in use.'
+            callback(error_string)
+        }
+    console.log(err, res);
+    }
+  pool.end();
+});
+}//end function
+
+//----------------------------------------TABLE DELETES---------------------------------------------------
+function clear_bumps(){
+    console.log('Deleting stuff');
+    var select_query = "DELETE FROM Bumps WHERE id > 0";
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, (err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+    }); //end pool.query
+    pool.end()
+}//end function
+
+
+//Deletes row for indicated key. This function is only accessed after checking for proper permissions beforehand
+function delete_lookup_val(server_id, key){
+    var select_query = "DELETE FROM Lookup WHERE server_id = $1 AND infokey = $2";
+    var query_values = [server_id, key];
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
         if (err) {
             console.log('error occurred');
             return console.error('Error executing query', err.stack);
         }
-        else if (result.rows.length == 0) {
-            callback('No records found')
-        }
-        else{
-            var txt = 'Records retrievable with rp!find command:\n';
-            for (var i=0;i < result.rows.length; i++){
-                txt += result.rows[i].infokey;
-                txt += "\n";
-            }
-            callback(txt);   
-        }
-        console.log('no error');
-    });//end pool.query
+    }); //end pool.query
     pool.end()
 }//end function
+
+//END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS
+
 
 //converts a given name or nickname into the user's id. The id is what associates the user with their associated content.
 //This function is used in conjunction with any function where a user passes another user as an attribute to the bot's functions.
@@ -445,48 +445,6 @@ function convert_to_userid(guildList, input, callback)
     }
 }//end function
 
-//this function creates a row with given key-value pair to be accessed later.
-function record_lookup(server_id, key, value, callback)
-{
-    console.log('in the add info function');
-    var insert_query = "INSERT INTO Lookup (server_id, infokey, infoval) VALUES($1, $2, $3)";
-    var values = [server_id, key, value];
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-    // connection using created pool
-    pool.query(insert_query, values,  (err, res) => {
-    //23505
-    if (err){
-        if(err.code == '23505')
-        {
-            var error_string = 'The key ' + key + ' is already in use.'
-            callback(error_string)
-        }
-    console.log(err, res);
-    }
-  pool.end();
-});
-}//end function
-
-//Saves a provided name to be associated with user's id and server's id.
-function record_name(server_id, owner_id, name, callback)
-{
-    console.log('in the add info function');
-    var insert_query = "INSERT INTO Names (server_id, owner_id, name ) VALUES($1, $2, $3)";
-    var values = [server_id, owner_id, name];
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
-    pool.query(insert_query, values,  (err, res) => {
-    //23505 is unique restriction violation
-    if (err){
-        if(err.code == '23505'){
-            var error_string = 'The name "' + name + '" is already in use.'
-            callback(error_string)
-        }
-    console.log(err, res);
-    }
-  pool.end();
-});
-}//end function
-
 //A simple function to generate a random whole number with the range being between min and max inclusively
 //High and low are given in whichever order. If only one number is give, the range is between 0 and that number.
 function roll(high, callback,  low = 0)
@@ -513,26 +471,6 @@ function roll(high, callback,  low = 0)
     }
     callback(Math.floor(Math.random() * (high_val+1 - low_val) + low_val))
 }
-
-var Discord = require('discord.js');
-var Client = new Discord.Client();
-var PG = require('pg');
-Client.on('ready', () => {
-    console.log('I am ready!');
-    //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
-    var server = Client.guilds.array();
-    for(var i = 0; i < server.length; i++){
-        if (server[i].id == '457996924491005953'){
-            var channel = server[i].channels.array();
-            for (var j = 0; j < channel.length; j++){
-                if (channel[j].id == '457996925145186306'){
-                    channel[j].fetchMessage('528438369617707059').then(message=>{
-                    }).catch(console.error);
-                }
-            }
-        }
-    }
-});
 
 function disboard_check(message){
     if (message.author.id == '302050872383242240'){ //Disboard Bot
@@ -562,6 +500,25 @@ function disboard_check(message){
     }    
 }
 
+var Discord = require('discord.js');
+var Client = new Discord.Client();
+var PG = require('pg');
+Client.on('ready', () => {
+    console.log('I am ready!');
+    //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
+    var server = Client.guilds.array();
+    for(var i = 0; i < server.length; i++){
+        if (server[i].id == '457996924491005953'){
+            var channel = server[i].channels.array();
+            for (var j = 0; j < channel.length; j++){
+                if (channel[j].id == '457996925145186306'){
+                    channel[j].fetchMessage('528438369617707059').then(message=>{
+                    }).catch(console.error);
+                }
+            }
+        }
+    }
+});
 
 Client.on('messageReactionAdd', (messageReaction, user)  => {
     messageReaction.message.channel.send("Reaction noted");
@@ -594,8 +551,7 @@ Client.on('message', message => {
         var command = args[0];
         switch(command){
             case 'make_em':
-                //make_triggers();
-                make_disboard_details();
+            
                 break;
                 
             case 'trigger':
@@ -619,7 +575,6 @@ Client.on('message', message => {
                 }
                 else{
                     get_bump_names(guild_id, (msg) => {message.author.send(msg)});
-                    //get_bumps((msg) => {message.author.send(msg)});
                 }
                 break;
                 
@@ -696,8 +651,7 @@ Client.on('message', message => {
                 }
                 convert_to_userid(message.guild.members, author, (a_id)=>{ get_authors_names(guild_id, a_id, (msg)=>{channel.send(msg)})});
                 break;
-                
-                
+                          
             case 'delete':
                 if (args[1] == null)break;
                 //if caller lacks Administrator permissions, don't let them delete rows
