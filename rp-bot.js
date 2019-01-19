@@ -628,14 +628,18 @@ Client.on('message', message => {
         switch(command){
                 
             case 'drop_em':
-                drop_triggers();
+                //drop_triggers();
                 break;
                 
             case 'make_em':
-                make_triggers();
+                //make_triggers();
                 break;
                 
             case 'trigger':
+                if (message.member.hasPermission("ADMINISTRATOR") == false){
+                    channel.send('Need admin permission for that command')
+                    break;
+                }
                 if(args.length != 4)break;
                 var message_id = args[1];
                 var trigger = args[2];
@@ -650,6 +654,10 @@ Client.on('message', message => {
                 
             case 'bump_details':
                 if (args.length != 3)break;
+                if (message.member.hasPermission("ADMINISTRATOR") == false){
+                    channel.send('Need admin permission for that command')
+                    break;
+                }
                 var prefix = args[1];
                 var amount = args[2];
                 insert_disboard_details(guild_id, prefix, amount);
