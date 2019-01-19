@@ -14,7 +14,7 @@ function make_Names(){
 }//end function
 
 function make_triggers(){
-    var ceate_query = "CREATE TABLE Triggers(id SERIAL, server_id bigint NOT NULL, message_id bigint NOT NULL, emoji varchar (255) NOT NULL, role_snowflake bigint NOT NULL, UNIQUE(emoji, message_id))";
+    var ceate_query = "CREATE TABLE Triggers(id SERIAL, server_id bigint NOT NULL, channel_id bigint NOT NULL, message_id bigint NOT NULL, emoji varchar (255) NOT NULL, role_snowflake bigint NOT NULL, UNIQUE(emoji, message_id))";
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
     pool.query(ceate_query,(err, result) => {
         if (err) {
@@ -25,17 +25,6 @@ function make_triggers(){
     pool.end()
 }//end function
 
-function drop_triggers(){
-    var drop_query = "DROP TABLE Triggers";
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-    pool.query(drop_query,(err, result) => {
-        if (err) {
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);;
-        }
-    });//end pool.query   
-    pool.end()
-}
 
 //Creates table to hold character names. Does not check for table existing beforehand.
 function make_Bumps(){
@@ -81,10 +70,10 @@ function make_lookup(){
 }//end function
 
 //----------------------------------------TABLE INSERTS---------------------------------------------------
-function insert_new_trigger_message(server_id, message_id, emoji, role, callback)
+function insert_new_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
 {
-    var insert_query = "INSERT INTO Triggers (server_id, message_id, emoji, role_snowflake) VALUES($1, $2, $3, $4)";
-    var values = [server_id, message_id, emoji, role];
+    var insert_query = "INSERT INTO Triggers (server_id, channel_id, message_id, emoji, role_snowflake) VALUES($1, $2, $3, $4, $5)";
+    var values = [server_id, channel_id, message_id, emoji, role];
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
     // connection using created pool
     pool.query(insert_query, values,  (err, res) => {
@@ -154,6 +143,28 @@ function record_name(server_id, owner_id, name, callback)
 }//end function
 
 //----------------------------------------TABLE SELECTS---------------------------------------------------
+function get_triggers(callback){
+    var select_query = "SELECT server_id, channel_id, message_id FROM Triggers";
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        //No returned rows indicate provided key is not associated with any row
+        else if (result.rows.length == 0) {
+            console.log('No rows returned')
+            return;
+        }
+        //successfully found a result. Passes rows to the callback function
+        else{
+            callback(result.rows)   
+        }
+    }); //end pool.query 
+    pool.end()    
+}
+
 function check_trigger(server_id, message_id, emoji, callback){
     console.log("Emoji is "+emoji);
     var select_query = "SELECT role_snowflake FROM Triggers WHERE server_id = $1 AND message_id=$2 AND emoji=$3";
@@ -539,9 +550,20 @@ var PG = require('pg');
 Client.on('ready', () => {
     console.log('I am ready!');
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
-    var server = Client.guilds.array();
-    var otherChan = Client.guilds.get('457996924491005953').channels.get('457996925145186306');
-    otherChan.fetchMessage('528438369617707059').then(message=>{}).catch(console.error);
+    get_triggers((rows)=>{
+        
+        rows.forEach((row)=>{
+            var channel = Client.guilds.get(row.server_id).channels.get(row.channel_id);
+            channel.fetchMessage(row.message_id).then(message=>{}).catch(console.error);
+            
+        })
+        
+        
+        
+    })
+    //var server = Client.guilds.array();
+    //var otherChan = Client.guilds.get('457996924491005953').channels.get('457996925145186306');
+    //otherChan.fetchMessage('528438369617707059').then(message=>{}).catch(console.error);
 });
 
 Client.on('messageReactionAdd', (messageReaction, user)  => {
