@@ -83,7 +83,7 @@ function make_lookup(){
 //----------------------------------------TABLE INSERTS---------------------------------------------------
 function insert_new_trigger_message(server_id, message_id, emoji, role, callback)
 {
-    var insert_query = "INSERT INTO Triggers (server_id, message_id, emoji, role) VALUES($1, $2, $3, $4)";
+    var insert_query = "INSERT INTO Triggers (server_id, message_id, emoji, role_snowflake) VALUES($1, $2, $3, $4)";
     var values = [server_id, message_id, emoji, role];
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
     // connection using created pool
