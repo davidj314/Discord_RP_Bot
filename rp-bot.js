@@ -14,7 +14,7 @@ function make_Names(){
 }//end function
 
 function make_triggers(){
-    var ceate_query = "CREATE TABLE Triggers(id SERIAL, server_id bigint NOT NULL, message_id bigint NOT NULL, emoji varchar (255) NOT NULL, role varchar(255) NOT NULL, UNIQUE(emoji, message_id))";
+    var ceate_query = "CREATE TABLE Triggers(id SERIAL, server_id bigint NOT NULL, message_id bigint NOT NULL, emoji varchar (255) NOT NULL, role_snowflake bigint NOT NULL, UNIQUE(emoji, message_id))";
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
     pool.query(ceate_query,(err, result) => {
         if (err) {
@@ -79,7 +79,7 @@ function insert_new_trigger_message(server_id, message_id, emoji, role, callback
         if (err){
             if(err.code == '23505')
             {
-                var error_string = 'A role is already assigned to that reaction.'
+                var error_string = 'A role is already assigned to that reaction for that message.'
                 callback(error_string)
             }
             console.log(err, res);
@@ -500,6 +500,22 @@ function disboard_check(message){
     }    
 }
 
+function convert_role_to_snowflake(server, role, callback, printerror){
+    var role_array = server.roles.array();
+    var snowflake = -1;
+    for (var i = 0; i < role_array.length; i++){
+        if (role_array[i].name == role){
+            snowflake = role_array[i].id;
+            break;
+        }
+    }
+    
+    if (snowflake==-1) printerror();
+    else{
+        callback(snowflake);
+    }
+}
+
 var Discord = require('discord.js');
 var Client = new Discord.Client();
 var PG = require('pg');
@@ -509,17 +525,6 @@ Client.on('ready', () => {
     var server = Client.guilds.array();
     var otherChan = Client.guilds.get('457996924491005953').channels.get('457996925145186306');
     otherChan.fetchMessage('528438369617707059').then(message=>{}).catch(console.error);
-    //for(var i = 0; i < server.length; i++){
-      //  if (server[i].id == '457996924491005953'){
-        //    var channel = server[i].channels.array();
-          //  for (var j = 0; j < channel.length; j++){
-            //    if (channel[j].id == '457996925145186306'){
-              //      channel[j].fetchMessage('528438369617707059').then(message=>{
-                //    }).catch(console.error);
-               // }
-            //}
-        //}
-   // }
 });
 
 Client.on('messageReactionAdd', (messageReaction, user)  => {
@@ -561,7 +566,11 @@ Client.on('message', message => {
                 var message_id = args[1];
                 var trigger = args[2];
                 var role = args[3];
-                insert_new_trigger_message(guild_id, message_id, trigger, role, (msg)=>{channel.send(msg)});
+                convert_role_to_snowflake(message.guild, role, (snowflake)=>{ 
+                    insert_new_trigger_message(guild_id, message_id, trigger, snowflake, (msg)=>{
+                        channel.send(msg)
+                    })
+                }, channel.send("Failed to make trigger"));
                 break;
                 
             case 'bump_details':
