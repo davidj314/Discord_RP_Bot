@@ -25,6 +25,18 @@ function make_triggers(){
     pool.end()
 }//end function
 
+function drop_triggers(){
+    var drop_query = "DROP TABLE Triggers";
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    pool.query(drop_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+    });//end pool.query   
+    pool.end()
+}
+
 //Creates table to hold character names. Does not check for table existing beforehand.
 function make_Bumps(){
     var ceate_query = "CREATE TABLE Bumps(id SERIAL, server_id bigint NOT NULL, bumper_id bigint NOT NULL, bumper_name varchar(255) NOT NULL)";
@@ -558,8 +570,13 @@ Client.on('message', message => {
     	var args = message.content.substring(3).split(' ');
         var command = args[0];
         switch(command){
+                
+            case 'drop_em':
+                drop_triggers();
+                break;
+                
             case 'make_em':
-            
+                make_triggers();
                 break;
                 
             case 'trigger':
