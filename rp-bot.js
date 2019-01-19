@@ -562,16 +562,12 @@ Client.on('ready', () => {
     console.log('I am ready!');
     return;
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
-    get_triggers((rows)=>{
-        
+    get_triggers((rows)=>{        
         rows.forEach((row)=>{
             var channel = Client.guilds.get(row.server_id).channels.get(row.channel_id);
             channel.fetchMessage(row.message_id).then(message=>{}).catch(console.error);
-            
-        })
-        
-        
-        
+            console.log("Guild: ",row.server_id," Channel: ", row.channel_id, " Message: ", row.message_id);
+        })   
     })
     //var server = Client.guilds.array();
     //var otherChan = Client.guilds.get('457996924491005953').channels.get('457996925145186306');
