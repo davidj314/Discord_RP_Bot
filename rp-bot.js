@@ -444,6 +444,26 @@ function delete_lookup_val(server_id, key){
     pool.end()
 }//end function
 
+//Saves a provided name to be associated with user's id and server's id.
+function delete_character(server_id, owner_id, name, callback)
+{
+    var delete_query = "DELETE FROM Names WHERE server_id=$1, owner_id=$2, name=$3)";
+    var values = [server_id, owner_id, name];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(insert_query, values,  (err, res) => {
+    //23505 is unique restriction violation
+    if (err){
+        if(err.code == '23505'){
+            var error_string = 'The name "' + name + '" is already in use.'
+            callback(error_string)
+        }
+    console.log(err, res);
+    }
+  cosole.log(res);
+  pool.end();
+});
+}//end function
+
 //END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS
 //----------------------------------------Discord functions---------------------------------------------------
 
@@ -546,11 +566,9 @@ function convert_role_to_snowflake(server, role, callback, printerror){
     }
     
     if (snowflake==-1){
-        console.log("printing error");
         printerror();
     }
     else{
-        console.log("Snowflake is ", snowflake);
         callback(snowflake);
     }
 }
@@ -562,15 +580,12 @@ Client.on('ready', () => {
     console.log('I am ready!');
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
     get_triggers((rows)=>{        
-        rows.forEach((row)=>{
+        rows.forEach((row)=>{//each returned row is a message to be cached
             var channel = Client.guilds.get(row.server_id).channels.get(row.channel_id);
             channel.fetchMessage(row.message_id).then(message=>{}).catch(console.error);
             console.log("Guild: ",row.server_id," Channel: ", row.channel_id, " Message: ", row.message_id);
         })   
     })
-    //var server = Client.guilds.array();
-    //var otherChan = Client.guilds.get('457996924491005953').channels.get('457996925145186306');
-    //otherChan.fetchMessage('528438369617707059').then(message=>{}).catch(console.error);
 });
 
 Client.on('messageReactionAdd', (messageReaction, user)  => {
@@ -706,6 +721,16 @@ Client.on('message', message => {
                     name += args[i];
                 }
                 record_name(guild_id, author_id, name, (msg)=>{channel.send(msg)});
+                break;
+                
+            case 'delete_character':
+                if (args[1] == null) break;
+                var name = '';
+                for (var i=1;i < args.length; i++){
+                    if (i > 1) name += ' ';
+                    name += args[i];
+                }
+                delete_character(guild_id, author_id, name, (msg)=>{channel.send(msg)});
                 break;
                 
             case 'characters':
