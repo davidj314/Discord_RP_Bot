@@ -459,7 +459,7 @@ function delete_character(server_id, owner_id, name, callback)
         }
     console.log(err, res);
     }
-  cosole.log(res);
+  console.log(res);
   pool.end();
 });
 }//end function
