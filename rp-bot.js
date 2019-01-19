@@ -156,7 +156,7 @@ function record_name(server_id, owner_id, name, callback)
 //----------------------------------------TABLE SELECTS---------------------------------------------------
 function check_trigger(server_id, message_id, emoji, callback){
     console.log("Emoji is "+emoji);
-    var select_query = "SELECT role FROM Triggers WHERE server_id = $1 AND message_id=$2 AND emoji=$3";
+    var select_query = "SELECT role_snowflake FROM Triggers WHERE server_id = $1 AND message_id=$2 AND emoji=$3";
     var query_values = [server_id, message_id, emoji];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
@@ -548,18 +548,24 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
     messageReaction.message.channel.send("Reaction noted");
     var message_id = messageReaction.message.id;
     var server = messageReaction.message.guild;
+    //check_trigger(server_id, message_id, emoji, callback)
     check_trigger(server.id, message_id, messageReaction.emoji.name, (role)=>{
-        var role_arr = server.roles.array();
-        for (var i = 0; i < role_arr.length; i++){
-            if (role_arr[i].name==role){
-                server.fetchMember(user).then(fetched => {
-                    console.log(fetched.nickname);
-                    fetched.addRole(role_arr[i]);
-                }).catch(console.error);
-                return;
-            }
+        if (role == null){
+            console.log("no role given");
+            return;
         }
-        messageReaction.message.channel.send("Role title is" + role_arr[i].name);
+        server.fetchMember(user).then(fetched=>{fetched.addRole(server.roles.get(role))});
+        //var role_arr = server.roles.array();
+        //for (var i = 0; i < role_arr.length; i++){
+        //    if (role_arr[i].name==role){
+        //        server.fetchMember(user).then(fetched => {
+        //           console.log(fetched.nickname);
+        //            fetched.addRole(role_arr[i]);
+        //        }).catch(console.error);
+        //        return;
+        //    }
+        //}
+        messageReaction.message.channel.send("Role title is" + server.roles.get(role).name);
     });
 });
 
