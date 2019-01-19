@@ -172,7 +172,7 @@ function check_trigger(server_id, message_id, emoji, callback){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
-            callback(result.rows[0].role)   
+            callback(result.rows[0].role_snowflake)   
         }
     }); //end pool.query 
     pool.end()
