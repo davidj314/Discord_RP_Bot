@@ -25,6 +25,17 @@ function make_triggers(){
     pool.end()
 }//end function
 
+function drop_triggers(){
+    var drop_query = "DROP TABLE Triggers";
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    pool.query(drop_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+    });//end pool.query   
+    pool.end()
+}//end function
 
 //Creates table to hold character names. Does not check for table existing beforehand.
 function make_Bumps(){
