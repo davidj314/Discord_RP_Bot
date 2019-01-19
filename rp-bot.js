@@ -592,7 +592,6 @@ Client.on('ready', () => {
 });
 
 Client.on('messageReactionAdd', (messageReaction, user)  => {
-    messageReaction.message.channel.send("Reaction noted");
     var message_id = messageReaction.message.id;
     var server = messageReaction.message.guild;
     check_trigger(server.id, message_id, messageReaction.emoji.name, (role)=>{
@@ -605,7 +604,6 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
 });
 
 Client.on('messageReactionRemove', (messageReaction, user)  => {
-    messageReaction.message.channel.send("Reaction noted");
     var message_id = messageReaction.message.id;
     var server = messageReaction.message.guild;
     check_trigger(server.id, message_id, messageReaction.emoji.name, (role)=>{
