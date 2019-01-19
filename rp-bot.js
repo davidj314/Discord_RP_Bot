@@ -411,7 +411,7 @@ function delete_lookup_val(server_id, key){
 }//end function
 
 //END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS
-
+//----------------------------------------Discord functions---------------------------------------------------
 
 //converts a given name or nickname into the user's id. The id is what associates the user with their associated content.
 //This function is used in conjunction with any function where a user passes another user as an attribute to the bot's functions.
@@ -472,23 +472,23 @@ function roll(high, callback,  low = 0)
     callback(Math.floor(Math.random() * (high_val+1 - low_val) + low_val))
 }
 
+//This function takes a message and checks to see if it is disboard confirming a bump
+//If a bump is confirmed it will check the preceeding messages to find the bumper
 function disboard_check(message){
     if (message.author.id == '302050872383242240'){ //Disboard Bot
-        if (message.embeds.length == 0)return;
+        if (message.embeds.length == 0)return; //not a bump confirmation. Return
         var regex = /(Bump done)/g;
         var found = message.embeds[0].description.match(regex);
-        if (found != null){
+        if (found != null){ //found not being null means there was bump confirmation
             message.channel.fetchMessages({ limit: 9 })
             .then(messages => {
-                var m_array = messages.array();
-                var i;
+                var m_array = messages.array(); //m_array will hold the most recent messages, including the bump confirmation and bump command
                 var found_bump = false;
-                for (i=0;i < m_array.length; i++){
-                    console.log(m_array[i].content);
+                for (var i=0;i < m_array.length; i++){
                     if (found_bump){
-                        if (!m_array[i].content.match(/^!disboard +(B|b)(U|u)(M|m)(P|p).*/)) continue;
-                        add_bump(m_array[i].author.id, m_array[i].author.username);
-                        i = m_array.length;
+                        if (!m_array[i].content.match(/^!disboard +(B|b)(U|u)(M|m)(P|p).*/)) continue; //continue looking if message isn't the bump command
+                        add_bump(m_array[i].author.id, m_array[i].author.username); //log the user as having a successful bump
+                        i = m_array.length; //terminate loop
                     }
                     else if (m_array[i].embeds.length > 0 && m_array[i].embeds[0].description.match(/(Bump done)/g)){
                         found_bump = true;
@@ -507,17 +507,19 @@ Client.on('ready', () => {
     console.log('I am ready!');
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
     var server = Client.guilds.array();
-    for(var i = 0; i < server.length; i++){
-        if (server[i].id == '457996924491005953'){
-            var channel = server[i].channels.array();
-            for (var j = 0; j < channel.length; j++){
-                if (channel[j].id == '457996925145186306'){
-                    channel[j].fetchMessage('528438369617707059').then(message=>{
-                    }).catch(console.error);
-                }
-            }
-        }
-    }
+    var otherChan = Client.guilds.get('457996924491005953').channels.get('457996925145186306');
+    otherChan.fetchMessage('528438369617707059').then(message=>{}).catch(console.error);
+    //for(var i = 0; i < server.length; i++){
+      //  if (server[i].id == '457996924491005953'){
+        //    var channel = server[i].channels.array();
+          //  for (var j = 0; j < channel.length; j++){
+            //    if (channel[j].id == '457996925145186306'){
+              //      channel[j].fetchMessage('528438369617707059').then(message=>{
+                //    }).catch(console.error);
+               // }
+            //}
+        //}
+   // }
 });
 
 Client.on('messageReactionAdd', (messageReaction, user)  => {
