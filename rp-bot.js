@@ -140,7 +140,7 @@ function record_name(server_id, owner_id, name, callback)
     var insert_query = "INSERT INTO Names (server_id, owner_id, name ) VALUES($1, $2, $3)";
     var values = [server_id, owner_id, name];
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
-    pool.query(insert_query, values,  (err, res) => {
+    var printout =pool.query(insert_query, values,  (err, res) => {
     //23505 is unique restriction violation
     if (err){
         if(err.code == '23505'){
@@ -152,6 +152,8 @@ function record_name(server_id, owner_id, name, callback)
   console.log(res);
   pool.end();
 });
+    
+    console.log(printout);
 }//end function
 
 //----------------------------------------TABLE SELECTS---------------------------------------------------
