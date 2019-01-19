@@ -504,6 +504,7 @@ function convert_role_to_snowflake(server, role, callback, printerror){
     var role_array = server.roles.array();
     var snowflake = -1;
     for (var i = 0; i < role_array.length; i++){
+        console.print(role_array);
         if (role_array[i].name == role){
             snowflake = role_array[i].id;
             break;
