@@ -560,7 +560,6 @@ var Client = new Discord.Client();
 var PG = require('pg');
 Client.on('ready', () => {
     console.log('I am ready!');
-    return;
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
     get_triggers((rows)=>{        
         rows.forEach((row)=>{
