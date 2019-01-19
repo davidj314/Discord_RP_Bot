@@ -592,7 +592,7 @@ Client.on('message', message => {
                     insert_new_trigger_message(guild_id, message_id, trigger, snowflake, (msg)=>{
                         channel.send(msg)
                     })
-                }, channel.send("Failed to make trigger"));
+                }, ()=>{channel.send("Failed to make trigger")});
                 break;
                 
             case 'bump_details':
