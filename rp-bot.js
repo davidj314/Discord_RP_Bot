@@ -523,7 +523,10 @@ function convert_role_to_snowflake(server, role, callback, printerror){
         }
     }
     
-    if (snowflake==-1) printerror();
+    if (snowflake==-1){
+        console.log("printing error");
+        printerror();
+    }
     else{
         console.log("Snowflake is ", snowflake);
         callback(snowflake);
