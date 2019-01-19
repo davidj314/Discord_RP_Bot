@@ -447,7 +447,7 @@ function delete_lookup_val(server_id, key){
 //Saves a provided name to be associated with user's id and server's id.
 function delete_character(server_id, owner_id, name, callback)
 {
-    var delete_query = "DELETE FROM Names WHERE server_id=$1, owner_id=$2, name LIKE $3%)";
+    var delete_query = "DELETE FROM Names WHERE server_id=$1 AND owner_id=$2 AND name LIKE $3%)";
     var values = [server_id, owner_id, name];
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(delete_query, values,  (err, res) => {
