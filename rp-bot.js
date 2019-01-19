@@ -149,6 +149,7 @@ function record_name(server_id, owner_id, name, callback)
         }
     console.log(err, res);
     }
+  console.log(res);
   pool.end();
 });
 }//end function
