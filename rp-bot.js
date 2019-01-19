@@ -548,24 +548,25 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
     messageReaction.message.channel.send("Reaction noted");
     var message_id = messageReaction.message.id;
     var server = messageReaction.message.guild;
-    //check_trigger(server_id, message_id, emoji, callback)
     check_trigger(server.id, message_id, messageReaction.emoji.name, (role)=>{
         if (role == null){
             console.log("no role given");
             return;
         }
-        server.fetchMember(user).then(fetched=>{fetched.addRole(server.roles.get(role))});
-        //var role_arr = server.roles.array();
-        //for (var i = 0; i < role_arr.length; i++){
-        //    if (role_arr[i].name==role){
-        //        server.fetchMember(user).then(fetched => {
-        //           console.log(fetched.nickname);
-        //            fetched.addRole(role_arr[i]);
-        //        }).catch(console.error);
-        //        return;
-        //    }
-        //}
-        messageReaction.message.channel.send("Role title is" + server.roles.get(role).name);
+        server.fetchMember(user).then(fetched=>{fetched.addRole(server.roles.get(role))}); //fetches the user who reacted and adds the appropriate role
+    });
+});
+
+Client.on('messageReactionRemove', (messageReaction, user)  => {
+    messageReaction.message.channel.send("Reaction noted");
+    var message_id = messageReaction.message.id;
+    var server = messageReaction.message.guild;
+    check_trigger(server.id, message_id, messageReaction.emoji.name, (role)=>{
+        if (role == null){
+            console.log("no role removed");
+            return;
+        }
+        server.fetchMember(user).then(fetched=>{fetched.removeRole(server.roles.get(role))}); //fetches the user who reacted and adds the appropriate role
     });
 });
 
