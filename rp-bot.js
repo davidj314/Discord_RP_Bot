@@ -502,24 +502,24 @@ function mine_sweep_game(callback){
                         x[i-1][j-1]+=1;
                     }
                     if(not_bottom){
-                        x[i-1][j+1]+=1;
+                        x[i+1][j-1]+=1;
                     }
-                    x[i-1][j]+=1;
+                    x[i][j-1]+=1;
                 }
                 if(not_right){
                     if (not_top){
-                        x[i+1][j-1]+=1;
+                        x[i-1][j+1]+=1;
                     }
                     if(not_bottom){
                         x[i+1][j+1]+=1;
                     }
-                    x[i+1][j]+=1;
+                    x[i][j+1]+=1;
                 }
                 if(not_top){
-                    x[i][j-1]+=1;
+                    x[i-1][j]+=1;
                 }
                 if(not_bottom){
-                    x[i][j+1]+=1;
+                    x[i+1][j]+=1;
                 }
             }//end of incrementing adjacent
             else{
