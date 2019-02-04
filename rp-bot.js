@@ -530,14 +530,44 @@ function mine_sweep_game(callback){
         console.log(rowcheck);
     }//end of per row
     
-    var blahblah = "";
+    var return_string = "";
     for (var i = 0; i < x.length; i++){
         for(var j = 0; j < x[i].length; j++){
-            blahblah += x[i][j]+' ';   
+            var cell = x[i][j];
+            if(cell <0){
+                return_string+= '||:whie:||'
+            }
+            else if(cell ==0){
+                return_string+= '||:white_medium_square: ||'
+            }
+            else if(cell ==1){
+                return_string+= '||:one:||'
+            }
+            else if(cell ==2){
+                return_string+= '||:two:||'
+            }
+            else if(cell ==3){
+                return_string+= '||:three:||'
+            }
+            else if(cell ==4){
+                return_string+= '||:four:||'
+            }
+            else if(cell ==5){
+                return_string+= '||:five:||'
+            }
+            else if(cell ==6){
+                return_string+= '||:six:||'
+            }
+            else if(cell ==7){
+                return_string+= '||:seven:||'
+            }
+            else{
+                return_string+= '||:eight:||'
+            }
         }
         blahblah +='\n'
     }
-    console.log(blahblah);
+    //console.log(blahblah);
     callback(blahblah);
 }//end of function
 
