@@ -487,7 +487,10 @@ function mine_sweep_game(callback){
             
             test_string+= cell
         });//end of foreach in row
+        test_string += '\n';
     });//end of foreach row
+    
+    console.log(test_string);
 }//end of function
 
 //converts a given name or nickname into the user's id. The id is what associates the user with their associated content.
