@@ -738,6 +738,11 @@ Client.on('message', message => {
                 
             case 'minesweeper':
                 mine_sweep_game((msg)=>{channel.send(msg)});
+                break;
+                
+            case 'minecode':
+                mine_sweep_game((msg)=>{channel.send("'"+msg+"'")});
+                break;
                 
             case 'trigger':
                 if (message.member.hasPermission("ADMINISTRATOR") == false){
