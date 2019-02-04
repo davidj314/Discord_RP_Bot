@@ -472,7 +472,7 @@ function delete_character(server_id, owner_id, name, callback)
 
 
 function mine_sweep_game(callback){
-    console.log('int the minesweeper function);
+    console.log('int the minesweeper function');
     var test_string = 'Testing \n';
     var x = new Array(4);
     for (var i = 0; i < x.length; i++) {
@@ -484,10 +484,10 @@ function mine_sweep_game(callback){
         row.forEach((cell)=>
         {
             console.log('mathing');
-            if (Math.random()%10==5) cell = ':bomb:'
-            else cell = ':safe:'
+            if (Math.random()%10==5) cell = ':bomb:';
+            else cell = ':safe:';
             
-            test_string+= ':white_small_square:' 
+            test_string+= ':white_small_square:' ;
         });//end of foreach in row
         test_string += '\n';
     });//end of foreach row
