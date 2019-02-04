@@ -482,7 +482,7 @@ function mine_sweep_game(callback){
     
     for (var i = 0; i < x.length; i++) {
         for (var j = 0; j < x[i].length; j++){
-            if (Math.random()%10==5) x[i][j] = ':bomb:';
+            if (Math.random()%2==0) x[i][j] = ':bomb:';
             else x[i][j] = ':white_small_square:';
             test_string += x[i][j];
         }
