@@ -474,9 +474,9 @@ function delete_character(server_id, owner_id, name, callback)
 function mine_sweep_game(callback){
     console.log('int the minesweeper function');
     var test_string = 'Testing \n';
-    var x = new Array(4);
+    var x = new Array(8);
     for (var i = 0; i < x.length; i++) {
-        x[i] = new Array(4);
+        x[i] = new Array(8);
         for (var j = 0; j < x[i].length; j++){
             x[i][j] = 0;
         }
@@ -489,7 +489,7 @@ function mine_sweep_game(callback){
             var num = Math.floor(Math.random() * (5));
            // console.log(i,j);
             if (num==0){ //set this cell to bomb
-                console.log('X');
+                //console.log('X');
                 rowcheck += 'X';
                 x[i][j] = -20;//will stay negative regardless of adjacent bombs
                 var not_left = (j > 0);
@@ -523,7 +523,7 @@ function mine_sweep_game(callback){
                 }
             }//end of incrementing adjacent
             else{
-                console.log('O');
+                //console.log('O');
                 rowcheck+='O'   
             }
         }//end of per cell
