@@ -482,7 +482,7 @@ function mine_sweep_game(callback){
     
     for (var i = 0; i < x.length; i++) {
         for (var j = 0; j < x[i].length; j++){
-            var num = Math.floor(Math.random()%5);
+            var num = Math.floor(Math.random() * (5));
             console.log(num);
             if (num==0) x[i][j] = ':bomb:';
             else x[i][j] = ':white_small_square:';
