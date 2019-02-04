@@ -470,6 +470,26 @@ function delete_character(server_id, owner_id, name, callback)
 //END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS END OF DATABASE CALLS
 //----------------------------------------Discord functions---------------------------------------------------
 
+
+function mine_sweep_game(callback){
+    var test_string = '';
+    var x = new Array(12);
+    for (var i = 0; i < x.length; i++) {
+        x[i] = new Array(12);
+    }
+    
+    x.forEach((row)=>
+    {
+        row.forEach((cell)=>
+        {
+            if (Math.random()%10==5) cell = ':bomb:'
+            else cell = ':safe:'
+            
+            test_string+= cell
+        });//end of foreach in row
+    });//end of foreach row
+}//end of function
+
 //converts a given name or nickname into the user's id. The id is what associates the user with their associated content.
 //This function is used in conjunction with any function where a user passes another user as an attribute to the bot's functions.
 function convert_to_userid(guildList, input, callback)
