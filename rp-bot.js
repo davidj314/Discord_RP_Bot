@@ -472,16 +472,18 @@ function delete_character(server_id, owner_id, name, callback)
 
 
 function mine_sweep_game(callback){
-    var test_string = '';
-    var x = new Array(12);
+    console.log('int the minesweeper function);
+    var test_string = 'Testing \n';
+    var x = new Array(4);
     for (var i = 0; i < x.length; i++) {
-        x[i] = new Array(12);
+        x[i] = new Array(4);
     }
     
     x.forEach((row)=>
     {
         row.forEach((cell)=>
         {
+            console.log('mathing');
             if (Math.random()%10==5) cell = ':bomb:'
             else cell = ':safe:'
             
