@@ -521,6 +521,9 @@ function mine_sweep_game(callback){
                     x[i][j+1]+=1;
                 }
             }//end of incrementing adjacent
+            else{
+                rowcheck+='O'   
+            }
         }//end of per cell
         console.log(rowcheck);
     }//end of per row
