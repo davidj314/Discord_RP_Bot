@@ -501,7 +501,7 @@ function mine_sweep_game(callback){
                         x[i-1][j-1]+=1;
                     }
                     if(not_bottom){
-                        x[i-1][j+]+=1;
+                        x[i-1][j+1]+=1;
                     }
                     x[i-1][j]+=1;
                 }
