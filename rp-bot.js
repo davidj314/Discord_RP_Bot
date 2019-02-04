@@ -485,12 +485,13 @@ function mine_sweep_game(callback){
             if (Math.random()%10==5) cell = ':bomb:'
             else cell = ':safe:'
             
-            test_string+= cell
+            test_string+= ':white_small_square:' 
         });//end of foreach in row
         test_string += '\n';
     });//end of foreach row
     
     console.log(test_string);
+    callback(test_string);
 }//end of function
 
 //converts a given name or nickname into the user's id. The id is what associates the user with their associated content.
@@ -657,6 +658,9 @@ Client.on('message', message => {
             case 'make_em':
                 //make_triggers();
                 break;
+                
+            case 'minesweeper':
+                mine_sweep_game((msg)=>{channel.send(msg)});
                 
             case 'trigger':
                 if (message.member.hasPermission("ADMINISTRATOR") == false){
