@@ -565,10 +565,10 @@ function mine_sweep_game(callback){
                 return_string+= '||:eight:||'
             }
         }
-        blahblah +='\n'
+        return_string +='\n'
     }
     //console.log(blahblah);
-    callback(blahblah);
+    callback(return_string);
 }//end of function
 
 //converts a given name or nickname into the user's id. The id is what associates the user with their associated content.
