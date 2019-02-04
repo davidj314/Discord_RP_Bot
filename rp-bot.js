@@ -487,8 +487,9 @@ function mine_sweep_game(callback){
         var rowcheck = '';
         for (var j = 0; j < x[i].length; j++){
             var num = Math.floor(Math.random() * (5));
-            
+            console.log(i,j);
             if (num==0){ //set this cell to bomb
+                console.log('X');
                 rowcheck += 'X';
                 x[i][j] = -20;//will stay negative regardless of adjacent bombs
                 var not_left = (j > 0);
@@ -522,6 +523,7 @@ function mine_sweep_game(callback){
                 }
             }//end of incrementing adjacent
             else{
+                console.log('O');
                 rowcheck+='O'   
             }
         }//end of per cell
