@@ -479,19 +479,15 @@ function mine_sweep_game(callback){
         x[i] = new Array(4);
     }
     
-    x.forEach((row)=>
-    {
-        row.forEach((cell)=>
-        {
-            console.log('mathing');
-            if (Math.random()%10==5) cell = ':bomb:';
-            else cell = ':safe:';
-            
-            test_string+= ':white_small_square:' ;
-        });//end of foreach in row
-        test_string += '\n';
-    });//end of foreach row
     
+    for (var i = 0; i < x.length; i++) {
+        for (var j = 0; j < x[i].length; j++){
+            if (Math.random()%10==5) x[i][j] = ':bomb:';
+            else x[i][j] = ':white_small_square:';
+            test_string += x[i][j];
+        }
+        test_string += '\n';
+    }    
     console.log(test_string);
     callback(test_string);
 }//end of function
