@@ -487,7 +487,7 @@ function mine_sweep_game(callback){
         var rowcheck = '';
         for (var j = 0; j < x[i].length; j++){
             var num = Math.floor(Math.random() * (5));
-            console.log(i,j);
+           // console.log(i,j);
             if (num==0){ //set this cell to bomb
                 console.log('X');
                 rowcheck += 'X';
@@ -533,8 +533,9 @@ function mine_sweep_game(callback){
     var blahblah = "";
     for (var i = 0; i < x.length; i++){
         for(var j = 0; j < x[i].length; j++){
-            blahblah += x[i][j];   
+            blahblah += x[i][j]+' ';   
         }
+        blahblah +='\n'
     }
     console.log(blahblah);
     callback(blahblah);
