@@ -741,7 +741,7 @@ Client.on('message', message => {
                 break;
                 
             case 'minecode':
-                mine_sweep_game((msg)=>{channel.send("'"+msg+"'")});
+                mine_sweep_game((msg)=>{channel.send("`"+msg+"`")});
                 break;
                 
             case 'trigger':
