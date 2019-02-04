@@ -535,10 +535,10 @@ function mine_sweep_game(callback){
         for(var j = 0; j < x[i].length; j++){
             var cell = x[i][j];
             if(cell <0){
-                return_string+= '||:whie:||'
+                return_string+= '||:bomb:||'
             }
             else if(cell ==0){
-                return_string+= '||:white_medium_square: ||'
+                return_string+= '||:white_medium_square:||'
             }
             else if(cell ==1){
                 return_string+= '||:one:||'
