@@ -477,21 +477,62 @@ function mine_sweep_game(callback){
     var x = new Array(4);
     for (var i = 0; i < x.length; i++) {
         x[i] = new Array(4);
+        for (var j = 0; j < x[i].length; j++){
+            x[i][j] = 0;
+        }
     }
     
     
     for (var i = 0; i < x.length; i++) {
+        var rowcheck = '';
         for (var j = 0; j < x[i].length; j++){
             var num = Math.floor(Math.random() * (5));
-            console.log(num);
-            if (num==0) x[i][j] = ':bomb:';
-            else x[i][j] = ':white_small_square:';
-            test_string += x[i][j];
+            
+            if (num==0){ //set this cell to bomb
+                rowcheck += 'X';
+                x[i][j] = -20;//will stay negative regardless of adjacent bombs
+                var not_left = (j > 0);
+                var not_right = (j < x[i].length-1);
+                var not_top = (i > 0);
+                var not_bottom = (i < x.length-1);
+                
+                if(not_left){
+                    if (not_top){
+                        x[i-1][j-1]+=1;
+                    }
+                    if(not_bottom){
+                        x[i-1][j+]+=1;
+                    }
+                    x[i-1][j]+=1;
+                }
+                if(not_right){
+                    if (not_top){
+                        x[i+1][j-1]+=1;
+                    }
+                    if(not_bottom){
+                        x[i+1][j+1]+=1;
+                    }
+                    x[i+1][j]+=1;
+                }
+                if(not_top){
+                    x[i][j-1]+=1;
+                }
+                if(not_bottom){
+                    x[i][j+1]+=1;
+                }
+            }//end of incrementing adjacent
+        }//end of per cell
+        console.log(rowcheck);
+    }//end of per row
+    
+    var blahblah = "";
+    for (var i = 0; i < x.length; i++){
+        for(var j = 0; j < x[i].length; j++){
+            blahblah += x[i][j];   
         }
-        test_string += '\n';
-    }    
-    console.log(test_string);
-    callback(test_string);
+    }
+    console.log(blahblah);
+    callback(blahblah);
 }//end of function
 
 //converts a given name or nickname into the user's id. The id is what associates the user with their associated content.
