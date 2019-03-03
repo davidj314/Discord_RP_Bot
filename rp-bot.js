@@ -760,7 +760,7 @@ Client.on('message', message => {
                 var message_id = args[1];
                 var trigger = args[2];
                 var role = "";
-                for (var i = 3; i < args.length(); i++){
+                for (var i = 3; i < args.length; i++){
                     role += args[i];
                 }
                 //insert_new_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
@@ -781,7 +781,7 @@ Client.on('message', message => {
                 var message_id = args[1];
                 var trigger = args[2];
                 var role = "";
-                for (var i = 3; i < args.length(); i++){
+                for (var i = 3; i < args.length; i++){
                     role += args[i];
                 }
                 //insert_new_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
