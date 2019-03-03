@@ -751,7 +751,7 @@ Client.on('message', message => {
                     channel.send('Need admin permission for that command')
                     break;
                 }
-                if(args.length != 4)break;
+                if(args.length < 4)break;
                 var message_id = args[1];
                 var trigger = args[2];
                 var role = "";
