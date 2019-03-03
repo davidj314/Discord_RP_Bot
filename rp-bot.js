@@ -102,17 +102,12 @@ function insert_new_trigger_message(server_id, channel_id, message_id, emoji, ro
 
 function delete_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
 {
-    var insert_query = "DELETE FROM Triggers (server_id, channel_id, message_id, emoji, role_snowflake) VALUES($1, $2, $3, $4, $5)";
-    var values = [server_id, channel_id, message_id, emoji, role];
+    var insert_query = "DELETE FROM Triggers WHERE server_id = $3 AND message_id = $1 AND emoji = $2";
+    var values = [message_id, emoji, server_id];
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
     // connection using created pool
     pool.query(insert_query, values,  (err, res) => {
         if (err){
-            if(err.code == '23505')
-            {
-                var error_string = 'A role is already assigned to that reaction for that message.'
-                callback(error_string)
-            }
             console.log(err, res);
         }
         pool.end();
