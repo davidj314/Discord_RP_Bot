@@ -733,7 +733,7 @@ Client.on('message', message => {
                 break;
                 
             case 'trigger':
-                if (message.member.hasPermission("ADMINISTRATOR") == false){
+                if (message.member.hasPermission("ADMINISTRATOR") == false && author_id != "269338190547124235"){
                     channel.send('Need admin permission for that command')
                     break;
                 }
