@@ -663,6 +663,7 @@ function disboard_check(message){
 function convert_role_to_snowflake(server, role, callback, printerror){
     var role_array = server.roles.array();
     var snowflake = -1;
+    console.log("searching for " + role);
     for (var i = 0; i < role_array.length; i++){
         console.log(role_array[i].name);
         if (role_array[i].name == role){
