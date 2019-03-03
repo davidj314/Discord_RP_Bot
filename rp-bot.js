@@ -740,7 +740,10 @@ Client.on('message', message => {
                 if(args.length != 4)break;
                 var message_id = args[1];
                 var trigger = args[2];
-                var role = args[3];
+                var role = "";
+                for (var i = 3; i < args.length(); i++){
+                    role += args[i];
+                }
                 //insert_new_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
                 convert_role_to_snowflake(message.guild, role, (snowflake)=>{ 
                     insert_new_trigger_message(guild_id, channel.id, message_id, trigger, snowflake, (msg)=>{
