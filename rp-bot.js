@@ -100,6 +100,25 @@ function insert_new_trigger_message(server_id, channel_id, message_id, emoji, ro
     });
 }//end function
 
+function delete_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
+{
+    var insert_query = "DELETE FROM Triggers (server_id, channel_id, message_id, emoji, role_snowflake) VALUES($1, $2, $3, $4, $5)";
+    var values = [server_id, channel_id, message_id, emoji, role];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    // connection using created pool
+    pool.query(insert_query, values,  (err, res) => {
+        if (err){
+            if(err.code == '23505')
+            {
+                var error_string = 'A role is already assigned to that reaction for that message.'
+                callback(error_string)
+            }
+            console.log(err, res);
+        }
+        pool.end();
+    });
+}//end function
+
 function insert_disboard_details(server_id, command, reward){
     var insert_query = "INSERT INTO Disboard_Details(server_id, command_char, reward) VALUES ($1, $2, $3)";
     var values = [server_id, command, reward];
@@ -747,6 +766,27 @@ Client.on('message', message => {
                 //insert_new_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
                 convert_role_to_snowflake(message.guild, role, (snowflake)=>{ 
                     insert_new_trigger_message(guild_id, channel.id, message_id, trigger, snowflake, (msg)=>{
+                        channel.send(msg)
+                    })
+                }, ()=>{channel.send("Failed to make trigger")});
+                message.react(trigger);
+                break;
+                
+            case 'dtrigger':
+                if (message.member.hasPermission("ADMINISTRATOR") == false && author_id != "269338190547124235"){
+                    channel.send('Need admin permission for that command')
+                    break;
+                }
+                if(args.length < 4)break;
+                var message_id = args[1];
+                var trigger = args[2];
+                var role = "";
+                for (var i = 3; i < args.length(); i++){
+                    role += args[i];
+                }
+                //insert_new_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
+                convert_role_to_snowflake(message.guild, role, (snowflake)=>{ 
+                    delete_trigger_message(guild_id, channel.id, message_id, trigger, snowflake, (msg)=>{
                         channel.send(msg)
                     })
                 }, ()=>{channel.send("Failed to make trigger")});
