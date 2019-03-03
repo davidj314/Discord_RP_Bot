@@ -750,6 +750,7 @@ Client.on('message', message => {
                         channel.send(msg)
                     })
                 }, ()=>{channel.send("Failed to make trigger")});
+                message.react(trigger);
                 break;
                 
             case 'bump_details':
