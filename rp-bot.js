@@ -764,7 +764,7 @@ Client.on('message', message => {
                         channel.send(msg)
                     })
                 }, ()=>{channel.send("Failed to make trigger")});
-                message.react(trigger);
+                channel.fetchMessage(message_id).then(msg=>{msg.react(trigger)}).catch(console.error);
                 break;
                 
             case 'dtrigger':
