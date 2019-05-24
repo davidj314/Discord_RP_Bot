@@ -694,7 +694,7 @@ Client.on('ready', () => {
             
             console.log("Guild: ",row.server_id," Channel: ", row.channel_id, " Message: ", row.message_id);
             }
-            catch(){
+            catch{
                 ;   
             }
         })   
