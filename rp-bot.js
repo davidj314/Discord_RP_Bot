@@ -688,14 +688,15 @@ Client.on('ready', () => {
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
     get_triggers((rows)=>{        
         rows.forEach((row)=>{//each returned row is a message to be cached
-            var channel = Client.guilds.get(row.server_id).channels.get(row.channel_id);
             try{
+            var channel = Client.guilds.get(row.server_id).channels.get(row.channel_id);
             channel.fetchMessage(row.message_id).then(message=>{}).catch(console.error);
+            
+            console.log("Guild: ",row.server_id," Channel: ", row.channel_id, " Message: ", row.message_id);
             }
-            catch{
+            catch(){
                 ;   
             }
-            console.log("Guild: ",row.server_id," Channel: ", row.channel_id, " Message: ", row.message_id);
         })   
     })
 });
