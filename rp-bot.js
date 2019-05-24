@@ -689,7 +689,12 @@ Client.on('ready', () => {
     get_triggers((rows)=>{        
         rows.forEach((row)=>{//each returned row is a message to be cached
             var channel = Client.guilds.get(row.server_id).channels.get(row.channel_id);
+            try{
             channel.fetchMessage(row.message_id).then(message=>{}).catch(console.error);
+            }
+            catch{
+                ;   
+            }
             console.log("Guild: ",row.server_id," Channel: ", row.channel_id, " Message: ", row.message_id);
         })   
     })
