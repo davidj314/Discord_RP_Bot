@@ -730,10 +730,6 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
 Client.on('message',  async message => {
     disboard_check(message);
     
-    
-    const channel = member.guild.channels.find(ch => ch.name === 'member-log');
-	if (!channel) return;
-
 	const canvas = Canvas.createCanvas(700, 250);
 	const ctx = canvas.getContext('2d');
 
@@ -748,7 +744,7 @@ Client.on('message',  async message => {
 
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 
-	channel.send(`Testing a thing`, attachment);
+	message.channel.send(`Testing a thing`, attachment);
     
     
     
