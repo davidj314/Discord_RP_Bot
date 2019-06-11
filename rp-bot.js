@@ -776,7 +776,7 @@ Client.on('message',  async message => {
 	ctx.drawImage(bigsandor, 247, 264,  92, 114);
 		
 	// Select the font size and type from one of the natively available fonts
-	ctx.font = '12px sans-serif';
+	ctx.font = '20px sans-serif';
 	// Select the style that will be used to fill the text in
 	ctx.fillStyle = '#ffffff';
 	ctx.strokeStyle = 'black';
