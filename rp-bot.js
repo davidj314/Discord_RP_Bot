@@ -782,13 +782,31 @@ Client.on('message',  async message => {
 	ctx.strokeStyle = 'black';
 	ctx.lineWidth = 1; 
 	// Actually fill the text with a solid color
-	ctx.fillText(" 4 \n4  4\n 4", 55, 40);
+	ctx.fillText("  4 \n4  4\n  4", 55, 40);
 	ctx.fillText("  4 \n4  4\n  4", 55, 160);
-	ctx.fillText(" 4 \n4   4\n 4", 55, 280);
+	ctx.fillText("  4 \n4  4\n  4", 55, 280);
 		
-	ctx.strokeText(" 4 \n4  4\n 4", 55, 40);
+	ctx.strokeText("  4 \n4  4\n  4", 55, 40);
 	ctx.strokeText("  4 \n4  4\n  4", 55, 160);
-	ctx.strokeText(" 4 \n4   4\n 4", 55, 280);
+	ctx.strokeText("  4 \n4  4\n  4", 55, 280);
+		
+		
+	ctx.fillText("  4 \n4  4\n  4", 151, 40);
+	ctx.fillText("  4 \n4  4\n  4", 151, 160);
+	ctx.fillText("  4 \n4  4\n  4", 151, 280);
+		
+	ctx.strokeText("  4 \n4  4\n  4", 151, 40);
+	ctx.strokeText("  4 \n4  4\n  4", 151, 160);
+	ctx.strokeText("  4 \n4  4\n  4", 151, 280);
+		
+		
+	ctx.fillText("  4 \n4  4\n  4", 247, 40);
+	ctx.fillText("  4 \n4  4\n  4", 247, 160);
+	ctx.fillText("  4 \n4  4\n  4", 247, 280);
+		
+	ctx.strokeText("  4 \n4  4\n  4", 247, 40);
+	ctx.strokeText("  4 \n4  4\n  4", 247, 160);
+	ctx.strokeText("  4 \n4  4\n  4", 247, 280);
 		
 		
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
