@@ -739,8 +739,6 @@ Client.on('message',  async message => {
 	ctx.strokeStyle = '#74037b';
 	ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
-	// Draw a shape onto the main canvas
-	ctx.drawImage(avatar, 25, 0, 200, canvas.height);
 
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 
@@ -749,6 +747,38 @@ Client.on('message',  async message => {
     
     
     
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
     
     
     
