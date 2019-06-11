@@ -749,28 +749,28 @@ Client.on('message',  async message => {
 	// Move the image downwards vertically and constrain its height to 200, so it's a square
 	
 	ctx.drawImage(bck1, 53, 24, 96, 120);
-	ctx.drawImage(avatar, 55, 26, 92, 116);
+	ctx.drawImage(bigsandor, 55, 26, 92, 116);
 		
 	ctx.drawImage(bck2, 149, 24, 96, 120);
 	ctx.drawImage(bigsandor, 151, 26,  92, 116);
 		
 	ctx.drawImage(bck1, 245, 24, 96, 120);
-	ctx.drawImage(woofer, 247, 26, 92, 116);
+	ctx.drawImage(bigsandor, 247, 26, 92, 116);
 		
 	ctx.drawImage(bck2, 53, 144, 96, 120);
 	ctx.drawImage(bigsandor, 55, 144,  92, 116);
 		
 	ctx.drawImage(bck1, 149, 144, 96, 120);
-	ctx.drawImage(woofer, 151, 144,  92, 116);
+	ctx.drawImage(bigsandor, 151, 144,  92, 116);
 		
 	ctx.drawImage(bck2, 245, 144, 96, 120);
-	ctx.drawImage(avatar, 247, 144, 92, 116);
+	ctx.drawImage(bigsandor, 247, 144, 92, 116);
 		
 	ctx.drawImage(bck1, 53, 264, 96, 120);
-	ctx.drawImage(woofer, 55, 264, 92, 116);
+	ctx.drawImage(bigsandor, 55, 264, 92, 116);
 		
 	ctx.drawImage(bck2, 149, 264, 96, 120);
-	ctx.drawImage(avatar, 151, 264, 92, 116);
+	ctx.drawImage(bigsandor, 151, 264, 92, 116);
 		
 	ctx.drawImage(bck1, 245, 264, 96, 120);
 	ctx.drawImage(bigsandor, 247, 264,  92, 116);
