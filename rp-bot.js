@@ -779,10 +779,15 @@ Client.on('message',  async message => {
 	ctx.font = '12px sans-serif';
 	// Select the style that will be used to fill the text in
 	ctx.fillStyle = '#ffffff';
+	ctx.strokeStyle = 'black';
 	// Actually fill the text with a solid color
 	ctx.fillText("   4   \n4    4\n   4", 55, 35);
 	ctx.fillText("   4   \n4    4\n   4", 55, 155);
 	ctx.fillText("   4   \n4    4\n   4", 55, 275);
+		
+	ctx.strokeText("   4   \n4    4\n   4", 55, 35);
+	ctx.strokeText("   4   \n4    4\n   4", 55, 155);
+	ctx.strokeText("   4   \n4    4\n   4", 55, 275);
 		
 		
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
