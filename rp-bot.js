@@ -744,34 +744,36 @@ Client.on('message',  async message => {
 	const bck2 = await Canvas.loadImage('https://cdn.wallpapersafari.com/59/21/pnqHVb.jpg');
 		
 	const avatar = await Canvas.loadImage('https://upload.wikimedia.org/wikipedia/en/thumb/b/b7/Squall_Leonhart.png/220px-Squall_Leonhart.png');
+	const bigsandor = await Canvas.loadImage('https://media.discordapp.net/attachments/560467474340904960/583611438929674261/dab.png');
+	const woofer = await Canvas.loadImage('https://media.discordapp.net/attachments/560467474340904960/582295261171286017/kisspng-dungeons-dragons-pathfinder-roleplaying-game-d20-5b29f51124a3e3.png?width=552&height=613');
 	// Move the image downwards vertically and constrain its height to 200, so it's a square
 	
 	ctx.drawImage(bck1, 53, 24, 96, 120);
 	ctx.drawImage(avatar, 55, 26, 92, 114);
 		
 	ctx.drawImage(bck2, 149, 24, 96, 120);
-	ctx.drawImage(avatar, 151, 26,  92, 114);
+	ctx.drawImage(bigsandor, 151, 26,  92, 114);
 		
 	ctx.drawImage(bck1, 245, 24, 96, 120);
-	ctx.drawImage(avatar, 247, 26, 92, 114);
+	ctx.drawImage(woofer, 247, 26, 92, 114);
 		
 	ctx.drawImage(bck2, 53, 144, 96, 120);
-	ctx.drawImage(avatar, 55, 144,  92, 114);
+	ctx.drawImage(bigsandor, 55, 144,  92, 114);
 		
 	ctx.drawImage(bck1, 149, 144, 96, 120);
-	ctx.drawImage(avatar, 151, 144,  92, 114);
+	ctx.drawImage(woofer, 151, 144,  92, 114);
 		
 	ctx.drawImage(bck2, 245, 144, 96, 120);
 	ctx.drawImage(avatar, 247, 144, 92, 114);
 		
 	ctx.drawImage(bck1, 53, 264, 96, 120);
-	ctx.drawImage(avatar, 55, 264, 92, 114);
+	ctx.drawImage(woofer, 55, 264, 92, 114);
 		
 	ctx.drawImage(bck2, 149, 264, 96, 120);
 	ctx.drawImage(avatar, 151, 264, 92, 114);
 		
 	ctx.drawImage(bck1, 245, 264, 96, 120);
-	ctx.drawImage(avatar, 247, 264,  92, 114);
+	ctx.drawImage(bigsandor, 247, 264,  92, 114);
 		
 		
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
