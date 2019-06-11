@@ -740,8 +740,8 @@ Client.on('message',  async message => {
 	ctx.strokeStyle = '#74037b';
 	ctx.strokeRect(0, 0, canvas.width, canvas.height);
 	
-	const bck1 = await Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTobq4AfhzvQjol52KHwq2Mo1zAfAbWis_wOCFLdZSS8Ydybc2gEw');
-	const bck2 = await Canvas.loadImage('https://cdn.wallpapersafari.com/59/21/pnqHVb.jpg');
+	const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
+	const bck2 = await Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ScbytNAjJFFGQRhGm-Me3ad-SJZbyzYm3A2FpU4MDsaao6D-');
 		
 	const avatar = await Canvas.loadImage('https://upload.wikimedia.org/wikipedia/en/thumb/b/b7/Squall_Leonhart.png/220px-Squall_Leonhart.png');
 	const bigsandor = await Canvas.loadImage('https://media.discordapp.net/attachments/560467474340904960/583611438929674261/dab.png');
