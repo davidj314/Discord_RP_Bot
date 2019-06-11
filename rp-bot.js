@@ -741,13 +741,13 @@ Client.on('message',  async message => {
 	ctx.strokeRect(0, 0, canvas.width, canvas.height);
 	
 	const bck = await Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTobq4AfhzvQjol52KHwq2Mo1zAfAbWis_wOCFLdZSS8Ydybc2gEw');
-	ctx.drawImage(bck, 53, 24, 90, 115);	
+	ctx.drawImage(bck, 53, 24, 96, 120);	
 
 	
     
     	const avatar = await Canvas.loadImage('https://upload.wikimedia.org/wikipedia/en/thumb/b/b7/Squall_Leonhart.png/220px-Squall_Leonhart.png');
 	// Move the image downwards vertically and constrain its height to 200, so it's a square
-	ctx.drawImage(avatar, 53, 24, 90, 115);
+	ctx.drawImage(avatar, 53, 24, 96, 120);
 		
 		
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
