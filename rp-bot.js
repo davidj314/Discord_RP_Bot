@@ -749,29 +749,29 @@ Client.on('message',  async message => {
 	ctx.drawImage(bck1, 53, 24, 96, 120);
 	ctx.drawImage(avatar, 53, 24, 96, 120);
 		
-	ctx.drawImage(bck2, 119, 24, 96, 120);
-	ctx.drawImage(avatar, 119, 24, 96, 120);
+	ctx.drawImage(bck2, 149, 24, 96, 120);
+	ctx.drawImage(avatar, 149, 24, 96, 120);
 		
-	ctx.drawImage(bck1, 215, 24, 96, 120);
-	ctx.drawImage(avatar, 215, 24, 96, 120);
+	ctx.drawImage(bck1, 245, 24, 96, 120);
+	ctx.drawImage(avatar, 245, 24, 96, 120);
 		
 	ctx.drawImage(bck2, 53, 144, 96, 120);
 	ctx.drawImage(avatar, 53, 144, 96, 120);
 		
-	ctx.drawImage(bck1, 119, 144, 96, 120);
-	ctx.drawImage(avatar, 119, 144, 96, 120);
+	ctx.drawImage(bck1, 149, 144, 96, 120);
+	ctx.drawImage(avatar, 149, 144, 96, 120);
 		
-	ctx.drawImage(bck2, 215, 144, 96, 120);
-	ctx.drawImage(avatar, 215, 144, 96, 120);
+	ctx.drawImage(bck2, 245, 144, 96, 120);
+	ctx.drawImage(avatar, 245, 144, 96, 120);
 		
 	ctx.drawImage(bck1, 53, 264, 96, 120);
 	ctx.drawImage(avatar, 53, 264, 96, 120);
 		
-	ctx.drawImage(bck2, 119, 264, 96, 120);
-	ctx.drawImage(avatar, 119, 264, 96, 120);
+	ctx.drawImage(bck2, 149, 264, 96, 120);
+	ctx.drawImage(avatar, 149, 264, 96, 120);
 		
-	ctx.drawImage(bck1, 215, 264, 96, 120);
-	ctx.drawImage(avatar, 215, 264, 96, 120);
+	ctx.drawImage(bck1, 245, 264, 96, 120);
+	ctx.drawImage(avatar, 245, 264, 96, 120);
 		
 		
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
