@@ -748,14 +748,21 @@ Client.on('message',  async message => {
 	const woofer = await Canvas.loadImage('https://media.discordapp.net/attachments/560467474340904960/582295261171286017/kisspng-dungeons-dragons-pathfinder-roleplaying-game-d20-5b29f51124a3e3.png?width=552&height=613');
 	// Move the image downwards vertically and constrain its height to 200, so it's a square
 	
-	ctx.drawImage(bck1, 53, 24, 96, 120);
-	ctx.drawImage(bigsandor, 55, 26, 92, 116);
+	const left = 53;
+	const top = 24;
+	const wo = 96;
+	const ho = 120;
+	ctx.drawImage(bck1, left, top, 96, 120);
+	ctx.drawImage(bigsandor, left+2, top+2, 92, 116);
 		
-	ctx.drawImage(bck2, 150, 24, 96, 120);
-	ctx.drawImage(bigsandor, 152, 26,  92, 116);
+	ctx.drawImage(bck2, left+wo+2, top, 96, 120);
+	ctx.drawImage(bigsandor, left+wo+2+2, top+2,  92, 116);
 		
-	ctx.drawImage(bck1, 247, 24, 96, 120);
-	ctx.drawImage(bigsandor, 249, 26, 92, 116);
+	ctx.drawImage(bck1, left+wo+wo+2+2, top, 96, 120);
+	ctx.drawImage(bigsandor, left+wo+wo+2+2+2, 26, 92, 116);
+		
+		
+		
 		
 	ctx.drawImage(bck2, 53, 144, 96, 120);
 	ctx.drawImage(bigsandor, 55, 146,  92, 116);
