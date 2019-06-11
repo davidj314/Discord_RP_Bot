@@ -740,8 +740,7 @@ Client.on('message',  async message => {
 	ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
 
-	const attachment = new Attachment(canvas.toBuffer(), 'welcome-image.png');
-
+	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 	message.channel.send(`Testing a thing`, attachment);
     
     
