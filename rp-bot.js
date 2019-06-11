@@ -780,7 +780,7 @@ Client.on('message',  async message => {
 	// Select the style that will be used to fill the text in
 	ctx.fillStyle = '#ffa500';
 	// Actually fill the text with a solid color
-	ctx.fillText("   4   \n4    4\n   4", 55, 28);
+	ctx.fillText("   4   \n4    4\n   4", 55, 35);
 		
 		
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
