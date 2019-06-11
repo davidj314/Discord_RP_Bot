@@ -745,7 +745,7 @@ Client.on('message',  async message => {
     
     	const avatar = await Canvas.loadImage('https://upload.wikimedia.org/wikipedia/en/thumb/b/b7/Squall_Leonhart.png/220px-Squall_Leonhart.png');
 	// Move the image downwards vertically and constrain its height to 200, so it's a square
-	ctx.drawImage(avatar, 30, 70, 115, 157);
+	ctx.drawImage(avatar, 70, 30, 115, 157);
 		
 		
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
