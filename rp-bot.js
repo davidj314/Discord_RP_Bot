@@ -778,7 +778,7 @@ Client.on('message',  async message => {
 	// Select the font size and type from one of the natively available fonts
 	ctx.font = '12px sans-serif';
 	// Select the style that will be used to fill the text in
-	ctx.fillStyle = '#ffa500';
+	ctx.fillStyle = '#ffffff';
 	// Actually fill the text with a solid color
 	ctx.fillText("   4   \n4    4\n   4", 55, 35);
 		
