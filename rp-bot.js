@@ -787,7 +787,7 @@ Client.on('message',  async message => {
 	ctx.fillText(" 4 \n4   4\n 4", 55, 280);
 		
 	ctx.strokeText(" 4 \n4  4\n 4", 55, 40);
-	ctx.strokeText(" 4 \n4 4\n 4", 55, 160);
+	ctx.strokeText("  4 \n4 4\n  4", 55, 160);
 	ctx.strokeText(" 4 \n4   4\n 4", 55, 280);
 		
 		
