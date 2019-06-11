@@ -740,7 +740,7 @@ Client.on('message',  async message => {
 	ctx.strokeStyle = '#74037b';
 	ctx.strokeRect(0, 0, canvas.width, canvas.height);
 	
-	const bck = awat Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTobq4AfhzvQjol52KHwq2Mo1zAfAbWis_wOCFLdZSS8Ydybc2gEw');
+	const bck = await Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTobq4AfhzvQjol52KHwq2Mo1zAfAbWis_wOCFLdZSS8Ydybc2gEw');
 	ctx.drawImage(bck, 53, 24, 90, 115);	
 
 	
