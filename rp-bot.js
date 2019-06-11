@@ -684,7 +684,7 @@ var Discord = require('discord.js');
 var Client = new Discord.Client();
 const Canvas = require('canvas');
 var PG = require('pg');
-Client.on('ready', async () => {
+Client.on('ready', () => {
     console.log('I am ready!');
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
     get_triggers((rows)=>{        
@@ -727,7 +727,7 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
 });
 
 
-Client.on('message', message => {
+Client.on('message',  async message => {
     disboard_check(message);
     
     
