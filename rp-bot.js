@@ -775,6 +775,13 @@ Client.on('message',  async message => {
 	ctx.drawImage(bck1, 245, 264, 96, 120);
 	ctx.drawImage(bigsandor, 247, 264,  92, 114);
 		
+	// Select the font size and type from one of the natively available fonts
+	ctx.font = '60px sans-serif';
+	// Select the style that will be used to fill the text in
+	ctx.fillStyle = '#ffffff';
+	// Actually fill the text with a solid color
+	ctx.fillText("   4   \n4      4\n   4", 55, 26);
+		
 		
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 	message.channel.send(`Testing a thing`, attachment);
