@@ -730,10 +730,11 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
 Client.on('message',  async message => {
     disboard_check(message);
     
+	if(message.content=="text"){
 	const canvas = Canvas.createCanvas(700, 250);
 	const ctx = canvas.getContext('2d');
 
-	const background = await Canvas.loadImage('https://i.pinimg.com/736x/83/40/e3/8340e3e82760a62bda1779fc24ffb659.jpg');
+	const background = await Canvas.loadImage('http://www.finalfantasykingdom.net/8/TTBOARD.jpg');
 	ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
 	ctx.strokeStyle = '#74037b';
@@ -743,9 +744,12 @@ Client.on('message',  async message => {
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 	message.channel.send(`Testing a thing`, attachment);
     
+    	const avatar = await Canvas.loadImage('https://upload.wikimedia.org/wikipedia/en/thumb/b/b7/Squall_Leonhart.png/220px-Squall_Leonhart.png');
+	// Move the image downwards vertically and constrain its height to 200, so it's a square
+	ctx.drawImage(avatar, 65, 177, 200, 200);
+
     
-    
-    
+	}
 	
 	
 	
