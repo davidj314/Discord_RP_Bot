@@ -682,6 +682,7 @@ function convert_role_to_snowflake(server, role, callback, printerror){
 
 var Discord = require('discord.js');
 var Client = new Discord.Client();
+const Canvas = require('canvas');
 var PG = require('pg');
 Client.on('ready', () => {
     console.log('I am ready!');
@@ -728,6 +729,37 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
 
 Client.on('message', message => {
     disboard_check(message);
+    
+    
+    const channel = member.guild.channels.find(ch => ch.name === 'member-log');
+	if (!channel) return;
+
+	const canvas = Canvas.createCanvas(700, 250);
+	const ctx = canvas.getContext('2d');
+
+	const background = await Canvas.loadImage('https://i.pinimg.com/736x/83/40/e3/8340e3e82760a62bda1779fc24ffb659.jpg');
+	ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+	ctx.strokeStyle = '#74037b';
+	ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+	// Draw a shape onto the main canvas
+	ctx.drawImage(avatar, 25, 0, 200, canvas.height);
+
+	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
+
+	channel.send(`Testing a thing`, attachment);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     if (message.content.substring(0,3) === 'rp!') { 
         console.log(message.content);
         var channel = message.channel;
