@@ -780,6 +780,7 @@ Client.on('message',  async message => {
 	// Select the style that will be used to fill the text in
 	ctx.fillStyle = '#ffffff';
 	ctx.strokeStyle = 'black';
+	ctx.lineWidth = 1; 
 	// Actually fill the text with a solid color
 	ctx.fillText("   4   \n4    4\n   4", 55, 35);
 	ctx.fillText("   4   \n4    4\n   4", 55, 155);
