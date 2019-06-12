@@ -750,70 +750,79 @@ Client.on('message',  async message => {
 	
 	const left = 53;
 	const top = 24;
-	const wo = 96;
-	const ho = 120;
-	ctx.drawImage(bck1, left, top, 96, 120);
-	ctx.drawImage(bigsandor, left+2, top+2, 92, 116);
-		
-	ctx.drawImage(bck2, left+wo+2, top, 96, 120);
-	ctx.drawImage(bigsandor, left+wo+2+2, top+2,  92, 116);
-		
-	ctx.drawImage(bck1, left+wo+wo+2+2, top, 96, 120);
-	ctx.drawImage(bigsandor, left+wo+wo+2+2+2, 26, 92, 116);
-		
-		
-		
-		
-	ctx.drawImage(bck2, 53, 144, 96, 120);
-	ctx.drawImage(bigsandor, 55, 146,  92, 116);
-		
-	ctx.drawImage(bck1, 150, 144, 96, 120);
-	ctx.drawImage(bigsandor, 152, 146,  92, 116);
-		
-	ctx.drawImage(bck2, 247, 144, 96, 120);
-	ctx.drawImage(bigsandor, 249, 146, 92, 116);
-		
-	ctx.drawImage(bck1, 53, 264, 96, 120);
-	ctx.drawImage(bigsandor, 55, 266, 92, 116);
-		
-	ctx.drawImage(bck2, 150, 264, 96, 120);
-	ctx.drawImage(bigsandor, 152, 266, 92, 116);
-		
-	ctx.drawImage(bck1, 247, 264, 96, 120);
-	ctx.drawImage(bigsandor, 249, 266,  92, 116);
-		
+	const wo = 98;
+	const ho = 122;
 	// Select the font size and type from one of the natively available fonts
 	ctx.font = '20px sans-serif';
 	// Select the style that will be used to fill the text in
 	ctx.fillStyle = '#ffffff';
 	ctx.strokeStyle = 'black';
 	ctx.lineWidth = 1; 
-	// Actually fill the text with a solid color
-	ctx.fillText("  4 \n4  4\n  4", 56, 40);
-	ctx.fillText("  4 \n4  4\n  4", 56, 160);
-	ctx.fillText("  4 \n4  4\n  4", 56, 280);
-		
-	ctx.strokeText("  4 \n4  4\n  4", 56, 40);
-	ctx.strokeText("  4 \n4  4\n  4", 56, 160);
-	ctx.strokeText("  4 \n4  4\n  4", 56, 280);
 		
 		
-	ctx.fillText("  4 \n4  4\n  4", 153, 40);
-	ctx.fillText("  4 \n4  4\n  4", 153, 160);
-	ctx.fillText("  4 \n4  4\n  4", 153, 280);
+	ctx.drawImage(bck1, left+1, top+1, 96, 120);
+	ctx.drawImage(bigsandor, left+3, top+3, 92, 116);
 		
-	ctx.strokeText("  4 \n4  4\n  4", 153, 40);
-	ctx.strokeText("  4 \n4  4\n  4", 153, 160);
-	ctx.strokeText("  4 \n4  4\n  4", 153, 280);
+	ctx.drawImage(bck2, left+1+wo, top+1, 96, 120);
+	ctx.drawImage(bigsandor, left+wo+5, top+2,  92, 116);
+		
+	ctx.drawImage(bck1, left+1+wo+wo, top+1, 96, 120);
+	ctx.drawImage(bigsandor, left+wo+wo+7, 92, 116);
+	
+	ctx.strokeText("  4 \n4  4\n  4", left+4, top+4);
+	ctx.fillText("  4 \n4  4\n  4", left+4, top+4);
+		
+	ctx.strokeText("  4 \n4  4\n  4", left+wo+4, top+4);
+	ctx.fillText("  4 \n4  4\n  4", left+wo+4, top+4);
+		
+	ctx.strokeText("  4 \n4  4\n  4", left+wo+wo+4, top+4);
+	ctx.fillText("  4 \n4  4\n  4", left+wo+wo+4, top+4);
 		
 		
-	ctx.fillText("  4 \n4  4\n  4", 250, 40);
-	ctx.fillText("  4 \n4  4\n  4", 250, 160);
-	ctx.fillText("  4 \n4  4\n  4", 250, 280);
 		
-	ctx.strokeText("  4 \n4  4\n  4", 250, 40);
-	ctx.strokeText("  4 \n4  4\n  4", 250, 160);
-	ctx.strokeText("  4 \n4  4\n  4", 250, 280);
+	//-----------------------
+	top += 122;
+	ctx.drawImage(bck1, left+1, top+1, 96, 120);
+	ctx.drawImage(bigsandor, left+3, top+3, 92, 116);
+		
+	ctx.drawImage(bck2, left+1+wo, top+1, 96, 120);
+	ctx.drawImage(bigsandor, left+wo+5, top+2,  92, 116);
+		
+	ctx.drawImage(bck1, left+1+wo+wo, top+1, 96, 120);
+	ctx.drawImage(bigsandor, left+wo+wo+7, 92, 116);
+	
+	ctx.strokeText("  4 \n4  4\n  4", left+4, top+4);
+	ctx.fillText("  4 \n4  4\n  4", left+4, top+4);
+		
+	ctx.strokeText("  4 \n4  4\n  4", left+wo+4, top+4);
+	ctx.fillText("  4 \n4  4\n  4", left+wo+4, top+4);
+		
+	ctx.strokeText("  4 \n4  4\n  4", left+wo+wo+4, top+4);
+	ctx.fillText("  4 \n4  4\n  4", left+wo+wo+4, top+4);
+		
+	//----------
+	
+		
+	top += 122;
+	ctx.drawImage(bck1, left+1, top+1, 96, 120);
+	ctx.drawImage(bigsandor, left+3, top+3, 92, 116);
+		
+	ctx.drawImage(bck2, left+1+wo, top+1, 96, 120);
+	ctx.drawImage(bigsandor, left+wo+5, top+2,  92, 116);
+		
+	ctx.drawImage(bck1, left+1+wo+wo, top+1, 96, 120);
+	ctx.drawImage(bigsandor, left+wo+wo+7, 92, 116);
+	
+	ctx.strokeText("  4 \n4  4\n  4", left+4, top+4);
+	ctx.fillText("  4 \n4  4\n  4", left+4, top+4);
+		
+	ctx.strokeText("  4 \n4  4\n  4", left+wo+4, top+4);
+	ctx.fillText("  4 \n4  4\n  4", left+wo+4, top+4);
+		
+	ctx.strokeText("  4 \n4  4\n  4", left+wo+wo+4, top+4);
+	ctx.fillText("  4 \n4  4\n  4", left+wo+wo+4, top+4);
+		
+	
 		
 		
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
