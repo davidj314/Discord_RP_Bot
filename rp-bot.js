@@ -760,10 +760,10 @@ Client.on('message',  async message => {
 	ctx.lineWidth = 1; 
 		
 	//top left	
-	ctx.drawImage(bck1, 54, 25, 96, 120);
+	/*ctx.drawImage(bck1, 54, 25, 96, 120);
 	ctx.drawImage(bigsandor, 56, 27, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 57, 40);
-	ctx.fillText("  4 \n4  4\n  4", 57, 40);
+	ctx.fillText("  4 \n4  4\n  4", 57, 40);*/
 		
 	//top middle	
 	ctx.drawImage(bck2, 152, 25, 96, 120);
@@ -791,15 +791,15 @@ Client.on('message',  async message => {
 	ctx.fillText("  4 \n4  4\n  4", 155, 162);
 		
 	//top right	
-	ctx.drawImage(bck2, 250, 147, 96, 120);
+	/*ctx.drawImage(bck2, 250, 147, 96, 120);
 	ctx.drawImage(bigsandor, 252, 149, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 253, 162);
-	ctx.fillText("  4 \n4  4\n  4", 253, 162);
+	ctx.fillText("  4 \n4  4\n  4", 253, 162);*/
 		
 	//----------------------
 		
 	//top left	
-	ctx.drawImage(bck1, 54, 269, 96, 120);
+	/*ctx.drawImage(bck1, 54, 269, 96, 120);
 	ctx.drawImage(bigsandor, 56, 271, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 57, 284);
 	ctx.fillText("  4 \n4  4\n  4", 57, 284);
@@ -808,7 +808,7 @@ Client.on('message',  async message => {
 	ctx.drawImage(bck2, 152, 269, 96, 120);
 	ctx.drawImage(bigsandor, 154, 271, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 155, 284);
-	ctx.fillText("  4 \n4  4\n  4", 155, 284);
+	ctx.fillText("  4 \n4  4\n  4", 155, 284);*/
 		
 	//top right	
 	ctx.drawImage(bck1, 250, 269, 96, 120);
