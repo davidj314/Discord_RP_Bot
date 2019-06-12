@@ -761,38 +761,38 @@ Client.on('message',  async message => {
 		
 	//top left	
 	ctx.drawImage(bck1, 54, 25, 96, 120);
-	ctx.drawImage(bigsandor, 56, 26, 92, 116);
+	ctx.drawImage(bigsandor, 56, 27, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 57, 40);
 	ctx.fillText("  4 \n4  4\n  4", 57, 40);
 		
 	//top middle	
 	ctx.drawImage(bck1, 152, 25, 96, 120);
-	ctx.drawImage(bigsandor, 154, 26, 92, 116);
+	ctx.drawImage(bigsandor, 154, 27, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 155, 40);
 	ctx.fillText("  4 \n4  4\n  4", 155, 40);
 		
 	//top right	
 	ctx.drawImage(bck1, 250, 25, 96, 120);
-	ctx.drawImage(bigsandor, 252, 26, 92, 116);
+	ctx.drawImage(bigsandor, 252, 27, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 253, 40);
 	ctx.fillText("  4 \n4  4\n  4", 253, 40);
 		
 	//------------------
 	//top left	
 	ctx.drawImage(bck1, 54, 147, 96, 120);
-	ctx.drawImage(bigsandor, 56, 148, 92, 116);
+	ctx.drawImage(bigsandor, 56, 149, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 57, 162);
 	ctx.fillText("  4 \n4  4\n  4", 57, 162);
 		
 	//top middle	
 	ctx.drawImage(bck1, 152, 147, 96, 120);
-	ctx.drawImage(bigsandor, 154, 148, 92, 116);
+	ctx.drawImage(bigsandor, 154, 149, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 155, 162);
 	ctx.fillText("  4 \n4  4\n  4", 155, 162);
 		
 	//top right	
 	ctx.drawImage(bck1, 250, 147, 96, 120);
-	ctx.drawImage(bigsandor, 252, 148, 92, 116);
+	ctx.drawImage(bigsandor, 252, 149, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 253, 162);
 	ctx.fillText("  4 \n4  4\n  4", 253, 162);
 		
@@ -800,19 +800,19 @@ Client.on('message',  async message => {
 		
 	//top left	
 	ctx.drawImage(bck1, 54, 269, 96, 120);
-	ctx.drawImage(bigsandor, 56, 270, 92, 116);
+	ctx.drawImage(bigsandor, 56, 271, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 57, 284);
 	ctx.fillText("  4 \n4  4\n  4", 57, 284);
 		
 	//top middle	
 	ctx.drawImage(bck1, 152, 269, 96, 120);
-	ctx.drawImage(bigsandor, 154, 270, 92, 116);
+	ctx.drawImage(bigsandor, 154, 271, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 155, 284);
 	ctx.fillText("  4 \n4  4\n  4", 155, 284);
 		
 	//top right	
 	ctx.drawImage(bck1, 250, 269, 96, 120);
-	ctx.drawImage(bigsandor, 252, 270, 92, 116);
+	ctx.drawImage(bigsandor, 252, 271, 92, 116);
 	ctx.strokeText("  4 \n4  4\n  4", 253, 284);
 	ctx.fillText("  4 \n4  4\n  4", 253, 284);
 	
