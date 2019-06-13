@@ -392,6 +392,28 @@ function get_char_id(server_id, owner_id, name, callback, bad){
     pool.end()
 }//end function
 
+function get_card_info(server_id, owner_id, name, callback, bad){
+    var select_query = "SELECT url, upval, downval, leftval, rightval, FROM Cards WHERE server_id = $1 AND Name = $2 AND owner_id=$3";
+    var query_values = [server_id, name, owner_id];
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        //No returned rows indicate provided key is not associated with any row
+        else if (result.rows.length == 0) {
+            bad('No entry found. Check name given and ownership.')
+        }
+        //successfully found a result. Passes associated value to the callback function
+        else{
+            callback(result.rows[0])   
+        }
+    }); //end pool.query 
+    pool.end()
+}//end function
+
 function get_authors_names(server_id, author_id, callback)
 {
     //"NoNicknameOrIDMatch" is a default value passed when there is no ID associated with the provided nickname/username
@@ -727,6 +749,33 @@ function disboard_check(message){
             .catch(console.error);
         }
     }    
+}
+
+function show_card(url, up, down, left, right, callback)
+{
+const canvas = Canvas.createCanvas(150, 150);
+	const ctx = canvas.getContext('2d');
+	ctx.strokeStyle = '#74037b';
+	ctx.strokeRect(0, 0, canvas.width, canvas.height);
+	
+	const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
+	const character = await Canvas.loadImage(url);
+	// Select the font size and type from one of the natively available fonts
+	ctx.font = '20px sans-serif';
+	// Select the style that will be used to fill the text in
+	ctx.fillStyle = '#ffffff';
+	ctx.strokeStyle = 'black';
+	ctx.lineWidth = 1; 
+		
+	//top left	
+	ctx.drawImage(bck1, 0, 0, 96, 120);
+	ctx.drawImage(character, 2, 2, 92, 116);
+	ctx.strokeText("  ${up} \n${left}  ${right}\n  ${down}", 3, 15);
+	ctx.fillText("  ${up} \n${left}  ${right}\n  ${down}", 3, 15);
+	
+	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
+	callback(`Card`, attachment);	
+	
 }
 
 function convert_role_to_snowflake(server, role, callback, printerror){
@@ -1114,6 +1163,18 @@ Client.on('message',  async message => {
 		var url = args[args.length-1];
 		//make_card(server_id, owner_id, char_id, url)
 		get_char_id(guild_id, author_id, name, (cid)=>{make_card(guild_id, author_id, cid, url) ;}, (msg)=>{channel.send(msg)} ) ;	
+		
+		break;
+	
+	    case 'see_card':
+		if (args[1] == null)break;
+		var name = '';
+		for (i=1;i < args.length-1; i++){
+                    if (i > 1) name += ' ';
+                    name += args[i];
+                }
+		//show_card(url, up, down, left, right, callback)
+		get_char_id(guild_id, author_id, name, (row)=>{make_card(row.url, row.upval, row.downval, row.leftval, row.rightval) ;}, (msg)=>{channel.send(msg)} ) ;	
 		
 		break;
                           
