@@ -392,9 +392,9 @@ function get_char_id(server_id, owner_id, name, callback, bad){
     pool.end()
 }//end function
 
-function get_card_info(server_id, owner_id, name, callback, bad){
-    var select_query = "SELECT url, upval, downval, leftval, rightval FROM Cards WHERE server_id = $1 AND Name = $2 AND owner_id=$3";
-    var query_values = [server_id, name, owner_id];
+function get_card_info(server_id, owner_id, cid, callback, bad){
+    var select_query = "SELECT url, upval, downval, leftval, rightval FROM Cards WHERE server_id = $1 AND char_id = $2 AND owner_id=$3";
+    var query_values = [server_id, cid, owner_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
         console.log(result);
@@ -1179,7 +1179,7 @@ Client.on('message',  async message => {
                 }
 		//show_card(url, up, down, left, right, callback)
 		//get_card_info(server_id, owner_id, name, callback, bad)
-		get_card_info(guild_id, author_id, name, (row)=>{show_card(row.url, row.upval, row.downval, row.leftval, row.rightval) ;}, (msg)=>{channel.send(msg)} ) ;	
+		get_char_id(guild_id, author_id, name, (cid)=>{get_card_info(guild_id, author_id, cid, (row)=>{show_card(row.url, row.upval, row.downval, row.leftval, row.rightval) ;}, (msg)=>{channel.send(msg)} )}) ;	
 		
 		break;
                           
