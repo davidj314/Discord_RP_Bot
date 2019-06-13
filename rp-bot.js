@@ -1281,7 +1281,7 @@ Client.on('message',  async message => {
 				}
 			}
 
-			for (var i = 0; i < hands.length(); i++){
+			for (var i = 0; i < hands.length; i++){
 			ctx.drawImage(bck1, (0+i*182), 0, 144, 180);
 			ctx.drawImage(hands[pointer][i].url, (3+i*182), 3, 138, 174);
 			ctx.strokeText(`  ${hands[pointer][i].upval} \n${hands[pointer][i].leftval}  ${hands[pointer][i].rightval}\n  ${hands[pointer][i].downval}`, (7+i*182), 22);
