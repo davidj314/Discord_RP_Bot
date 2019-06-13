@@ -3,8 +3,8 @@ var Client = new Discord.Client();
 const Canvas = require('canvas');
 var PG = require('pg');
 var HashMap = require('hashmap');
-var board = new HashMap();
-var hands = new Hashmap();
+var board = new HashMap.HashMap();
+var hands = new HashMap.Hashmap();
 //----------------------------------------TABLE CREATION---------------------------------------------------
 
 //Creates table to hold character names. Does not check for table existing beforehand.
