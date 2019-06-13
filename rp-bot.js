@@ -201,7 +201,7 @@ function make_card(server_id, owner_id, char_id, url) {
 	    else right++
 	    points--;
     }
-    var values = [server_id, owner_id, char_id, url, up, down, left, right];
+    var values = [server_id, owner_id, char_id, up, down, left, right, url];
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     var printout =pool.query(insert_query, values,  (err, res) => {
     //23505 is unique restriction violation
