@@ -393,7 +393,7 @@ function get_char_id(server_id, owner_id, name, callback, bad){
 }//end function
 
 function get_card_info(server_id, owner_id, name, callback, bad){
-    var select_query = "SELECT url, upval, downval, leftval, rightval, FROM Cards WHERE server_id = $1 AND Name = $2 AND owner_id=$3";
+    var select_query = "SELECT url, upval, downval, leftval, rightval FROM Cards WHERE server_id = $1 AND Name = $2 AND owner_id=$3";
     var query_values = [server_id, name, owner_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
@@ -408,7 +408,7 @@ function get_card_info(server_id, owner_id, name, callback, bad){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
-            callback()   
+            callback(result.rows[0]);
         }
     }); //end pool.query 
     pool.end()
