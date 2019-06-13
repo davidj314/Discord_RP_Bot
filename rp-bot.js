@@ -754,7 +754,7 @@ function disboard_check(message){
 async function show_card(url, up, down, left, right, callback)
 {
 	console.log("trying to show a card");
-	console.log("Top ${up}, Bottom ${down}, Left ${left}, Right ${right}, URL ${url}" );
+	console.log(`Top ${up}, Bottom ${down}, Left ${left}, Right ${right}, URL ${url}` );
 const canvas = Canvas.createCanvas(150, 150);
 	const ctx = canvas.getContext('2d');
 	ctx.strokeStyle = '#74037b';
@@ -773,8 +773,8 @@ const canvas = Canvas.createCanvas(150, 150);
 	//top left	
 	ctx.drawImage(bck1, 0, 0, 96, 120);
 	ctx.drawImage(character, 2, 2, 92, 116);
-	ctx.strokeText("  ${up} \n${left}  ${right}\n  ${down}", 3, 15);
-	ctx.fillText("  ${up} \n${left}  ${right}\n  ${down}", 3, 15);
+	ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 3, 15);
+	ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 3, 15);
 	
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 	console.log("Should be sending message")
