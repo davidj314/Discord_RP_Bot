@@ -1281,7 +1281,6 @@ Client.on('message',  async message => {
 			ctx.lineWidth = 1; 
 
 			for (var i = 0; i < hands.get(p1id).length(); i++){
-			var up = 
 			ctx.drawImage(bck1, (0+i*182), 0, 144, 180);
 			ctx.drawImage(hands.get(p1id)[i].url, (3+i*182), 3, 138, 174);
 			ctx.strokeText(`  ${hands.get(p1id)[i].upval} \n${hands.get(p1id)[i].leftval}  ${hands.get(p1id)[i].rightval}\n  ${hands.get(p1id)[i].downval}`, (7+i*182), 22);
