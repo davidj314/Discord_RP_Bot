@@ -198,6 +198,7 @@ function make_card(server_id, owner_id, char_id, url) {
     console.log(err, res);
     }
   console.log(res);
+   }); //end pool.query
   pool.end();
 }
 
