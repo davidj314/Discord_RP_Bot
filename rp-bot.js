@@ -757,6 +757,8 @@ async function show_card(url, up, down, left, right, callback)
 	console.log(`Top ${up}, Bottom ${down}, Left ${left}, Right ${right}, URL ${url}` );
 const canvas = Canvas.createCanvas(150, 150);
 	const ctx = canvas.getContext('2d');
+	const background = await Canvas.loadImage('http://www.finalfantasykingdom.net/8/TTBOARD.jpg');
+	ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 	ctx.strokeStyle = '#74037b';
 	ctx.strokeRect(0, 0, canvas.width, canvas.height);
 	
