@@ -1256,7 +1256,7 @@ Client.on('message',  async message => {
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url}]);
 			console.log("doot");
-			console.log(hands[hands.length()-1]);
+			console.log(hands[hands.length-1]);
 			
 		}, (msg)=>{channel.send(msg)});
 			
@@ -1274,7 +1274,7 @@ Client.on('message',  async message => {
 			ctx.strokeStyle = 'black';
 			ctx.lineWidth = 1; 
 			var pointer = -1;
-			for (var i = 0; i < hands.length(); i++){
+			for (var i = 0; i < hands.length; i++){
 				if (hands[i][0] == p1id){
 					pointer = i;
 					break;
