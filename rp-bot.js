@@ -1251,11 +1251,11 @@ Client.on('message',  async message => {
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
 			console.log(rows);
-			hands.push({id: p1id, hand:[{color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
+			hands.push({id: p1id, hand:[{color: "Blue", up: rows[4].upval, down: rows[4].downval, left: rows[4].leftval, right: rows[4].rightval, url: rows[4].url},
 			   {color: "Blue", up: rows[1].upval, down: rows[1].downval, left: rows[1].leftval, right: rows[1].rightval, url: rows[1].url},
-			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
-			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
-			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url}]});
+			   {color: "Blue", up: rows[5].upval, down: rows[5].downval, left: rows[5].leftval, right: rows[5].rightval, url: rows[5].url},
+			   {color: "Blue", up: rows[6].upval, down: rows[6].downval, left: rows[6].leftval, right: rows[6].rightval, url: rows[6].url},
+			   {color: "Blue", up: rows[7].upval, down: rows[7].downval, left: rows[7].leftval, right: rows[7].rightval, url: rows[7].url}]});
 
 			
 		}, (msg)=>{channel.send(msg)});
