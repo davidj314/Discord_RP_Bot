@@ -1250,13 +1250,13 @@ Client.on('message',  async message => {
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"}]});
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
+			console.log(rows);
 			hands.push({id: p1id, hand:[{color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
 			   {color: "Blue", up: rows[1].upval, down: rows[1].downval, left: rows[1].leftval, right: rows[1].rightval, url: rows[1].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url}]});
-			console.log("doot");
-			console.log(hands[hands.length-1]);
+
 			
 		}, (msg)=>{channel.send(msg)});
 			
@@ -1280,8 +1280,7 @@ Client.on('message',  async message => {
 					break;
 				}
 			}
-			console.log("\n\n\n");
-			console.log(hands[pointer]);
+
 			
 			for (var i = 0; i < hands[pointer].hand.length; i++){
 			var url = hands[pointer].hand[i].url;
@@ -1294,11 +1293,8 @@ Client.on('message',  async message => {
 			}
 
 			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
-			console.log("Should be sending hand")
 			channel.send(`Hand`, attachment);	
-			
-					
-		
+				
 		break;
 			
 			
