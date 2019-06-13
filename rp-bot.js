@@ -2,9 +2,9 @@
 
 //Creates table to hold character names. Does not check for table existing beforehand.
 function make_Names(){
-    var ceate_query = "CREATE TABLE Names(id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, name varchar(255) NOT NULL, UNIQUE(server_id, name))";
+    var create_query = "CREATE TABLE Names(id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, name varchar(255) NOT NULL, UNIQUE(server_id, name))";
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-    pool.query(ceate_query,(err, result) => {
+    pool.query(create_query,(err, result) => {
         if (err) {
             console.log('error occurred');
             return console.error('Error executing query', err.stack);;
@@ -17,7 +17,7 @@ function make_cards(){
 	//id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
 	var create_query = "CREATE TABLE Cards (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, char_id bigint NOT NULL, url varchar(800), up int, down int, left int, right int, UNIQUE(server_id, char_id))";
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-  	pool.query(ceate_query,(err, result) => {
+  	pool.query(create_query,(err, result) => {
         if (err) {
             console.log('error occurred');
             return console.error('Error executing query', err.stack);;
