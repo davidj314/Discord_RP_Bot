@@ -754,6 +754,7 @@ function disboard_check(message){
 async function show_card(url, up, down, left, right, callback)
 {
 	console.log("trying to show a card");
+	console.log("Top ${up}, Bottom ${down}, Left ${left}, Right ${right}, URL ${url} );
 const canvas = Canvas.createCanvas(150, 150);
 	const ctx = canvas.getContext('2d');
 	ctx.strokeStyle = '#74037b';
