@@ -751,7 +751,7 @@ function disboard_check(message){
     }    
 }
 
-function async show_card(url, up, down, left, right, callback)
+async function show_card(url, up, down, left, right, callback)
 {
 const canvas = Canvas.createCanvas(150, 150);
 	const ctx = canvas.getContext('2d');
