@@ -3,7 +3,8 @@ var Client = new Discord.Client();
 const Canvas = require('canvas');
 var PG = require('pg');
 var HashMap = require('hashmap');
-
+var board = new HashMap();
+var hands = new Hashmap();
 //----------------------------------------TABLE CREATION---------------------------------------------------
 
 //Creates table to hold character names. Does not check for table existing beforehand.
@@ -415,6 +416,28 @@ function get_card_info(server_id, owner_id, cid, callback, bad){
         //successfully found a result. Passes associated value to the callback function
         else{
             callback(result.rows[0]);
+        }
+    }); //end pool.query 
+    pool.end()
+}//end function
+
+function get_card_list(server_id, callback, bad){
+    var select_query = "SELECT url, upval, downval, leftval, rightval FROM Cards WHERE server_id = $1";
+    var query_values = [server_id];
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        //No returned rows indicate provided key is not associated with any row
+        else if (result.rows.length == 0) {
+            bad('No entry found. Check name given and ownership.')
+        }
+        //successfully found a result. Passes associated value to the callback function
+        else{
+            callback(result.rows);
         }
     }); //end pool.query 
     pool.end()
@@ -1214,12 +1237,65 @@ Client.on('message',  async message => {
 			
 	    case 'game':
 		if (args[1] == null)break;
-			
-		var p1id = guild_id;
+
+		var p1id = ToString(author_id);
 		var p2id = message.mentions.users.first().id;
-		console.log(p2id);
-		console.log(p1id);
+		if (hands.has(p1id) || hands.has(p2id)){
+			channel.send("One of you is already in a game.");
+			return
+		}
+		var key = guild_id.toString() + p1id.toString();
+		board.set(key, [-1,-1,-1,-1,-1,-1,-1,-1,-1]);
+		
+		hands.set(p2id, 
+			  [{color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
+			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
+			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
+			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
+			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"}]);
+		//function get_card_list(server_id, callback, bad)
+		get_card_list(guild_id, (rows)=>{
+			hands.set(p1id, 
+			  [{color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
+			   {color: "Blue", up: rows[1].upval, down: rows[1].downval, left: rows[1].leftval, right: rows[1].rightval, url: rows[1].url},
+			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
+			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
+			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url}]);
+			
+		}, (msg)=>{channel.send(msg)});
+			
+			console.log("p1 hand is");
+			console.log(hands.get(p1id));
+			const canvas = Canvas.createCanvas( 735, 180);
+			const ctx = canvas.getContext('2d');
+			ctx.strokeStyle = '#74037b';
+			ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+			const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
+			
+			// Select the font size and type from one of the natively available fonts
+			ctx.font = '20px sans-serif';
+			// Select the style that will be used to fill the text in
+			ctx.fillStyle = '#ffffff';
+			ctx.strokeStyle = 'black';
+			ctx.lineWidth = 1; 
+
+			for (var i = 0; i < hands.get(p1id).length(); i++){
+			ctx.drawImage(bck1, (0+i*182), 0, 144, 180);
+			ctx.drawImage(hands.get(p1id)[i].url, (3+i*182), 3, 138, 174);
+			ctx.strokeText(`  ${(hands.get(p1id)[i].upval} \n${(hands.get(p1id)[i].leftval}  ${(hands.get(p1id)[i].rightval}\n  ${(hands.get(p1id)[i].downval}`, (7+i*182), 22);
+			ctx.fillText(`  ${(hands.get(p1id)[i].upval} \n${(hands.get(p1id)[i].leftval}  ${(hands.get(p1id)[i].rightval}\n  ${(hands.get(p1id)[i].downval}`,  (7+i*182), 22);
+			}
+
+			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
+			console.log("Should be sending hand")
+			channel.send(`Hand`, attachment);	
+			
+					
+		
 		break;
+			
+			
         }
   	}
 });
