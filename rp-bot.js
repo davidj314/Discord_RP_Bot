@@ -1274,7 +1274,7 @@ Client.on('message',  async message => {
 			ctx.strokeStyle = 'black';
 			ctx.lineWidth = 1; 
 			var pointer = -1;
-			for (int i = 0; i < hands.length(); i++){
+			for (var i = 0; i < hands.length(); i++){
 				if (hands[i][0] == p1id){
 					pointer = i;
 					break;
