@@ -1174,7 +1174,7 @@ Client.on('message',  async message => {
                     name += args[i];
                 }
 		//show_card(url, up, down, left, right, callback)
-		get_char_id(guild_id, author_id, name, (row)=>{make_card(row.url, row.upval, row.downval, row.leftval, row.rightval) ;}, (msg)=>{channel.send(msg)} ) ;	
+		get_char_id(guild_id, author_id, name, (row)=>{show_card(row.url, row.upval, row.downval, row.leftval, row.rightval) ;}, (msg)=>{channel.send(msg)} ) ;	
 		
 		break;
                           
