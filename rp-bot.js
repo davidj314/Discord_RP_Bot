@@ -2,8 +2,8 @@ var Discord = require('discord.js');
 var Client = new Discord.Client();
 const Canvas = require('canvas');
 var PG = require('pg');
-var board;
-var hands;
+var board = [];
+var hands = [];
 //----------------------------------------TABLE CREATION---------------------------------------------------
 
 //Creates table to hold character names. Does not check for table existing beforehand.
