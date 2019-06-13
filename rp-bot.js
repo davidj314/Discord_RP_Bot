@@ -1241,16 +1241,16 @@ Client.on('message',  async message => {
 		var p2id = message.mentions.users.first().id.toString();
 			
 		var key = guild_id+ p1id;
-		board.push(key, [-1,-1,-1,-1,-1,-1,-1,-1,-1]);
+		board.push(lock:key, positions: [-1,-1,-1,-1,-1,-1,-1,-1,-1]);
 		
-		hands.push(p2id, [{color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
+		hands.push(id:p2id, hand: [{color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"}]);
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
-			hands.push(p1id, [{color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
+			hands.push(id: p1id, hand:[{color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
 			   {color: "Blue", up: rows[1].upval, down: rows[1].downval, left: rows[1].leftval, right: rows[1].rightval, url: rows[1].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
@@ -1275,7 +1275,7 @@ Client.on('message',  async message => {
 			ctx.lineWidth = 1; 
 			var pointer = -1;
 			for (var i = 0; i < hands.length; i++){
-				if (hands[i][0] == p1id){
+				if (hands[i].id == p1id){
 					pointer = i;
 					break;
 				}
@@ -1283,9 +1283,9 @@ Client.on('message',  async message => {
 
 			for (var i = 0; i < hands.length; i++){
 			ctx.drawImage(bck1, (0+i*182), 0, 144, 180);
-			ctx.drawImage(hands[pointer][i].url, (3+i*182), 3, 138, 174);
-			ctx.strokeText(`  ${hands[pointer][i].upval} \n${hands[pointer][i].leftval}  ${hands[pointer][i].rightval}\n  ${hands[pointer][i].downval}`, (7+i*182), 22);
-			ctx.fillText(`  ${hands[pointer][i].upval} \n${hands[pointer][i].leftval}  ${hands[pointer][i].rightval}\n  ${hands[pointer][i].downval}`,  (7+i*182), 22);
+			ctx.drawImage(hands[pointer].hand[i].url, (3+i*182), 3, 138, 174);
+			ctx.strokeText(`  ${hands[pointer].hand[i].upval} \n${hands[pointer].hand[i].leftval}  ${hands[pointer].hand[i].rightval}\n  ${hands[pointer].hand[i].downval}`, (7+i*182), 22);
+			ctx.fillText(`  ${hands[pointer].hand[i].upval} \n${hands[pointer].hand[i].leftval}  ${hands[pointer].hand[i].rightval}\n  ${hands[pointer].hand[i].downval}`,  (7+i*182), 22);
 			}
 
 			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
