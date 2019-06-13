@@ -753,6 +753,7 @@ function disboard_check(message){
 
 async function show_card(url, up, down, left, right, callback)
 {
+	console.log("trying to show a card");
 const canvas = Canvas.createCanvas(150, 150);
 	const ctx = canvas.getContext('2d');
 	ctx.strokeStyle = '#74037b';
@@ -760,6 +761,7 @@ const canvas = Canvas.createCanvas(150, 150);
 	
 	const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
 	const character = await Canvas.loadImage(url);
+	console.log("the url is "+url);
 	// Select the font size and type from one of the natively available fonts
 	ctx.font = '20px sans-serif';
 	// Select the style that will be used to fill the text in
@@ -774,6 +776,7 @@ const canvas = Canvas.createCanvas(150, 150);
 	ctx.fillText("  ${up} \n${left}  ${right}\n  ${down}", 3, 15);
 	
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
+	console.log("Should be sending message")
 	callback(`Card`, attachment);	
 	
 }
