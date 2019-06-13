@@ -1241,20 +1241,20 @@ Client.on('message',  async message => {
 		var p2id = message.mentions.users.first().id.toString();
 			
 		var key = guild_id+ p1id;
-		board.push(lock:key, positions: [-1,-1,-1,-1,-1,-1,-1,-1,-1]);
+		board.push({lock: key, positions: [-1,-1,-1,-1,-1,-1,-1,-1,-1]});
 		
-		hands.push(id:p2id, hand: [{color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
+		hands.push({id:p2id, hand: [{color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
-			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"}]);
+			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"}]});
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
-			hands.push(id: p1id, hand:[{color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
+			hands.push({id: p1id, hand:[{color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
 			   {color: "Blue", up: rows[1].upval, down: rows[1].downval, left: rows[1].leftval, right: rows[1].rightval, url: rows[1].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
-			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url}]);
+			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url}]});
 			console.log("doot");
 			console.log(hands[hands.length-1]);
 			
