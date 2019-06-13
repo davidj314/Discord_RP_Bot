@@ -13,6 +13,19 @@ function make_Names(){
     pool.end()
 }//end function
 
+function make_cards(){
+	//id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
+	var create_query = "CREATE TABLE Cards (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, char_id bigint NOT NULL, url varchar(800), UNIQUE(server_id, char_id));
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+  	pool.query(ceate_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+    });//end pool.query   
+    pool.end()
+}//end function
+
 function make_triggers(){
     var ceate_query = "CREATE TABLE Triggers(id SERIAL, server_id bigint NOT NULL, channel_id bigint NOT NULL, message_id bigint NOT NULL, emoji varchar (255) NOT NULL, role_snowflake bigint NOT NULL, UNIQUE(emoji, message_id))";
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
@@ -170,6 +183,24 @@ function record_name(server_id, owner_id, name, callback)
     console.log(printout);
 }//end function
 
+function make_card(server_id, owner_id, char_id, url) {
+//id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
+    var insert_query = "INSERT INTO Cards (server_id, owner_id, char_id, url ) VALUES($1, $2, $3, $4)";
+    var values = [server_id, owner_id, char_id, url];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    var printout =pool.query(insert_query, values,  (err, res) => {
+    //23505 is unique restriction violation
+    if (err){
+        if(err.code == '23505'){
+            var error_string = 'Card already exists for that character'
+            callback(error_string)
+        }
+    console.log(err, res);
+    }
+  console.log(res);
+  pool.end();
+}
+
 //----------------------------------------TABLE SELECTS---------------------------------------------------
 function get_triggers(callback){
     var select_query = "SELECT server_id, channel_id, message_id FROM Triggers";
@@ -318,6 +349,28 @@ function get_lookup_val(server_id, key, callback){
         //successfully found a result. Passes associated value to the callback function
         else{
             callback(result.rows[0].infoval)   
+        }
+    }); //end pool.query 
+    pool.end()
+}//end function
+	
+function get_char_id(server_id, owner_id, name, callback, bad){
+    var select_query = "SELECT id FROM Names WHERE server_id = $1 AND Name = $2 AND owner_id=$3";
+    var query_values = [server_id, name, owner_id];
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        //No returned rows indicate provided key is not associated with any row
+        else if (result.rows.length == 0) {
+            bad('No entry found. Check name given and ownership.')
+        }
+        //successfully found a result. Passes associated value to the callback function
+        else{
+            callback(result.rows[0].id)   
         }
     }); //end pool.query 
     pool.end()
@@ -876,7 +929,7 @@ Client.on('message',  async message => {
                 break;
                 
             case 'make_em':
-                //make_triggers();
+                make_cards();
                 break;
                 
             case 'minesweeper':
@@ -1034,6 +1087,18 @@ Client.on('message',  async message => {
                 }
                 convert_to_userid(message.guild.members, author, (a_id)=>{ get_authors_names(guild_id, a_id, (msg)=>{channel.send(msg)})});
                 break;
+			
+	    case 'make_card':
+		if (args[1] == null)break;
+		var name = '';
+		for (i=1;i < args.length-1; i++){
+                    if (i > 1) name += ' ';
+                    name += args[i];
+                }
+		var url = args[args.length-1];
+		function get_char_id(guild_id, author_id, name, (cid)=>{make_card(guild_id, author_id, cid, url) ;}, (msg)=>{channel.send(msg)} ) ;	
+		
+		break;
                           
             case 'delete':
                 if (args[1] == null)break;
