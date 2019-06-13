@@ -1248,7 +1248,7 @@ Client.on('message',  async message => {
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
-			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"}]);
+			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"}];
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
 			hands[p1id] =  
@@ -1256,7 +1256,7 @@ Client.on('message',  async message => {
 			   {color: "Blue", up: rows[1].upval, down: rows[1].downval, left: rows[1].leftval, right: rows[1].rightval, url: rows[1].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
-			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url}]);
+			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url}];
 			
 		}, (msg)=>{channel.send(msg)});
 			
