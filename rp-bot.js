@@ -1287,6 +1287,7 @@ Client.on('message',  async message => {
 			var url = hands[pointer].hand[i].url;
 			ctx.drawImage(bck1, (0+i*182), 0, 144, 180);
 			ctx.drawImage(url, (3+i*182), 3, 138, 174);
+			console.log("about to stroke");
 			ctx.strokeText(`  ${hands[pointer].hand[i].upval} \n${hands[pointer].hand[i].leftval}  ${hands[pointer].hand[i].rightval}\n  ${hands[pointer].hand[i].downval}`, (7+i*182), 22);
 			ctx.fillText(`  ${hands[pointer].hand[i].upval} \n${hands[pointer].hand[i].leftval}  ${hands[pointer].hand[i].rightval}\n  ${hands[pointer].hand[i].downval}`,  (7+i*182), 22);
 			}
