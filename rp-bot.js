@@ -1,3 +1,9 @@
+var Discord = require('discord.js');
+var Client = new Discord.Client();
+const Canvas = require('canvas');
+var PG = require('pg');
+var HashMap = require('hashmap');
+
 //----------------------------------------TABLE CREATION---------------------------------------------------
 
 //Creates table to hold character names. Does not check for table existing beforehand.
@@ -802,10 +808,7 @@ function convert_role_to_snowflake(server, role, callback, printerror){
     }
 }
 
-var Discord = require('discord.js');
-var Client = new Discord.Client();
-const Canvas = require('canvas');
-var PG = require('pg');
+
 Client.on('ready', () => {
     console.log('I am ready!');
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
@@ -1208,6 +1211,15 @@ Client.on('message',  async message => {
                 if (message.member.hasPermission("ADMINISTRATOR") == false) channel.send('Need admin permission for that command')
                 else delete_lookup_val(guild_id, args[1]);
                 break;
+			
+	    case 'game':
+		if (args[1] == null)break;
+			
+		var p1id = guild_id;
+		var p2id = message.mentions.users.first().id;
+		console.log(p2id);
+		console.log(p1id);
+		break;
         }
   	}
 });
