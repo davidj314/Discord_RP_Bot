@@ -408,7 +408,7 @@ function get_card_info(server_id, owner_id, name, callback, bad){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
-            callback(result.rows[0])   
+            callback()   
         }
     }); //end pool.query 
     pool.end()
@@ -1178,7 +1178,8 @@ Client.on('message',  async message => {
                     name += args[i];
                 }
 		//show_card(url, up, down, left, right, callback)
-		get_char_id(guild_id, author_id, name, (row)=>{show_card(row.url, row.upval, row.downval, row.leftval, row.rightval) ;}, (msg)=>{channel.send(msg)} ) ;	
+		//get_card_info(server_id, owner_id, name, callback, bad)
+		get_card_info(guild_id, author_id, name, (row)=>{show_card(row.url, row.upval, row.downval, row.leftval, row.rightval) ;}, (msg)=>{channel.send(msg)} ) ;	
 		
 		break;
                           
