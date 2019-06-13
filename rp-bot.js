@@ -1169,7 +1169,7 @@ Client.on('message',  async message => {
 	    case 'see_card':
 		if (args[1] == null)break;
 		var name = '';
-		for (i=1;i < args.length-1; i++){
+		for (i=1;i < args.length; i++){
                     if (i > 1) name += ' ';
                     name += args[i];
                 }
