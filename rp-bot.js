@@ -755,10 +755,8 @@ async function show_card(url, up, down, left, right, callback)
 {
 	console.log("trying to show a card");
 	console.log(`Top ${up}, Bottom ${down}, Left ${left}, Right ${right}, URL ${url}` );
-const canvas = Canvas.createCanvas(150, 150);
+	const canvas = Canvas.createCanvas( 144, 180);
 	const ctx = canvas.getContext('2d');
-	const background = await Canvas.loadImage('http://www.finalfantasykingdom.net/8/TTBOARD.jpg');
-	ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 	ctx.strokeStyle = '#74037b';
 	ctx.strokeRect(0, 0, canvas.width, canvas.height);
 	
@@ -773,10 +771,10 @@ const canvas = Canvas.createCanvas(150, 150);
 	ctx.lineWidth = 1; 
 		
 	//top left	
-	ctx.drawImage(bck1, 0, 0, 96, 120);
-	ctx.drawImage(character, 2, 2, 92, 116);
-	ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 3, 15);
-	ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 3, 15);
+	ctx.drawImage(bck1, 0, 0, 144, 180);
+	ctx.drawImage(character, 3, 3, 138, 174);
+	ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 7, 22);
+	ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`,  7, 22);
 	
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 	console.log("Should be sending message")
