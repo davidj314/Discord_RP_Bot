@@ -1289,8 +1289,8 @@ Client.on('message',  async message => {
 			ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
 			ctx.drawImage(character, (3+i*148), 3, 138, 174);
 			console.log("about to stroke");
-			ctx.strokeText(`  ${hands[pointer].hand[i].up} \n${hands[pointer].hand[i].left}  ${hands[pointer].hand[i].right}\n  ${hands[pointer].hand[i].down}`, (7+i*182), 22);
-			ctx.fillText(`  ${hands[pointer].hand[i].up} \n${hands[pointer].hand[i].left}  ${hands[pointer].hand[i].right}\n  ${hands[pointer].hand[i].down}`,  (7+i*182), 22);
+			ctx.strokeText(`  ${hands[pointer].hand[i].up} \n${hands[pointer].hand[i].left}  ${hands[pointer].hand[i].right}\n  ${hands[pointer].hand[i].down}`, (7+i*188), 22);
+			ctx.fillText(`  ${hands[pointer].hand[i].up} \n${hands[pointer].hand[i].left}  ${hands[pointer].hand[i].right}\n  ${hands[pointer].hand[i].down}`,  (7+i*188), 22);
 			}
 
 			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
