@@ -15,7 +15,7 @@ function make_Names(){
 
 function make_cards(){
 	//id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
-	var create_query = "CREATE TABLE Cards (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, char_id bigint NOT NULL, url varchar(800), up integer, down integer, left integer, right integer, UNIQUE(server_id, char_id))";
+	var create_query = "CREATE TABLE Cards (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, char_id bigint NOT NULL, url varchar(800), left integer, up integer, down integer,  right integer, UNIQUE(server_id, char_id))";
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
   	pool.query(create_query,(err, result) => {
         if (err) {
