@@ -15,7 +15,7 @@ function make_Names(){
 
 function make_cards(){
 	//id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
-	var create_query = "CREATE TABLE Cards (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, char_id bigint NOT NULL, url varchar(800), UNIQUE(server_id, char_id))";
+	var create_query = "CREATE TABLE Cards (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, char_id bigint NOT NULL, url varchar(800), up int, down int, left int, right int, UNIQUE(server_id, char_id))";
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
   	pool.query(ceate_query,(err, result) => {
         if (err) {
@@ -185,8 +185,22 @@ function record_name(server_id, owner_id, name, callback)
 
 function make_card(server_id, owner_id, char_id, url) {
 //id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
-    var insert_query = "INSERT INTO Cards (server_id, owner_id, char_id, url ) VALUES($1, $2, $3, $4)";
-    var values = [server_id, owner_id, char_id, url];
+    var insert_query = "INSERT INTO Cards (server_id, owner_id, char_id, up, down, left, right, url ) VALUES($1, $2, $3, $4, $5, $6, $7, $8)";
+    var up = 0;
+    var down = 0;
+    var left = 0;
+    var right = 0;
+    var points = 6;
+    while (points > 0)
+    {
+	    var side = Math.floor(Math.random() * (4+1 - 1) + 1);
+	    if (side == 1) up++;
+	    else if (side == 2) down++;
+	    else if (side == 3) left++;
+	    else right++
+	    points--;
+    }
+    var values = [server_id, owner_id, char_id, url, up, down, left, right];
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     var printout =pool.query(insert_query, values,  (err, res) => {
     //23505 is unique restriction violation
