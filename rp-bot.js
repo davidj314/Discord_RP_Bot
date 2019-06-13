@@ -1178,8 +1178,27 @@ Client.on('message',  async message => {
                     name += args[i];
                 }
 		//show_card(url, up, down, left, right, callback)
-		//get_card_info(server_id, owner_id, name, callback, bad)
-		get_char_id(guild_id, author_id, name, (cid)=>{get_card_info(guild_id, author_id, cid, (row)=>{show_card(row.url, row.upval, row.downval, row.leftval, row.rightval, (msg)=>{channel.send(msg))};}, (msg)=>{channel.send(msg)} )}, (msg)=>{channel.send(msg)}} ) ;	
+		//get_card_info(server_id, owner_id, char_id, callback, bad)
+		get_char_id(
+			guild_id, 
+			author_id, 
+			name, 
+			(cid)=>{get_card_info(
+				guild_id, 
+				author_id, 
+				cid, 
+				(row)=>{show_card(
+					row.url, 
+					row.upval, 
+					row.downval, 
+					row.leftval, 
+					row.rightval, 
+					(msg)=>{channel.send(msg)};
+					)},
+				(msg)=>{channel.send(msg)}) ;
+			       },
+			(msg)=>{channel.send(msg)}
+			);
 		
 		break;
                           
