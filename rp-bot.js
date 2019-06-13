@@ -1257,6 +1257,8 @@ Client.on('message',  async message => {
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url}];
+			console.log("doot");
+			console.log(hands[p1id]);
 			
 		}, (msg)=>{channel.send(msg)});
 			
@@ -1276,7 +1278,7 @@ Client.on('message',  async message => {
 			ctx.strokeStyle = 'black';
 			ctx.lineWidth = 1; 
 
-			for (var i = 0; i < hands.get(p1id).length(); i++){
+			for (var i = 0; i < hands[p1id].length(); i++){
 			ctx.drawImage(bck1, (0+i*182), 0, 144, 180);
 			ctx.drawImage(hands[p1id][i].url, (3+i*182), 3, 138, 174);
 			ctx.strokeText(`  ${hands[p1id][i].upval} \n${hands[p1id][i].leftval}  ${hands[p1id][i].rightval}\n  ${hands[p1id][i].downval}`, (7+i*182), 22);
