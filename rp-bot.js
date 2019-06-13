@@ -1260,7 +1260,7 @@ Client.on('message',  async message => {
 			
 		}, (msg)=>{channel.send(msg)});
 			
-			const canvas = Canvas.createCanvas( 735, 180);
+			const canvas = Canvas.createCanvas( 745, 180);
 			const ctx = canvas.getContext('2d');
 			ctx.strokeStyle = '#74037b';
 			ctx.strokeRect(0, 0, canvas.width, canvas.height);
@@ -1286,8 +1286,8 @@ Client.on('message',  async message => {
 			for (var i = 0; i < hands[pointer].hand.length; i++){
 			var url = hands[pointer].hand[i].url;
 			const character = await Canvas.loadImage(url);
-			ctx.drawImage(bck1, (0+i*144), 0, 144, 180);
-			ctx.drawImage(character, (3+i*144), 3, 138, 174);
+			ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
+			ctx.drawImage(character, (3+i*148), 3, 138, 174);
 			console.log("about to stroke");
 			ctx.strokeText(`  ${hands[pointer].hand[i].up} \n${hands[pointer].hand[i].left}  ${hands[pointer].hand[i].right}\n  ${hands[pointer].hand[i].down}`, (7+i*182), 22);
 			ctx.fillText(`  ${hands[pointer].hand[i].up} \n${hands[pointer].hand[i].left}  ${hands[pointer].hand[i].right}\n  ${hands[pointer].hand[i].down}`,  (7+i*182), 22);
