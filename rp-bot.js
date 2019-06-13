@@ -1097,7 +1097,7 @@ Client.on('message',  async message => {
                     name += args[i];
                 }
 		var url = args[args.length-1];
-		function get_char_id(guild_id, author_id, name, (cid)=>{make_card(guild_id, author_id, cid, url) ;}, (msg)=>{channel.send(msg)} ) ;	
+		get_char_id(guild_id, author_id, name, (cid)=>{make_card(guild_id, author_id, cid, url) ;}, (msg)=>{channel.send(msg)} ) ;	
 		
 		break;
                           
