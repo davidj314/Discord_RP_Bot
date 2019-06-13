@@ -1193,7 +1193,7 @@ Client.on('message',  async message => {
 					row.downval, 
 					row.leftval, 
 					row.rightval, 
-					(msg)=>{channel.send(msg)};
+					(msg)=>{channel.send(msg)}
 					)},
 				(msg)=>{channel.send(msg)}) ;
 			       },
