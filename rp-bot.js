@@ -2,9 +2,8 @@ var Discord = require('discord.js');
 var Client = new Discord.Client();
 const Canvas = require('canvas');
 var PG = require('pg');
-var HashMap = require('hashmap');
-var board = new HashMap();
-var hands = new Hashmap();
+var board;
+var hands;
 //----------------------------------------TABLE CREATION---------------------------------------------------
 
 //Creates table to hold character names. Does not check for table existing beforehand.
@@ -1238,16 +1237,13 @@ Client.on('message',  async message => {
 	    case 'game':
 		if (args[1] == null)break;
 
-		var p1id = ToString(author_id);
-		var p2id = message.mentions.users.first().id;
-		if (hands.has(p1id) || hands.has(p2id)){
-			channel.send("One of you is already in a game.");
-			return
-		}
-		var key = guild_id.toString() + p1id.toString();
-		board.set(key, [-1,-1,-1,-1,-1,-1,-1,-1,-1]);
+		var p1id = author_id.toString();
+		var p2id = message.mentions.users.first().id.toString();
+			
+		var key = guild_id+ p1id;
+		board[key] = [-1,-1,-1,-1,-1,-1,-1,-1,-1];
 		
-		hands.set(p2id, 
+		hands[p2id]= 
 			  [{color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
@@ -1255,7 +1251,7 @@ Client.on('message',  async message => {
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"}]);
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
-			hands.set(p1id, 
+			hands[p1id] =  
 			  [{color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
 			   {color: "Blue", up: rows[1].upval, down: rows[1].downval, left: rows[1].leftval, right: rows[1].rightval, url: rows[1].url},
 			   {color: "Blue", up: rows[0].upval, down: rows[0].downval, left: rows[0].leftval, right: rows[0].rightval, url: rows[0].url},
@@ -1265,7 +1261,7 @@ Client.on('message',  async message => {
 		}, (msg)=>{channel.send(msg)});
 			
 			console.log("p1 hand is");
-			console.log(hands.get(p1id));
+			console.log(hands[p1id]);
 			const canvas = Canvas.createCanvas( 735, 180);
 			const ctx = canvas.getContext('2d');
 			ctx.strokeStyle = '#74037b';
@@ -1282,9 +1278,9 @@ Client.on('message',  async message => {
 
 			for (var i = 0; i < hands.get(p1id).length(); i++){
 			ctx.drawImage(bck1, (0+i*182), 0, 144, 180);
-			ctx.drawImage(hands.get(p1id)[i].url, (3+i*182), 3, 138, 174);
-			ctx.strokeText(`  ${hands.get(p1id)[i].upval} \n${hands.get(p1id)[i].leftval}  ${hands.get(p1id)[i].rightval}\n  ${hands.get(p1id)[i].downval}`, (7+i*182), 22);
-			ctx.fillText(`  ${hands.get(p1id)[i].upval} \n${hands.get(p1id)[i].leftval}  ${hands.get(p1id)[i].rightval}\n  ${hands.get(p1id)[i].downval}`,  (7+i*182), 22);
+			ctx.drawImage(hands[p1id][i].url, (3+i*182), 3, 138, 174);
+			ctx.strokeText(`  ${hands[p1id][i].upval} \n${hands[p1id][i].leftval}  ${hands[p1id][i].rightval}\n  ${hands[p1id][i].downval}`, (7+i*182), 22);
+			ctx.fillText(`  ${hands[p1id][i].upval} \n${hands[p1id][i].leftval}  ${hands[p1id][i].rightval}\n  ${hands[p1id][i].downval}`,  (7+i*182), 22);
 			}
 
 			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
