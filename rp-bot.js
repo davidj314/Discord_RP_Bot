@@ -1281,6 +1281,7 @@ Client.on('message',  async message => {
 				}
 			}
 
+			console.log(hands[pointer]);
 			for (var i = 0; i < hands.length; i++){
 			ctx.drawImage(bck1, (0+i*182), 0, 144, 180);
 			ctx.drawImage(hands[pointer].hand[i].url, (3+i*182), 3, 138, 174);
