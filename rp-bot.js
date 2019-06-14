@@ -1159,10 +1159,8 @@ Client.on('message',  async message => {
 		break;
 			
 		case 'triplace':
-			console.log("start of triplace");
 			if (args[1] == null)break;
 			if (args[2] == null)break;
-			console.log("after arg check");
 			var card_index =  parseInt(args[1]);
 			var boardnum = parseInt(args[2]);
 			var pointer = -1;
@@ -1260,6 +1258,7 @@ Client.on('message',  async message => {
 				for (var i = 0; i < hands.length; i++)
 				{
 					if (hands[i].board == boardid){
+						console.log("Slicing a hand.");
 						hands.splice(i, 1);
 						i--;
 					}
