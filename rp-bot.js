@@ -1342,6 +1342,7 @@ Client.on('message',  async message => {
 			}
 			var card = hands[pointer].hand;
 			var boardid = hands[pointer].board;
+			console.log(`The board ids is ${boardid}`);
 			var temp = 0;
 			while(temp < board.length){
 				if (board[temp].lock == boardid){
