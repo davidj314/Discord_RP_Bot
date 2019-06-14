@@ -1329,11 +1329,6 @@ Client.on('message',  async message => {
 			console.log("after arg check");
 			var card_index =  parseInt(args[1]);
 			var boardnum = parseInt(args[2]);
-			var d1 = -1;
-			var d2 = -1;
-			
-			d1 = ((boardnum-1)/3);
-			d2 = ((boardnum-1)%3);
 			var pointer = -1;
 			for (var i = 0; i < hands.length; i++){
 				if (hands[i].id == author_id){
@@ -1345,6 +1340,25 @@ Client.on('message',  async message => {
 				channel.send("Your aren't in a game");
 				return;
 			}
+			if (boardnum > 9 || boardnum < 0){
+				channel.send("Board positions are 1 through 9. \n1 2 3\n4 5 6\n7 8 9");
+				break;
+			}
+			
+			if (card_index > 5 || boardnum < 0){
+				channel.send("Board positions are 1 through 5. \n1 2 3\n4 5 6\n7 8 9");
+				break;
+			}
+			if (hands[pointer].hand[card_index-1].used == 1){
+				channel.send("That card has already been used. Select another.");
+				break;
+			}
+			var d1 = -1;
+			var d2 = -1;
+			
+			d1 = ((boardnum-1)/3);
+			d2 = ((boardnum-1)%3);
+			
 			var card = hands[pointer].hand[card_index];
 			var boardid = hands[pointer].board;
 			console.log(`The board ids is ${boardid}`);
@@ -1359,12 +1373,120 @@ Client.on('message',  async message => {
 			console.log(board[temp]);
 			console.log("\n\n\n\n");
 			console.log(board);
+			show_board(board[temp].positions, (msg, att)=>{message.channel.send(msg, att)});
 			break;
 			
 			
         }
   	}
 });
+
+async function show_board(positions, callback){
+	const canvas = Canvas.createCanvas(396, 418);
+	const ctx = canvas.getContext('2d');
+
+	const background = await Canvas.loadImage('http://www.finalfantasykingdom.net/8/TTBOARD.jpg');
+	ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+	ctx.strokeStyle = '#74037b';
+	ctx.strokeRect(0, 0, canvas.width, canvas.height);
+	
+	const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
+	const bck2 = await Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ScbytNAjJFFGQRhGm-Me3ad-SJZbyzYm3A2FpU4MDsaao6D-');
+		
+	// Move the image downwards vertically and constrain its height to 200, so it's a square
+	
+	const left = 53;
+	const top = 24;
+	const wo = 98;
+	const ho = 122;
+	// Select the font size and type from one of the natively available fonts
+	ctx.font = '20px sans-serif';
+	// Select the style that will be used to fill the text in
+	ctx.fillStyle = '#ffffff';
+	ctx.strokeStyle = 'black';
+	ctx.lineWidth = 1; 
+		
+	if (positions[0][0]!= -1){	
+		const character = await Canvas.loadImage(positions[0][0].url);
+		ctx.drawImage(bck1, 54, 25, 96, 120);
+		ctx.drawImage(character, 56, 27, 92, 116);
+		ctx.strokeText("  4 \n4  4\n  4", 57, 40);
+		ctx.fillText("  4 \n4  4\n  4", 57, 40);
+	}
+		
+	//top middle	
+	if (positions[0][1]!= -1){
+		const character = await Canvas.loadImage(positions[0][1].url);
+		ctx.drawImage(bck2, 152, 25, 96, 120);
+		ctx.drawImage(character, 154, 27, 92, 116);
+		ctx.strokeText("  4 \n4  4\n  4", 155, 40);
+		ctx.fillText("  4 \n4  4\n  4", 155, 40);
+	}	
+	//top right	
+	if (positions[0][2]!= -1){
+		const character = await Canvas.loadImage(positions[0][2].url);
+		ctx.drawImage(bck1, 250, 25, 96, 120);
+		ctx.drawImage(character, 252, 27, 92, 116);
+		ctx.strokeText("  4 \n4  4\n  4", 253, 40);
+		ctx.fillText("  4 \n4  4\n  4", 253, 40);
+	}
+	//------------------
+	//middle left	
+	if (positions[1][0]!= -1){
+		const character = await Canvas.loadImage(positions[1][0].url);
+		ctx.drawImage(bck2, 54, 147, 96, 120);
+		ctx.drawImage(character, 56, 149, 92, 116);
+		ctx.strokeText("  4 \n4  4\n  4", 57, 162);
+		ctx.fillText("  4 \n4  4\n  4", 57, 162);
+	}
+	//middle middle	
+	if (positions[1][1]!= -1){
+		const character = await Canvas.loadImage(positions[1][1].url);
+		ctx.drawImage(bck1, 152, 147, 96, 120);
+		ctx.drawImage(character, 154, 149, 92, 116);
+		ctx.strokeText("  4 \n4  4\n  4", 155, 162);
+		ctx.fillText("  4 \n4  4\n  4", 155, 162);
+	}
+	//middle right	
+	if (positions[1][2]!= -1){
+		const character = await Canvas.loadImage(positions[1][2].url);
+		ctx.drawImage(bck2, 250, 147, 96, 120);
+		ctx.drawImage(character, 252, 149, 92, 116);
+		ctx.strokeText("  4 \n4  4\n  4", 253, 162);
+		ctx.fillText("  4 \n4  4\n  4", 253, 162);
+	}
+	//----------------------
+		
+	//bottom left	
+	if (positions[2][0]!= -1){
+		const character = await Canvas.loadImage(positions[2][0].url);
+		ctx.drawImage(bck1, 54, 269, 96, 120);
+		ctx.drawImage(character, 56, 271, 92, 116);
+		ctx.strokeText("  4 \n4  4\n  4", 57, 284);
+		ctx.fillText("  4 \n4  4\n  4", 57, 284);
+	}
+	//bottom middle	
+	if (positions[2][1]!= -1){
+		const character = await Canvas.loadImage(positions[2][1].url);
+		ctx.drawImage(bck2, 152, 269, 96, 120);
+		ctx.drawImage(character, 154, 271, 92, 116);
+		ctx.strokeText("  4 \n4  4\n  4", 155, 284);
+		ctx.fillText("  4 \n4  4\n  4", 155, 284);
+	}
+	//bottom right	
+	if (positions[2][2]!= -1){
+		const character = await Canvas.loadImage(positions[2][2].url);
+		ctx.drawImage(bck1, 250, 269, 96, 120);
+		ctx.drawImage(character, 252, 271, 92, 116);
+		ctx.strokeText("  4 \n4  4\n  4", 253, 284);
+		ctx.fillText("  4 \n4  4\n  4", 253, 284);
+	}
+		
+		
+	const attachment = new Discord.Attachment(canvas.toBuffer(), 'board.png');
+	callback(`Testing a thing`, attachment);
+}
 
 async function show_hand(hand, callback)
 {
