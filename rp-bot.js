@@ -440,6 +440,8 @@ async function get_card_list(server_id, callback, bad){
         }
     }); //end pool.query 
     pool.end()
+	
+    return 4;
 }//end function
 
 function get_authors_names(server_id, author_id, callback)
