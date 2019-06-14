@@ -1253,7 +1253,7 @@ Client.on('message',  async message => {
 			else
 			{
 				await finish_game(board[temp], (msg, att)=>{message.channel.send(msg, att)});
-				var boardid = board[temp].key;
+				var boardid = board[temp].lock;
 				//erase hands from the game
 				for (var i = 0; i < hands.length; i++)
 				{
