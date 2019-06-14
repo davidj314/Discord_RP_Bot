@@ -1251,11 +1251,16 @@ Client.on('message',  async message => {
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
 			console.log(rows);
-			hands.push({id: p1id, hand:[{color: "Blue", up: rows[4].upval, down: rows[4].downval, left: rows[4].leftval, right: rows[4].rightval, url: rows[4].url},
-			   {color: "Blue", up: rows[1].upval, down: rows[1].downval, left: rows[1].leftval, right: rows[1].rightval, url: rows[1].url},
-			   {color: "Blue", up: rows[5].upval, down: rows[5].downval, left: rows[5].leftval, right: rows[5].rightval, url: rows[5].url},
-			   {color: "Blue", up: rows[6].upval, down: rows[6].downval, left: rows[6].leftval, right: rows[6].rightval, url: rows[6].url},
-			   {color: "Blue", up: rows[7].upval, down: rows[7].downval, left: rows[7].leftval, right: rows[7].rightval, url: rows[7].url}]});
+			var pull1 = var side = Math.floor(Math.random() * (rows.length+1 - 1) + 1);
+			var pull2 = var side = Math.floor(Math.random() * (rows.length+1 - 1) + 1);
+			var pull3 = var side = Math.floor(Math.random() * (rows.length+1 - 1) + 1);
+			var pull4 = var side = Math.floor(Math.random() * (rows.length+1 - 1) + 1);
+			var pull5 = var side = Math.floor(Math.random() * (rows.length+1 - 1) + 1);
+			hands.push({id: p1id, hand:[{used: 0, color: "Blue", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url},
+			   {used: 0, color: "Blue", up: rows[pull2].upval, down: rows[pull2].downval, left: rows[pull2].leftval, right: rows[pull2].rightval, url: rows[pull2].url},
+			   {used: 0, color: "Blue", up: rows[pull3].upval, down: rows[pull3].downval, left: rows[pull3].leftval, right: rows[pull3].rightval, url: rows[pull3].url},
+			   {used: 0, color: "Blue", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
+			   {used: 0, color: "Blue", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
 
 			
 		}, (msg)=>{channel.send(msg)});
