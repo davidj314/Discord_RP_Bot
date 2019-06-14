@@ -1241,9 +1241,9 @@ Client.on('message',  async message => {
 
 		var p1id = author_id.toString();
 		var p2id = message.mentions.users.first().id.toString();
-			
+		var p2nick = message.mentions.users.first().nickname;
 		var key = guild_id+ p1id;
-		board.push({lock: key, positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]});
+		board.push({lock: key, initiator:p1id, challenged:p2id, initiator_nick: message.member.nickname, challenged_nick: p2nick  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]});
 		
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
@@ -1366,23 +1366,29 @@ Client.on('message',  async message => {
 			var boardid = hands[pointer].board;
 			console.log(`The board ids is ${boardid}`);
 			var temp = 0;
+			var found = 0;
 			while(temp < board.length){
 				if (board[temp].lock == boardid){
-					console.log("starting tests");
-					console.log(board[temp]);
-					console.log(board[temp].positions);
-					console.log(board[temp].positions[0][0]);
-					console.log(`indexes are [${d1}][${d2}]`);
 					board[temp].positions[d1][d2] = card;
 					hands[pointer].hand[card_index-1].used = 1;
+					found++;
 				}
 				temp++;
+				if(found==1)break;
 			}
 			temp--;
-			console.log(board[temp]);
-			console.log("\n\n\n\n");
-			console.log(board);
 			show_board(board[temp].positions, (msg, att)=>{message.channel.send(msg, att)});
+			//async function show_hand(hand, callback)
+			
+			show_hand(hands[pointer].hand, board[temp].initiator_nick, (msg, att)=>{message.channel.send(msg, att)});
+			
+			for (var i = 0; i < hands.length; i++){
+				if (hands[i].id == board[temp].challenged){
+					pointer = i;
+					break;
+				}
+			}
+			show_hand(hands[pointer].hand, board[temp].p2nick, (msg, att)=>{message.channel.send(msg, att)});
 			break;
 			
 			
@@ -1530,12 +1536,10 @@ async function show_board(positions, callback){
 	callback(`Testing a thing`, attachment);
 }
 
-async function show_hand(hand, callback)
+async function show_hand(hand, nick, callback)
 {
 			const canvas = Canvas.createCanvas( 745, 180);
 			const ctx = canvas.getContext('2d');
-			console.log("\n\n\n\n");
-			console.log(hand);
 			ctx.strokeStyle = '#74037b';
 			ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
@@ -1563,7 +1567,7 @@ async function show_hand(hand, callback)
 			}
 
 			const attachment = new Discord.Attachment(canvas.toBuffer(), 'hand.png');
-			callback(`Hand`, attachment);	
+			callback(`${nick}'s Hand`, attachment);	
 }
 
 Client.login(process.env.BOT_TOKEN);
