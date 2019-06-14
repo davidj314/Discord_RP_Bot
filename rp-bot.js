@@ -1243,7 +1243,7 @@ Client.on('message',  async message => {
 		var p2id = message.mentions.users.first().id.toString();
 			
 		var key = guild_id+ p1id;
-		board.push({lock: key, positions: [-1,-1,-1,-1,-1,-1,-1,-1,-1]});
+		board.push({lock: key, positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]});
 		
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
@@ -1329,6 +1329,18 @@ Client.on('message',  async message => {
 			console.log("after arg check");
 			var card_index =  parseInt(args[1]);
 			var boardnum = parseInt(args[1]);
+			var d1 = -1;
+			var d2 = -1;
+			if      (boardnum == 1) {d1=0; d2=0;};
+			else if (boardnum == 2) {d1=0; d2=1;};
+			else if (boardnum == 3) {d1=0; d2=2;};
+			else if (boardnum == 4) {d1=1; d2=0;};
+			else if (boardnum == 5) {d1=1; d2=1;};
+			else if (boardnum == 6) {d1=1; d2=2;};
+			else if (boardnum == 7) {d1=2; d2=0;};
+			else if (boardnum == 8) {d1=2; d2=1;};
+			else {d1=2; d2=2;};
+			
 			var pointer = -1;
 			for (var i = 0; i < hands.length; i++){
 				if (hands[i].id == author_id){
@@ -1340,16 +1352,15 @@ Client.on('message',  async message => {
 				channel.send("Your aren't in a game");
 				return;
 			}
-			var card = hands[pointer].hand;
+			var card = hands[pointer].hand[card_index];
 			var boardid = hands[pointer].board;
 			console.log(`The board ids is ${boardid}`);
 			var temp = 0;
 			while(temp < board.length){
 				if (board[temp].lock == boardid){
-					board[temp].positions[boardnum] = card;	
+					board[temp].positions[d1][d2] = card;	
 				}
 				temp++;
-				
 			}
 			temp--;
 			console.log(board[temp]);
