@@ -1241,9 +1241,10 @@ Client.on('message',  async message => {
 
 		var p1id = author_id.toString();
 		var p2id = message.mentions.users.first().id.toString();
+		var p1nick = message.member.nickname;
 		var p2nick = message.mentions.users.first().nickname;
 		var key = guild_id+ p1id;
-		board.push({lock: key, initiator:p1id, challenged:p2id, initiator_nick: message.member.nickname, challenged_nick: p2nick  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]});
+		board.push({lock: key, initiator:p1id, challenged:p2id, initiator_nick:p1nick, challenged_nick: p2nick  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]});
 		
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
@@ -1269,8 +1270,8 @@ Client.on('message',  async message => {
 			   {used: 0, color: "Red", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
 			   {used: 0, color: "Red", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
 			
-			show_hand(hands[hands.length-2].hand, (msg, att)=>{channel.send(msg, att)});
-			show_hand(hands[hands.length-1].hand, (msg, att)=>{channel.send(msg, att)});
+			show_hand(hands[hands.length-2].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
+			show_hand(hands[hands.length-1].hand, p2nick, (msg, att)=>{channel.send(msg, att)});
 
 			
 		}, (msg)=>{channel.send(msg)});
