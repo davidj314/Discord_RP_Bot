@@ -1214,7 +1214,7 @@ Client.on('message',  async message => {
 			}
 			temp--;
 			
-			resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
+			await resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
 			
 			await show_board(board[temp].positions, (msg, att)=>{message.channel.send(msg, att)});
 			//async function show_hand(hand, callback)
@@ -1235,7 +1235,7 @@ Client.on('message',  async message => {
   	}
 });
 //resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
-asynch function resolve_fights(card, row, col, positions){
+async function resolve_fights(card, row, col, positions){
 	var above, below, left, right=-1;
 	if (row > 0) above = {color: positions[row-1][col].color, val:positions[row-1][col]} ;
 	if (row < 2) below = {color: positions[row+1][col].color, val:positions[row+1][col]};
