@@ -1282,7 +1282,7 @@ Client.on('message',  async message => {
 				}
 			}
 			if (board_index==-1)break;
-			board.slice(board_index, 1);
+			board.splice(board_index, 1);
 			for (var i = 0; i < hands.length;i++){
 				if(hands[i].board==board_lock){
 					hands.splice(i, 1);
