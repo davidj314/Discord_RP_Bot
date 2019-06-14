@@ -420,7 +420,7 @@ function get_card_info(server_id, owner_id, cid, callback, bad){
     pool.end()
 }//end function
 
-async function get_card_list(server_id, callback, bad){
+function get_card_list(server_id, callback, bad){
     var select_query = "SELECT url, upval, downval, leftval, rightval FROM Cards WHERE server_id = $1";
     var query_values = [server_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
@@ -1251,7 +1251,7 @@ Client.on('message',  async message => {
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"}]});
 		//function get_card_list(server_id, callback, bad)
-		await get_card_list(guild_id, (rows)=>{
+		get_card_list(guild_id, (rows)=>{
 			var pull1 = Math.floor(Math.random() * (rows.length));
 			var pull2 = Math.floor(Math.random() * (rows.length));
 			var pull3 = Math.floor(Math.random() * (rows.length));
