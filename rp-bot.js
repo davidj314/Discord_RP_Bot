@@ -1404,10 +1404,7 @@ async function show_board(positions, callback){
 		
 	// Move the image downwards vertically and constrain its height to 200, so it's a square
 	
-	const left = 53;
-	const top = 24;
-	const wo = 98;
-	const ho = 122;
+
 	// Select the font size and type from one of the natively available fonts
 	ctx.font = '20px sans-serif';
 	// Select the style that will be used to fill the text in
