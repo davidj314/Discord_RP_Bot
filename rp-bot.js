@@ -1352,19 +1352,19 @@ async function show_hand(hand, callback)
 			
 
 			
-			for (var i = 0; i < hand.hand.length; i++){
-				var url = hand.hand[i].url;
-				if (hand.hand[i].used == 1)continue; 
+			for (var i = 0; i < hand.length; i++){
+				var url = hand[i].url;
+				if (hand[i].used == 1)continue; 
 				const character = await Canvas.loadImage(url);
-				if(hand.hand[i].color == "Red") ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
+				if(hand[i].color == "Red") ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
 				else ctx.drawImage(bck2, (0+i*148), 0, 144, 180);
 
 				ctx.drawImage(character, (3+i*148), 3, 138, 174);
-				ctx.strokeText(`  ${hand.hand[i].up} \n${hand.hand[i].left}  ${hand.hand[i].right}\n  ${hand.hand[i].down}`, (7+i*148), 22);
-				ctx.fillText(`  ${hand.hand[i].up} \n${hand.hand[i].left}  ${hand.hand[i].right}\n  ${hand.hand[i].down}`,  (7+i*148), 22);
+				ctx.strokeText(`  ${hand[i].up} \n${hand[i].left}  ${hand[i].right}\n  ${hand[i].down}`, (7+i*148), 22);
+				ctx.fillText(`  ${hand[i].up} \n${hand[i].left}  ${hand[i].right}\n  ${hand[i].down}`,  (7+i*148), 22);
 			}
 
-			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
+			const attachment = new Discord.Attachment(canvas.toBuffer(), 'hand.png');
 			callback(`Hand`, attachment);	
 }
 
