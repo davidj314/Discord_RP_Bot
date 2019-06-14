@@ -1244,7 +1244,8 @@ Client.on('message',  async message => {
 		var p1nick = message.author.username;
 		var p2nick = message.mentions.users.first().username;
 		var key = guild_id+ p1id;
-		board.push({lock: key, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]});
+		var newboard = {lock: key, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]};
+		board.push(newboard);
 		
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
@@ -1269,9 +1270,9 @@ Client.on('message',  async message => {
 			   {used: 0, color: "Red", up: rows[pull3].upval, down: rows[pull3].downval, left: rows[pull3].leftval, right: rows[pull3].rightval, url: rows[pull3].url},
 			   {used: 0, color: "Red", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
 			   {used: 0, color: "Red", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
-			
-			show_hand(hands[hands.length-2].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
-			show_hand(hands[hands.length-1].hand, p2nick, (msg, att)=>{channel.send(msg, att)});
+			await show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
+			await show_hand(hands[hands.length-2].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
+			await show_hand(hands[hands.length-1].hand, p2nick, (msg, att)=>{channel.send(msg, att)});
 
 			
 		}, (msg)=>{channel.send(msg)});
@@ -1334,10 +1335,10 @@ Client.on('message',  async message => {
 				if(found==1)break;
 			}
 			temp--;
-			show_board(board[temp].positions, (msg, att)=>{message.channel.send(msg, att)});
+			await show_board(board[temp].positions, (msg, att)=>{message.channel.send(msg, att)});
 			//async function show_hand(hand, callback)
 			
-			show_hand(hands[pointer].hand, board[temp].initiator_nick, (msg, att)=>{message.channel.send(msg, att)});
+			await show_hand(hands[pointer].hand, board[temp].initiator_nick, (msg, att)=>{message.channel.send(msg, att)});
 			
 			for (var i = 0; i < hands.length; i++){
 				if (hands[i].id == board[temp].challenged){
@@ -1345,7 +1346,7 @@ Client.on('message',  async message => {
 					break;
 				}
 			}
-			show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
+			await show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
 			break;
 			
 			
