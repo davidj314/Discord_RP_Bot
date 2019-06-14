@@ -1351,6 +1351,7 @@ Client.on('message',  async message => {
 				temp++;
 				
 			}
+			temp--;
 			console.log(board[temp]);
 			console.log("\n\n\n\n");
 			console.log(board);
