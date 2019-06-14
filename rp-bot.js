@@ -420,7 +420,7 @@ function get_card_info(server_id, owner_id, cid, callback, bad){
     pool.end()
 }//end function
 
-function get_card_list(server_id, callback, bad){
+async function get_card_list(server_id, callback, bad){
     var select_query = "SELECT url, upval, downval, leftval, rightval FROM Cards WHERE server_id = $1";
     var query_values = [server_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
