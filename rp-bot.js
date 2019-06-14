@@ -1251,11 +1251,11 @@ Client.on('message',  async message => {
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
 			console.log(rows);
-			var pull1 = var side = Math.floor(Math.random() * (rows.length+1 - 1) + 1);
-			var pull2 = var side = Math.floor(Math.random() * (rows.length+1 - 1) + 1);
-			var pull3 = var side = Math.floor(Math.random() * (rows.length+1 - 1) + 1);
-			var pull4 = var side = Math.floor(Math.random() * (rows.length+1 - 1) + 1);
-			var pull5 = var side = Math.floor(Math.random() * (rows.length+1 - 1) + 1);
+			var pull1 = Math.floor(Math.random() * (rows.length));
+			var pull2 = Math.floor(Math.random() * (rows.length));
+			var pull3 = Math.floor(Math.random() * (rows.length));
+			var pull4 = Math.floor(Math.random() * (rows.length));
+			var pull5 = Math.floor(Math.random() * (rows.length));
 			hands.push({id: p1id, hand:[{used: 0, color: "Blue", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url},
 			   {used: 0, color: "Blue", up: rows[pull2].upval, down: rows[pull2].downval, left: rows[pull2].leftval, right: rows[pull2].rightval, url: rows[pull2].url},
 			   {used: 0, color: "Blue", up: rows[pull3].upval, down: rows[pull3].downval, left: rows[pull3].leftval, right: rows[pull3].rightval, url: rows[pull3].url},
