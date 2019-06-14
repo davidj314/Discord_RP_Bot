@@ -1325,7 +1325,7 @@ Client.on('message',  async message => {
   	}
 });
 
-function show_hand(hand, callback)
+async function show_hand(hand, callback)
 {
 			const canvas = Canvas.createCanvas( 745, 180);
 			const ctx = canvas.getContext('2d');
