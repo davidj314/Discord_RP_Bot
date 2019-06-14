@@ -1237,22 +1237,22 @@ Client.on('message',  async message => {
 //resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
 async function resolve_fights(card, row, col, positions){
 	var above, below, left, right=-1;
-	if (row > 0) above = {color: positions[row-1][col].color, val:positions[row-1][col]} ;
-	if (row < 2) below = {color: positions[row+1][col].color, val:positions[row+1][col]};
-	if (col > 0) left = {color: positions[row][col-1].color, val:positions[row][col-1]};
-	if (col < 2) right = {color: positions[row][col+1].color, val:positions[row][col+1]};
+	if (row > 0) above = {color: positions[row-1][col].color, val:positions[row-1][col].down} ;
+	if (row < 2) below = {color: positions[row+1][col].color, val:positions[row+1][col].up};
+	if (col > 0) left = {color: positions[row][col-1].color, val:positions[row][col-1].right};
+	if (col < 2) right = {color: positions[row][col+1].color, val:positions[row][col+1].left};
 	
 	if (above!=-1){
-		if (card.up > above.down)above.color=card.color;
+		if (card.up > above.val)above.color=card.color;
 	}
 	if (below!=-1){
-		if (card.up > above.down)above.color=card.color;
+		if (card.down > below.val)above.color=card.color;
 	}
 	if (left!=-1){
-		if (card.up > above.down)above.color=card.color;
+		if (card.left > left.val)above.color=card.color;
 	}
 	if (right!=-1){
-		if (card.up > above.down)above.color=card.color;
+		if (card.right > right.val)above.color=card.color;
 	}
 }
 
