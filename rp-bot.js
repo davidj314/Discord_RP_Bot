@@ -1336,7 +1336,7 @@ async function show_board(positions, callback){
 		var down = positions[1][0].down;
 		var left = positions[1][0].left;
 		var right = positions[1][0].right;
-		if(positions[0][3].color=="Blue") ctx.drawImage(bck1, 54, 147, 96, 120);
+		if(positions[1][0].color=="Blue") ctx.drawImage(bck1, 54, 147, 96, 120);
 		else ctx.drawImage(bck2, 54, 147, 96, 120)
 		ctx.drawImage(character, 56, 149, 92, 116);
 		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 162);
