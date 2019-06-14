@@ -1362,7 +1362,7 @@ Client.on('message',  async message => {
 			d1-=d1%1;
 			d2-=d2%1;
 			
-			var card = hands[pointer].hand[card_index];
+			var card = hands[pointer].hand[card_index-1];
 			var boardid = hands[pointer].board;
 			console.log(`The board ids is ${boardid}`);
 			var temp = 0;
@@ -1417,78 +1417,114 @@ async function show_board(positions, callback){
 		
 	if (positions[0][0]!= -1){	
 		const character = await Canvas.loadImage(positions[0][0].url);
+		var up = positions[0][0].up;
+		var down = positions[0][0].down;
+		var left = positions[0][0].left;
+		var right = positions[0][0].right;
 		ctx.drawImage(bck1, 54, 25, 96, 120);
 		ctx.drawImage(character, 56, 27, 92, 116);
-		ctx.strokeText("  4 \n4  4\n  4", 57, 40);
-		ctx.fillText("  4 \n4  4\n  4", 57, 40);
+		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 40);
+		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 40);
 	}
 		
 	//top middle	
 	if (positions[0][1]!= -1){
 		const character = await Canvas.loadImage(positions[0][1].url);
+		var up = positions[0][1].up;
+		var down = positions[0][1].down;
+		var left = positions[0][1].left;
+		var right = positions[0][1].right;
 		ctx.drawImage(bck2, 152, 25, 96, 120);
 		ctx.drawImage(character, 154, 27, 92, 116);
-		ctx.strokeText("  4 \n4  4\n  4", 155, 40);
-		ctx.fillText("  4 \n4  4\n  4", 155, 40);
+		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 155, 40);
+		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 155, 40);
 	}	
 	//top right	
 	if (positions[0][2]!= -1){
 		const character = await Canvas.loadImage(positions[0][2].url);
+		var up = positions[0][2].up;
+		var down = positions[0][2].down;
+		var left = positions[0][2].left;
+		var right = positions[0][2].right;
 		ctx.drawImage(bck1, 250, 25, 96, 120);
 		ctx.drawImage(character, 252, 27, 92, 116);
-		ctx.strokeText("  4 \n4  4\n  4", 253, 40);
-		ctx.fillText("  4 \n4  4\n  4", 253, 40);
+		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 253, 40);
+		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 253, 40);
 	}
 	//------------------
 	//middle left	
 	if (positions[1][0]!= -1){
 		const character = await Canvas.loadImage(positions[1][0].url);
+		var up = positions[1][0].up;
+		var down = positions[1][0].down;
+		var left = positions[1][0].left;
+		var right = positions[1][0].right;
 		ctx.drawImage(bck2, 54, 147, 96, 120);
 		ctx.drawImage(character, 56, 149, 92, 116);
-		ctx.strokeText("  4 \n4  4\n  4", 57, 162);
-		ctx.fillText("  4 \n4  4\n  4", 57, 162);
+		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 162);
+		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 162);
 	}
 	//middle middle	
 	if (positions[1][1]!= -1){
 		const character = await Canvas.loadImage(positions[1][1].url);
+		var up = positions[1][1].up;
+		var down = positions[1][1].down;
+		var left = positions[1][1].left;
+		var right = positions[1][1].right;
 		ctx.drawImage(bck1, 152, 147, 96, 120);
 		ctx.drawImage(character, 154, 149, 92, 116);
-		ctx.strokeText("  4 \n4  4\n  4", 155, 162);
-		ctx.fillText("  4 \n4  4\n  4", 155, 162);
+		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 155, 162);
+		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 155, 162);
 	}
 	//middle right	
 	if (positions[1][2]!= -1){
 		const character = await Canvas.loadImage(positions[1][2].url);
+		var up = positions[1][2].up;
+		var down = positions[1][2].down;
+		var left = positions[1][2].left;
+		var right = positions[1][2].right;
 		ctx.drawImage(bck2, 250, 147, 96, 120);
 		ctx.drawImage(character, 252, 149, 92, 116);
-		ctx.strokeText("  4 \n4  4\n  4", 253, 162);
-		ctx.fillText("  4 \n4  4\n  4", 253, 162);
+		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 253, 162);
+		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 253, 162);
 	}
 	//----------------------
 		
 	//bottom left	
 	if (positions[2][0]!= -1){
 		const character = await Canvas.loadImage(positions[2][0].url);
+		var up = positions[2][0].up;
+		var down = positions[2][0].down;
+		var left = positions[2][0].left;
+		var right = positions[2][0].right;
 		ctx.drawImage(bck1, 54, 269, 96, 120);
 		ctx.drawImage(character, 56, 271, 92, 116);
-		ctx.strokeText("  4 \n4  4\n  4", 57, 284);
-		ctx.fillText("  4 \n4  4\n  4", 57, 284);
+		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 284);
+		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 284);
 	}
 	//bottom middle	
 	if (positions[2][1]!= -1){
 		const character = await Canvas.loadImage(positions[2][1].url);
+		var up = positions[2][1].up;
+		var down = positions[2][1].down;
+		var left = positions[2][1].left;
+		var right = positions[2][1].right;
 		ctx.drawImage(bck2, 152, 269, 96, 120);
 		ctx.drawImage(character, 154, 271, 92, 116);
-		ctx.strokeText("  4 \n4  4\n  4", 155, 284);
-		ctx.fillText("  4 \n4  4\n  4", 155, 284);
+		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 155, 284);
+		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 155, 284);
 	}
 	//bottom right	
 	if (positions[2][2]!= -1){
 		const character = await Canvas.loadImage(positions[2][2].url);
+		var up = positions[2][2].up;
+		var down = positions[2][2].down;
+		var left = positions[2][2].left;
+		var right = positions[2][2].right;
 		ctx.drawImage(bck1, 250, 269, 96, 120);
 		ctx.drawImage(character, 252, 271, 92, 116);
-		ctx.strokeText("  4 \n4  4\n  4", 253, 284);
-		ctx.fillText("  4 \n4  4\n  4", 253, 284);
+		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 253, 284);
+		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 253, 284);
 	}
 		
 		
