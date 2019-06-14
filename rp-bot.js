@@ -1270,6 +1270,27 @@ Client.on('message',  async message => {
 			}
 			break;
 			
+		case 'end_game':
+			var board_index = -1;
+			var board_lock = -1
+			for (var i = 0; i < board.length; i++){
+				if (board[i].initiator == author_id || board[i].challenged==author_id) 
+				{
+					board_index = i;
+					board_lock= board[i].lock;
+					break;
+				}
+			}
+			if (board_index==-1)break;
+			board.slice(board_index, 1);
+			for (var i = 0; i < hands.length;i++){
+				if(hands[i].board==board_lock){
+					hands.splice(i, 1);
+					i--;
+				}
+			}
+			break;
+			
 			
         }
   	}
