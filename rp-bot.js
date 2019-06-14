@@ -1331,15 +1331,15 @@ Client.on('message',  async message => {
 			var boardnum = parseInt(args[1]);
 			var d1 = -1;
 			var d2 = -1;
-			if      (boardnum == 1) {d1=0; d2=0;};
-			else if (boardnum == 2) {d1=0; d2=1;};
-			else if (boardnum == 3) {d1=0; d2=2;};
-			else if (boardnum == 4) {d1=1; d2=0;};
-			else if (boardnum == 5) {d1=1; d2=1;};
-			else if (boardnum == 6) {d1=1; d2=2;};
-			else if (boardnum == 7) {d1=2; d2=0;};
-			else if (boardnum == 8) {d1=2; d2=1;};
-			else {d1=2; d2=2;};
+			if(boardnum == 1){d1=0; d2=0;}
+			else if (boardnum == 2) {d1=0; d2=1;}
+			else if (boardnum == 3) {d1=0; d2=2;}
+			else if (boardnum == 4) {d1=1; d2=0;}
+			else if (boardnum == 5) {d1=1; d2=1;}
+			else if (boardnum == 6) {d1=1; d2=2;}
+			else if (boardnum == 7) {d1=2; d2=0;}
+			else if (boardnum == 8) {d1=2; d2=1;}
+			else {d1=2; d2=2;}
 			
 			var pointer = -1;
 			for (var i = 0; i < hands.length; i++){
