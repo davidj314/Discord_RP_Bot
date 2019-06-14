@@ -1275,12 +1275,12 @@ Client.on('message',  async message => {
 			   {used: 0, color: "Red", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
 			
 			show_hand(hands[hands.length-2].hand, (msg, att)=>{channel.send(msg, att)});
-			show_hand(hand[hands.length-1].hand, (msg, att)=>{channel.send(msg, att)});
+			show_hand(hands[hands.length-1].hand, (msg, att)=>{channel.send(msg, att)});
 
 			
 		}, (msg)=>{channel.send(msg)});
 			
-			channel.send("Initiating Player's hand");
+			/*channel.send("Initiating Player's hand");
 			var pointer = -1;
 			console.log("Initiating Player's hand");
 			for (var i = 0; i < hands.length; i++){
@@ -1289,7 +1289,7 @@ Client.on('message',  async message => {
 					break;
 				}
 			}
-			/*const canvas = Canvas.createCanvas( 745, 180);
+			const canvas = Canvas.createCanvas( 745, 180);
 			const ctx = canvas.getContext('2d');
 			ctx.strokeStyle = '#74037b';
 			ctx.strokeRect(0, 0, canvas.width, canvas.height);
