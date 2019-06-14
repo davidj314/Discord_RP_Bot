@@ -1249,7 +1249,7 @@ Client.on('message',  async message => {
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"}]});
 		//function get_card_list(server_id, callback, bad)
-		get_card_list(guild_id, (rows)=>{
+		await get_card_list(guild_id, (rows)=>{
 			var pull1 = Math.floor(Math.random() * (rows.length));
 			var pull2 = Math.floor(Math.random() * (rows.length));
 			var pull3 = Math.floor(Math.random() * (rows.length));
