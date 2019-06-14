@@ -1245,11 +1245,6 @@ Client.on('message',  async message => {
 		var key = guild_id+ p1id;
 		board.push({lock: key, positions: [-1,-1,-1,-1,-1,-1,-1,-1,-1]});
 		
-		hands.push({id:p2id, hand: [{color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
-			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
-			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
-			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"},
-			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"}]});
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
 			var pull1 = Math.floor(Math.random() * (rows.length));
@@ -1257,7 +1252,7 @@ Client.on('message',  async message => {
 			var pull3 = Math.floor(Math.random() * (rows.length));
 			var pull4 = Math.floor(Math.random() * (rows.length));
 			var pull5 = Math.floor(Math.random() * (rows.length));
-			hands.push({id: p1id, hand:[{used: 0, color: "Blue", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url},
+			hands.push({id: p1id, board: key, hand:[{used: 0, color: "Blue", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url},
 			   {used: 0, color: "Blue", up: rows[pull2].upval, down: rows[pull2].downval, left: rows[pull2].leftval, right: rows[pull2].rightval, url: rows[pull2].url},
 			   {used: 0, color: "Blue", up: rows[pull3].upval, down: rows[pull3].downval, left: rows[pull3].leftval, right: rows[pull3].rightval, url: rows[pull3].url},
 			   {used: 0, color: "Blue", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
@@ -1268,7 +1263,7 @@ Client.on('message',  async message => {
 			pull3 = Math.floor(Math.random() * (rows.length));
 			pull4 = Math.floor(Math.random() * (rows.length));
 			pull5 = Math.floor(Math.random() * (rows.length));
-			hands.push({id: p2id, hand:[{used: 0, color: "Blue", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url},
+			hands.push({id: p2id, board: key, hand:[{used: 0, color: "Blue", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url},
 			   {used: 0, color: "Red", up: rows[pull2].upval, down: rows[pull2].downval, left: rows[pull2].leftval, right: rows[pull2].rightval, url: rows[pull2].url},
 			   {used: 0, color: "Red", up: rows[pull3].upval, down: rows[pull3].downval, left: rows[pull3].leftval, right: rows[pull3].rightval, url: rows[pull3].url},
 			   {used: 0, color: "Red", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
@@ -1326,6 +1321,36 @@ Client.on('message',  async message => {
 			//setTimeout(function (){show_hand(hands[pointer])}, 4000);
 				
 		break;
+			
+		case 'triplace':
+			if (args[1] == null)break;
+			if (args[2] == null)break;
+			var card_index =  parseInt(args[1]);
+			var boardnum = parseInt(args[1]);
+			var pointer = -1;
+			for (var i = 0; i < hands.length; i++){
+				if (hands[i].id == author_id){
+					pointer = i;
+					break;
+				}
+			}
+			if (pointer == -1){
+				channel.send("Your aren't in a game");
+				return;
+			}
+			var card = hands[pointer].hand;
+			var boardid = hands[pointer].board;
+			var temp = 0;
+			while(temp < boards.length]){
+				if (boards[temp].lock == boardid){
+					boards[temp].positions[boardnum] = card;	
+				}
+				
+			}
+			console.log(boards[temp]);
+			console.log("\n\n\n\n");
+			console.log(boards);
+			break;
 			
 			
         }
