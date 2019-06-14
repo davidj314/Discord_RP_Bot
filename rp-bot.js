@@ -1318,6 +1318,8 @@ Client.on('message',  async message => {
 			channel.send(`Hand`, attachment);*/
 			//DELETE LATER 
 			console.log("waiting");
+			console.log(pointer);
+			console.log(hands[pointer]);
 			setTimeout(function (){show_hand(hands[pointer])}, 4000);
 				
 		break;
