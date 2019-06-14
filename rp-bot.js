@@ -1260,23 +1260,22 @@ Client.on('message',  async message => {
 			   {used: 0, color: "Blue", up: rows[pull3].upval, down: rows[pull3].downval, left: rows[pull3].leftval, right: rows[pull3].rightval, url: rows[pull3].url},
 			   {used: 0, color: "Blue", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
 			   {used: 0, color: "Blue", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
+			
+			pull1 = Math.floor(Math.random() * (rows.length));
+			pull2 = Math.floor(Math.random() * (rows.length));
+			pull3 = Math.floor(Math.random() * (rows.length));
+			pull4 = Math.floor(Math.random() * (rows.length));
+			pull5 = Math.floor(Math.random() * (rows.length));
+			hands.push({id: p2id, hand:[{used: 0, color: "Blue", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url},
+			   {used: 0, color: "Red", up: rows[pull2].upval, down: rows[pull2].downval, left: rows[pull2].leftval, right: rows[pull2].rightval, url: rows[pull2].url},
+			   {used: 0, color: "Red", up: rows[pull3].upval, down: rows[pull3].downval, left: rows[pull3].leftval, right: rows[pull3].rightval, url: rows[pull3].url},
+			   {used: 0, color: "Red", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
+			   {used: 0, color: "Red", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
 
 			
 		}, (msg)=>{channel.send(msg)});
 			
-			const canvas = Canvas.createCanvas( 745, 180);
-			const ctx = canvas.getContext('2d');
-			ctx.strokeStyle = '#74037b';
-			ctx.strokeRect(0, 0, canvas.width, canvas.height);
-
-			const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
-			
-			// Select the font size and type from one of the natively available fonts
-			ctx.font = '20px sans-serif';
-			// Select the style that will be used to fill the text in
-			ctx.fillStyle = '#ffffff';
-			ctx.strokeStyle = 'black';
-			ctx.lineWidth = 1; 
+			channel.send("Initiating Player's hand");
 			var pointer = -1;
 			console.log(hands);
 			for (var i = 0; i < hands.length; i++){
@@ -1285,20 +1284,38 @@ Client.on('message',  async message => {
 					break;
 				}
 			}
+			/*const canvas = Canvas.createCanvas( 745, 180);
+			const ctx = canvas.getContext('2d');
+			ctx.strokeStyle = '#74037b';
+			ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+			const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
+			const bck2 = await Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ScbytNAjJFFGQRhGm-Me3ad-SJZbyzYm3A2FpU4MDsaao6D-');
+			// Select the font size and type from one of the natively available fonts
+			ctx.font = '20px sans-serif';
+			// Select the style that will be used to fill the text in
+			ctx.fillStyle = '#ffffff';
+			ctx.strokeStyle = 'black';
+			ctx.lineWidth = 1; 
+			
 
 			
 			for (var i = 0; i < hands[pointer].hand.length; i++){
 			var url = hands[pointer].hand[i].url;
+			if (hands[pointer].hand[i].used == 1)continue; 
 			const character = await Canvas.loadImage(url);
-			ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
+			if(hands[pointer].hand[i].color == "Red") ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
+			else ctx.drawImage(bck2, (0+i*148), 0, 144, 180);
+				
 			ctx.drawImage(character, (3+i*148), 3, 138, 174);
 			ctx.strokeText(`  ${hands[pointer].hand[i].up} \n${hands[pointer].hand[i].left}  ${hands[pointer].hand[i].right}\n  ${hands[pointer].hand[i].down}`, (7+i*148), 22);
 			ctx.fillText(`  ${hands[pointer].hand[i].up} \n${hands[pointer].hand[i].left}  ${hands[pointer].hand[i].right}\n  ${hands[pointer].hand[i].down}`,  (7+i*148), 22);
 			}
 
 			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
-			channel.send(`Hand`, attachment);
+			channel.send(`Hand`, attachment);*/
 			//DELETE LATER 
+			show_hand(hands[pointer]);
 			hands.splice(pointer, 1);
 				
 		break;
@@ -1307,5 +1324,39 @@ Client.on('message',  async message => {
         }
   	}
 });
+
+function show_hand(hand, callback)
+{
+			const canvas = Canvas.createCanvas( 745, 180);
+			const ctx = canvas.getContext('2d');
+			ctx.strokeStyle = '#74037b';
+			ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+			const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
+			const bck2 = await Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ScbytNAjJFFGQRhGm-Me3ad-SJZbyzYm3A2FpU4MDsaao6D-');
+			// Select the font size and type from one of the natively available fonts
+			ctx.font = '20px sans-serif';
+			// Select the style that will be used to fill the text in
+			ctx.fillStyle = '#ffffff';
+			ctx.strokeStyle = 'black';
+			ctx.lineWidth = 1; 
+			
+
+			
+			for (var i = 0; i < hand.hand.length; i++){
+				var url = hand.hand[i].url;
+				if (hand.hand[i].used == 1)continue; 
+				const character = await Canvas.loadImage(url);
+				if(hand.hand[i].color == "Red") ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
+				else ctx.drawImage(bck2, (0+i*148), 0, 144, 180);
+
+				ctx.drawImage(character, (3+i*148), 3, 138, 174);
+				ctx.strokeText(`  ${hand.hand[i].up} \n${hand.hand[i].left}  ${hand.hand[i].right}\n  ${hand.hand[i].down}`, (7+i*148), 22);
+				ctx.fillText(`  ${hand.hand[i].up} \n${hand.hand[i].left}  ${hand.hand[i].right}\n  ${hand.hand[i].down}`,  (7+i*148), 22);
+			}
+
+			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
+			callback(`Hand`, attachment);	
+}
 
 Client.login(process.env.BOT_TOKEN);
