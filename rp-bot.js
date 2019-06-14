@@ -1277,7 +1277,7 @@ Client.on('message',  async message => {
 			
 			channel.send("Initiating Player's hand");
 			var pointer = -1;
-			console.log(hands);
+			console.log("Initiating Player's hand");
 			for (var i = 0; i < hands.length; i++){
 				if (hands[i].id == p1id){
 					pointer = i;
@@ -1315,6 +1315,8 @@ Client.on('message',  async message => {
 			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 			channel.send(`Hand`, attachment);*/
 			//DELETE LATER 
+			console.log("Player hand");
+			console.log(hands[pointer]);
 			show_hand(hands[pointer]);
 			hands.splice(pointer, 1);
 				
