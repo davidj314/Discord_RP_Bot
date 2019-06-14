@@ -1286,7 +1286,7 @@ Client.on('message',  async message => {
 					break;
 				}
 			}
-			/*const canvas = Canvas.createCanvas( 745, 180);
+			const canvas = Canvas.createCanvas( 745, 180);
 			const ctx = canvas.getContext('2d');
 			ctx.strokeStyle = '#74037b';
 			ctx.strokeRect(0, 0, canvas.width, canvas.height);
@@ -1315,12 +1315,12 @@ Client.on('message',  async message => {
 			}
 
 			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
-			channel.send(`Hand`, attachment);*/
+			channel.send(`Hand`, attachment);
 			//DELETE LATER 
-			console.log("waiting");
-			console.log(pointer);
-			console.log(hands[pointer]);
-			setTimeout(function (){show_hand(hands[pointer])}, 4000);
+			//console.log("waiting");
+			//console.log(pointer);
+			//console.log(hands[pointer]);
+			//setTimeout(function (){show_hand(hands[pointer])}, 4000);
 				
 		break;
 			
