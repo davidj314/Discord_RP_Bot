@@ -1122,7 +1122,7 @@ Client.on('message',  async message => {
 		var p1nick = message.author.username;
 		var p2nick = message.mentions.users.first().username;
 		var key = guild_id+ p1id;
-		var newboard = {lock: key, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]};
+		var newboard = {lock: key, turn: p2id, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]};
 		board.push(newboard);
 		
 		//function get_card_list(server_id, callback, bad)
@@ -1151,7 +1151,7 @@ Client.on('message',  async message => {
 			await show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
 			await show_hand(hands[hands.length-2].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
 			await show_hand(hands[hands.length-1].hand, p2nick, (msg, att)=>{channel.send(msg, att)});
-
+			message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
 			
 		}, (msg)=>{channel.send(msg)});
 			
@@ -1205,6 +1205,10 @@ Client.on('message',  async message => {
 			var found = 0;
 			while(temp < board.length){
 				if (board[temp].lock == boardid){
+					if(board[temp].turn!= author_id){
+						message.channel.send("It is not your turn.")
+						return;
+					}
 					board[temp].positions[d1][d2] = card;
 					hands[pointer].hand[card_index-1].used = 1;
 					found++;
@@ -1213,6 +1217,10 @@ Client.on('message',  async message => {
 				if(found==1)break;
 			}
 			temp--;
+			
+			//turn: p2id, initiator:p1id, challenged:p2id,
+			if (author_id==board[temp].initiator) board[temp].turn = board[temp].challenged;
+			else board[temp].turn = board[temp].initiator;
 			
 			await resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
 			
@@ -1235,6 +1243,8 @@ Client.on('message',  async message => {
 				}
 			}
 			await show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
+			
+			
 			break;
 			
 			
