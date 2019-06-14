@@ -1219,6 +1219,13 @@ Client.on('message',  async message => {
 			await show_board(board[temp].positions, (msg, att)=>{message.channel.send(msg, att)});
 			//async function show_hand(hand, callback)
 			
+			//initiator
+			for (var i = 0; i < hands.length; i++){
+				if (hands[i].id == board[temp].initiator){
+					pointer = i;
+					break;
+				}
+			}
 			await show_hand(hands[pointer].hand, board[temp].initiator_nick, (msg, att)=>{message.channel.send(msg, att)});
 			
 			for (var i = 0; i < hands.length; i++){
@@ -1246,16 +1253,16 @@ async function resolve_fights(card, row, col, positions){
 	if (col < 2) right = {color: positions[row][col+1].color, val:positions[row][col+1].left};
 	
 	if (above!=-1){
-		if (card.up > above.val)above.color=card.color;
+		if (card.up > above.val)positions[row-1][col].color=card.color;
 	}
 	if (below!=-1){
-		if (card.down > below.val)above.color=card.color;
+		if (card.down > below.val)positions[row+1][col].color=card.color;
 	}
 	if (left!=-1){
-		if (card.left > left.val)above.color=card.color;
+		if (card.left > left.val)positions[row][col-1].color=card.color;
 	}
 	if (right!=-1){
-		if (card.right > right.val)above.color=card.color;
+		if (card.right > right.val)positions[row][col+1].color=card.color;
 	}
 }
 
@@ -1430,7 +1437,7 @@ async function show_hand(hand, nick, callback)
 				var url = hand[i].url;
 				if (hand[i].used == 1)continue; 
 				const character = await Canvas.loadImage(url);
-				if(hand[i].color == "Red") ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
+				if(hand[i].color == "Blue") ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
 				else ctx.drawImage(bck2, (0+i*148), 0, 144, 180);
 
 				ctx.drawImage(character, (3+i*148), 3, 138, 174);
