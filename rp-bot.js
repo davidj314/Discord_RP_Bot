@@ -1347,6 +1347,7 @@ Client.on('message',  async message => {
 				if (board[temp].lock == boardid){
 					board[temp].positions[boardnum] = card;	
 				}
+				temp++;
 				
 			}
 			console.log(board[temp]);
