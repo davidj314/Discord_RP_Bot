@@ -879,138 +879,6 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
 Client.on('message',  async message => {
     disboard_check(message);
     
-	if(message.content=="text"){
-	const canvas = Canvas.createCanvas(396, 418);
-	const ctx = canvas.getContext('2d');
-
-	const background = await Canvas.loadImage('http://www.finalfantasykingdom.net/8/TTBOARD.jpg');
-	ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-
-	ctx.strokeStyle = '#74037b';
-	ctx.strokeRect(0, 0, canvas.width, canvas.height);
-	
-	const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
-	const bck2 = await Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ScbytNAjJFFGQRhGm-Me3ad-SJZbyzYm3A2FpU4MDsaao6D-');
-		
-	const avatar = await Canvas.loadImage('https://upload.wikimedia.org/wikipedia/en/thumb/b/b7/Squall_Leonhart.png/220px-Squall_Leonhart.png');
-	const bigsandor = await Canvas.loadImage('https://media.discordapp.net/attachments/560467474340904960/583611438929674261/dab.png');
-	const woofer = await Canvas.loadImage('https://media.discordapp.net/attachments/560467474340904960/582295261171286017/kisspng-dungeons-dragons-pathfinder-roleplaying-game-d20-5b29f51124a3e3.png?width=552&height=613');
-	// Move the image downwards vertically and constrain its height to 200, so it's a square
-	
-	const left = 53;
-	const top = 24;
-	const wo = 98;
-	const ho = 122;
-	// Select the font size and type from one of the natively available fonts
-	ctx.font = '20px sans-serif';
-	// Select the style that will be used to fill the text in
-	ctx.fillStyle = '#ffffff';
-	ctx.strokeStyle = 'black';
-	ctx.lineWidth = 1; 
-		
-	//top left	
-	/*ctx.drawImage(bck1, 54, 25, 96, 120);
-	ctx.drawImage(bigsandor, 56, 27, 92, 116);
-	ctx.strokeText("  4 \n4  4\n  4", 57, 40);
-	ctx.fillText("  4 \n4  4\n  4", 57, 40);*/
-		
-	//top middle	
-	ctx.drawImage(bck2, 152, 25, 96, 120);
-	ctx.drawImage(bigsandor, 154, 27, 92, 116);
-	ctx.strokeText("  4 \n4  4\n  4", 155, 40);
-	ctx.fillText("  4 \n4  4\n  4", 155, 40);
-		
-	//top right	
-	ctx.drawImage(bck1, 250, 25, 96, 120);
-	ctx.drawImage(bigsandor, 252, 27, 92, 116);
-	ctx.strokeText("  4 \n4  4\n  4", 253, 40);
-	ctx.fillText("  4 \n4  4\n  4", 253, 40);
-		
-	//------------------
-	//top left	
-	ctx.drawImage(bck2, 54, 147, 96, 120);
-	ctx.drawImage(bigsandor, 56, 149, 92, 116);
-	ctx.strokeText("  4 \n4  4\n  4", 57, 162);
-	ctx.fillText("  4 \n4  4\n  4", 57, 162);
-		
-	//top middle	
-	ctx.drawImage(bck1, 152, 147, 96, 120);
-	ctx.drawImage(bigsandor, 154, 149, 92, 116);
-	ctx.strokeText("  4 \n4  4\n  4", 155, 162);
-	ctx.fillText("  4 \n4  4\n  4", 155, 162);
-		
-	//top right	
-	/*ctx.drawImage(bck2, 250, 147, 96, 120);
-	ctx.drawImage(bigsandor, 252, 149, 92, 116);
-	ctx.strokeText("  4 \n4  4\n  4", 253, 162);
-	ctx.fillText("  4 \n4  4\n  4", 253, 162);*/
-		
-	//----------------------
-		
-	//top left	
-	/*ctx.drawImage(bck1, 54, 269, 96, 120);
-	ctx.drawImage(bigsandor, 56, 271, 92, 116);
-	ctx.strokeText("  4 \n4  4\n  4", 57, 284);
-	ctx.fillText("  4 \n4  4\n  4", 57, 284);
-		
-	//top middle	
-	ctx.drawImage(bck2, 152, 269, 96, 120);
-	ctx.drawImage(bigsandor, 154, 271, 92, 116);
-	ctx.strokeText("  4 \n4  4\n  4", 155, 284);
-	ctx.fillText("  4 \n4  4\n  4", 155, 284);*/
-		
-	//top right	
-	ctx.drawImage(bck1, 250, 269, 96, 120);
-	ctx.drawImage(bigsandor, 252, 271, 92, 116);
-	ctx.strokeText("  4 \n4  4\n  4", 253, 284);
-	ctx.fillText("  4 \n4  4\n  4", 253, 284);
-	
-		
-		
-	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
-	message.channel.send(`Testing a thing`, attachment);
-
-    
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-    
-    
-    
-    
-    
-    
-    
     if (message.content.substring(0,3) === 'rp!') { 
         console.log(message.content);
         var channel = message.channel;
@@ -1248,7 +1116,7 @@ Client.on('message',  async message => {
 		board.push(newboard);
 		
 		//function get_card_list(server_id, callback, bad)
-		get_card_list(guild_id, (rows)=>{
+		get_card_list(guild_id, async (rows)=>{
 			var pull1 = Math.floor(Math.random() * (rows.length));
 			var pull2 = Math.floor(Math.random() * (rows.length));
 			var pull3 = Math.floor(Math.random() * (rows.length));
