@@ -1365,6 +1365,10 @@ Client.on('message',  async message => {
 			var temp = 0;
 			while(temp < board.length){
 				if (board[temp].lock == boardid){
+					console.log("starting tests");
+					console.log(board[temp]);
+					console.log(board[temp].positions);
+					console.log(board[temp].positions[0][0]);
 					board[temp].positions[d1][d2] = card;	
 				}
 				temp++;
