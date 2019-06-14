@@ -1250,7 +1250,6 @@ Client.on('message',  async message => {
 			   {color: "Red", up: 3, down: 3, left: 1, right: 1, url: "fsjbfd"}]});
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
-			console.log(rows);
 			var pull1 = Math.floor(Math.random() * (rows.length));
 			var pull2 = Math.floor(Math.random() * (rows.length));
 			var pull3 = Math.floor(Math.random() * (rows.length));
@@ -1279,6 +1278,7 @@ Client.on('message',  async message => {
 			ctx.strokeStyle = 'black';
 			ctx.lineWidth = 1; 
 			var pointer = -1;
+			console.log(hands);
 			for (var i = 0; i < hands.length; i++){
 				if (hands[i].id == p1id){
 					pointer = i;
@@ -1292,7 +1292,6 @@ Client.on('message',  async message => {
 			const character = await Canvas.loadImage(url);
 			ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
 			ctx.drawImage(character, (3+i*148), 3, 138, 174);
-			console.log("about to stroke");
 			ctx.strokeText(`  ${hands[pointer].hand[i].up} \n${hands[pointer].hand[i].left}  ${hands[pointer].hand[i].right}\n  ${hands[pointer].hand[i].down}`, (7+i*148), 22);
 			ctx.fillText(`  ${hands[pointer].hand[i].up} \n${hands[pointer].hand[i].left}  ${hands[pointer].hand[i].right}\n  ${hands[pointer].hand[i].down}`,  (7+i*148), 22);
 			}
