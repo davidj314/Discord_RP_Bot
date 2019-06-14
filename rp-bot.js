@@ -1345,7 +1345,7 @@ Client.on('message',  async message => {
 					break;
 				}
 			}
-			show_hand(hands[pointer].hand, board[temp].p2nick, (msg, att)=>{message.channel.send(msg, att)});
+			show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
 			break;
 			
 			
