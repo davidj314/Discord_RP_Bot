@@ -1328,19 +1328,12 @@ Client.on('message',  async message => {
 			if (args[2] == null)break;
 			console.log("after arg check");
 			var card_index =  parseInt(args[1]);
-			var boardnum = parseInt(args[1]);
+			var boardnum = parseInt(args[2]);
 			var d1 = -1;
 			var d2 = -1;
-			if(boardnum == 1){d1=0; d2=0;}
-			else if (boardnum == 2) {d1=0; d2=1;}
-			else if (boardnum == 3) {d1=0; d2=2;}
-			else if (boardnum == 4) {d1=1; d2=0;}
-			else if (boardnum == 5) {d1=1; d2=1;}
-			else if (boardnum == 6) {d1=1; d2=2;}
-			else if (boardnum == 7) {d1=2; d2=0;}
-			else if (boardnum == 8) {d1=2; d2=1;}
-			else {d1=2; d2=2;}
 			
+			d1 = ((boardnum-1)/3);
+			d2 = ((boardnum-1)%3);
 			var pointer = -1;
 			for (var i = 0; i < hands.length; i++){
 				if (hands[i].id == author_id){
