@@ -1341,15 +1341,15 @@ Client.on('message',  async message => {
 			var card = hands[pointer].hand;
 			var boardid = hands[pointer].board;
 			var temp = 0;
-			while(temp < boards.length){
-				if (boards[temp].lock == boardid){
-					boards[temp].positions[boardnum] = card;	
+			while(temp < board.length){
+				if (board[temp].lock == boardid){
+					board[temp].positions[boardnum] = card;	
 				}
 				
 			}
-			console.log(boards[temp]);
+			console.log(board[temp]);
 			console.log("\n\n\n\n");
-			console.log(boards);
+			console.log(board);
 			break;
 			
 			
