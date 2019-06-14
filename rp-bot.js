@@ -1329,6 +1329,7 @@ async function show_hand(hand, callback)
 {
 			const canvas = Canvas.createCanvas( 745, 180);
 			const ctx = canvas.getContext('2d');
+			console.log(hand);
 			ctx.strokeStyle = '#74037b';
 			ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
