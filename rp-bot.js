@@ -1274,8 +1274,8 @@ Client.on('message',  async message => {
 			   {used: 0, color: "Red", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
 			   {used: 0, color: "Red", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
 			
-			show_hand(hands[hands.length-2], (msg, att)=>{channel.send(msg, att)});
-			show_hand(hand[hands.length-1], (msg, att)=>{channel.send(msg, att)});
+			show_hand(hands[hands.length-2].hand, (msg, att)=>{channel.send(msg, att)});
+			show_hand(hand[hands.length-1].hand, (msg, att)=>{channel.send(msg, att)});
 
 			
 		}, (msg)=>{channel.send(msg)});
