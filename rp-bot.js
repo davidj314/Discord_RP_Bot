@@ -1356,8 +1356,8 @@ Client.on('message',  async message => {
 			var d1 = -1;
 			var d2 = -1;
 			
-			d1 = ((boardnum-1)/3);
-			d2 = ((boardnum-1)%3);
+			d1 = (((boardnum-1)/3)/1);
+			d2 = (((boardnum-1)%3)/1);
 			
 			var card = hands[pointer].hand[card_index];
 			var boardid = hands[pointer].board;
