@@ -1244,7 +1244,7 @@ Client.on('message',  async message => {
 		var p1nick = message.member.nickname;
 		var p2nick = message.mentions.users.first().nickname;
 		var key = guild_id+ p1id;
-		board.push({lock: key, initiator:p1id, challenged:p2id, initiator_nick:p1nick, challenged_nick: p2nick  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]});
+		board.push({lock: key, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]});
 		
 		//function get_card_list(server_id, callback, bad)
 		get_card_list(guild_id, (rows)=>{
@@ -1276,50 +1276,6 @@ Client.on('message',  async message => {
 			
 		}, (msg)=>{channel.send(msg)});
 			
-			/*channel.send("Initiating Player's hand");
-			var pointer = -1;
-			console.log("Initiating Player's hand");
-			for (var i = 0; i < hands.length; i++){
-				if (hands[i].id == p1id){
-					pointer = i;
-					break;
-				}
-			}
-			const canvas = Canvas.createCanvas( 745, 180);
-			const ctx = canvas.getContext('2d');
-			ctx.strokeStyle = '#74037b';
-			ctx.strokeRect(0, 0, canvas.width, canvas.height);
-
-			const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
-			const bck2 = await Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ScbytNAjJFFGQRhGm-Me3ad-SJZbyzYm3A2FpU4MDsaao6D-');
-			// Select the font size and type from one of the natively available fonts
-			ctx.font = '20px sans-serif';
-			// Select the style that will be used to fill the text in
-			ctx.fillStyle = '#ffffff';
-			ctx.strokeStyle = 'black';
-			ctx.lineWidth = 1; 
-			
-
-			
-			for (var i = 0; i < hands[pointer].hand.length; i++){
-			var url = hands[pointer].hand[i].url;
-			if (hands[pointer].hand[i].used == 1)continue; 
-			const character = await Canvas.loadImage(url);
-			if(hands[pointer].hand[i].color == "Red") ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
-			else ctx.drawImage(bck2, (0+i*148), 0, 144, 180);
-				
-			ctx.drawImage(character, (3+i*148), 3, 138, 174);
-			ctx.strokeText(`  ${hands[pointer].hand[i].up} \n${hands[pointer].hand[i].left}  ${hands[pointer].hand[i].right}\n  ${hands[pointer].hand[i].down}`, (7+i*148), 22);
-			ctx.fillText(`  ${hands[pointer].hand[i].up} \n${hands[pointer].hand[i].left}  ${hands[pointer].hand[i].right}\n  ${hands[pointer].hand[i].down}`,  (7+i*148), 22);
-			}
-
-			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
-			channel.send(`Hand`, attachment);*/
-			//DELETE LATER 
-			//console.log("waiting");
-			//console.log(pointer);
-			//console.log(hands[pointer]);
-			//setTimeout(function (){show_hand(hands[pointer])}, 4000);
 				
 		break;
 			
