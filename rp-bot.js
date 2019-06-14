@@ -1122,7 +1122,7 @@ Client.on('message',  async message => {
 		var p1nick = message.author.username;
 		var p2nick = message.mentions.users.first().username;
 		var key = guild_id+ p1id;
-		var newboard = {lock: key, turn: p2id, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]};
+		var newboard = {lock: key, plays: 0, turn: p2id, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]};
 		board.push(newboard);
 		
 		//function get_card_list(server_id, callback, bad)
@@ -1214,6 +1214,7 @@ Client.on('message',  async message => {
 						return;
 					}
 					board[temp].positions[d1][d2] = card;
+					board[temp].plays++;
 					hands[pointer].hand[card_index-1].used = 1;
 					found++;
 				}
@@ -1238,17 +1239,36 @@ Client.on('message',  async message => {
 					break;
 				}
 			}
-			await show_hand(hands[pointer].hand, board[temp].initiator_nick, (msg, att)=>{message.channel.send(msg, att)});
 			
-			for (var i = 0; i < hands.length; i++){
-				if (hands[i].id == board[temp].challenged){
-					pointer = i;
-					break;
+			if (board[temp].plays < 9)
+			{
+				await show_hand(hands[pointer].hand, board[temp].initiator_nick, (msg, att)=>{message.channel.send(msg, att)});
+
+				for (var i = 0; i < hands.length; i++){
+					if (hands[i].id == board[temp].challenged){
+						pointer = i;
+						break;
+					}
 				}
+				await show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
 			}
-			await show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
-			
-			
+			else
+			{
+				await finish_game(board[temp], (msg, att)=>{message.channel.send(msg, att)});
+				var boardid = board[temp].key;
+				//erase hands from the game
+				for (var i = 0; i < hands.length; i++)
+				{
+					if (hands[i].board == boardid){
+						hands.splice(i, 1);
+						i--;
+					}
+				}
+				board.splice(temp,1);
+				console.log("Game finished");
+				console.log(hands);
+				console.log(board);
+			}
 			break;
 			
 			
@@ -1278,6 +1298,54 @@ async function resolve_fights(card, row, col, positions){
 	if (right!=-1){
 		if (card.right > right.val)positions[row][col+1].color=card.color;
 	}
+}
+
+async function finish_game(board, callback){
+	var initiator_points = 1;
+	var challenged_points = 0; 
+	
+	if (board.positions[0][0].color == "Blue") initiator_points++;
+	else challenged_points++;
+	if (board.positions[0][1].color == "Blue") initiator_points++;
+	else challenged_points++;
+	if (board.positions[0][2].color == "Blue") initiator_points++;
+	else challenged_points++;
+	if (board.positions[1][0].color == "Blue") initiator_points++;
+	else challenged_points++;
+	if (board.positions[1][1].color == "Blue") initiator_points++;
+	else challenged_points++;
+	if (board.positions[1][2].color == "Blue") initiator_points++;
+	else challenged_points++;
+	if (board.positions[2][0].color == "Blue") initiator_points++;
+	else challenged_points++;
+	if (board.positions[2][1].color == "Blue") initiator_points++;
+	else challenged_points++;
+	if (board.positions[2][2].color == "Blue") initiator_points++;
+	else challenged_points++;
+	
+	//initiator_nick: p1nick, challenged_nick:
+	var finish_text = `Game Finished\n${board.initiator_nick}'s Points: ${board.challenged_nick}'s Points: ${challenged_points}`;
+	if (initiator_points > challenged_points) finish_text += `\n${board.initiator_nick} is the winner!`
+	else if (challenged_points > initiator_points) finish_text += `\n${board.challenged_nick} is the winner!`
+	else finish_text += `It's a draw!`
+	
+	const canvas = Canvas.createCanvas( 745, 180);
+	const ctx = canvas.getContext('2d');
+	ctx.strokeStyle = '#74037b';
+	ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+	// Select the font size and type from one of the natively available fonts
+	ctx.font = '20px sans-serif';
+	// Select the style that will be used to fill the text in
+	ctx.fillStyle = '#ffffff';
+	ctx.strokeStyle = 'black';
+	ctx.lineWidth = 1; 
+	ctx.strokeText(finish_text);
+	ctx.fillText(finish_text);
+
+	const attachment = new Discord.Attachment(canvas.toBuffer(), 'hand.png');
+	callback(`The end`, attachment);	
+	
 }
 
 async function show_board(positions, callback){
@@ -1431,36 +1499,36 @@ async function show_board(positions, callback){
 
 async function show_hand(hand, nick, callback)
 {
-			const canvas = Canvas.createCanvas( 745, 180);
-			const ctx = canvas.getContext('2d');
-			ctx.strokeStyle = '#74037b';
-			ctx.strokeRect(0, 0, canvas.width, canvas.height);
+	const canvas = Canvas.createCanvas( 745, 180);
+	const ctx = canvas.getContext('2d');
+	ctx.strokeStyle = '#74037b';
+	ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
-			const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
-			const bck2 = await Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ScbytNAjJFFGQRhGm-Me3ad-SJZbyzYm3A2FpU4MDsaao6D-');
-			// Select the font size and type from one of the natively available fonts
-			ctx.font = '20px sans-serif';
-			// Select the style that will be used to fill the text in
-			ctx.fillStyle = '#ffffff';
-			ctx.strokeStyle = 'black';
-			ctx.lineWidth = 1; 
+	const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
+	const bck2 = await Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ScbytNAjJFFGQRhGm-Me3ad-SJZbyzYm3A2FpU4MDsaao6D-');
+	// Select the font size and type from one of the natively available fonts
+	ctx.font = '20px sans-serif';
+	// Select the style that will be used to fill the text in
+	ctx.fillStyle = '#ffffff';
+	ctx.strokeStyle = 'black';
+	ctx.lineWidth = 1; 
 			
 
 			
-			for (var i = 0; i < hand.length; i++){
-				var url = hand[i].url;
-				if (hand[i].used == 1)continue; 
-				const character = await Canvas.loadImage(url);
-				if(hand[i].color == "Blue") ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
-				else ctx.drawImage(bck2, (0+i*148), 0, 144, 180);
+	for (var i = 0; i < hand.length; i++){
+		var url = hand[i].url;
+		if (hand[i].used == 1)continue; 
+		const character = await Canvas.loadImage(url);
+		if(hand[i].color == "Blue") ctx.drawImage(bck1, (0+i*148), 0, 144, 180);
+		else ctx.drawImage(bck2, (0+i*148), 0, 144, 180);
 
-				ctx.drawImage(character, (3+i*148), 3, 138, 174);
-				ctx.strokeText(`  ${hand[i].up} \n${hand[i].left}  ${hand[i].right}\n  ${hand[i].down}`, (7+i*148), 22);
-				ctx.fillText(`  ${hand[i].up} \n${hand[i].left}  ${hand[i].right}\n  ${hand[i].down}`,  (7+i*148), 22);
-			}
+		ctx.drawImage(character, (3+i*148), 3, 138, 174);
+		ctx.strokeText(`  ${hand[i].up} \n${hand[i].left}  ${hand[i].right}\n  ${hand[i].down}`, (7+i*148), 22);
+		ctx.fillText(`  ${hand[i].up} \n${hand[i].left}  ${hand[i].right}\n  ${hand[i].down}`,  (7+i*148), 22);
+	}
 
-			const attachment = new Discord.Attachment(canvas.toBuffer(), 'hand.png');
-			callback(`${nick}'s Hand`, attachment);	
+	const attachment = new Discord.Attachment(canvas.toBuffer(), 'hand.png');
+	callback(`${nick}'s Hand`, attachment);	
 }
 
 Client.login(process.env.BOT_TOKEN);
