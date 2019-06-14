@@ -1369,6 +1369,7 @@ Client.on('message',  async message => {
 					console.log(board[temp]);
 					console.log(board[temp].positions);
 					console.log(board[temp].positions[0][0]);
+					console.log(`indexes are [${d1}][${d2}]`);
 					board[temp].positions[d1][d2] = card;	
 				}
 				temp++;
