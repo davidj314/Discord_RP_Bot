@@ -1209,6 +1209,10 @@ Client.on('message',  async message => {
 						message.channel.send("It is not your turn.")
 						return;
 					}
+					if(board[temp].positions[[d1][d2] != -1){
+						message.channel.send("There's already a card there")
+						return;
+					}
 					board[temp].positions[d1][d2] = card;
 					hands[pointer].hand[card_index-1].used = 1;
 					found++;
