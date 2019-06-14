@@ -1273,6 +1273,9 @@ Client.on('message',  async message => {
 			   {used: 0, color: "Red", up: rows[pull3].upval, down: rows[pull3].downval, left: rows[pull3].leftval, right: rows[pull3].rightval, url: rows[pull3].url},
 			   {used: 0, color: "Red", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
 			   {used: 0, color: "Red", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
+			
+			show_hand(hands[hands.length-2], (msg, att)=>{channel.send(msg, att)});
+			show_hand(hand[hands.length-1], (msg, att)=>{channel.send(msg, att)});
 
 			
 		}, (msg)=>{channel.send(msg)});
@@ -1286,7 +1289,7 @@ Client.on('message',  async message => {
 					break;
 				}
 			}
-			const canvas = Canvas.createCanvas( 745, 180);
+			/*const canvas = Canvas.createCanvas( 745, 180);
 			const ctx = canvas.getContext('2d');
 			ctx.strokeStyle = '#74037b';
 			ctx.strokeRect(0, 0, canvas.width, canvas.height);
@@ -1315,7 +1318,7 @@ Client.on('message',  async message => {
 			}
 
 			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
-			channel.send(`Hand`, attachment);
+			channel.send(`Hand`, attachment);*/
 			//DELETE LATER 
 			//console.log("waiting");
 			//console.log(pointer);
