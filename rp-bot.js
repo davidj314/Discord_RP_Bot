@@ -1241,8 +1241,8 @@ Client.on('message',  async message => {
 
 		var p1id = author_id.toString();
 		var p2id = message.mentions.users.first().id.toString();
-		var p1nick = message.member.nickname;
-		var p2nick = message.mentions.users.first().nickname;
+		var p1nick = message.author.username;
+		var p2nick = message.mentions.users.first().user.username;
 		var key = guild_id+ p1id;
 		board.push({lock: key, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]});
 		
