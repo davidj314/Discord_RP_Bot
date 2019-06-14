@@ -1143,7 +1143,7 @@ Client.on('message',  async message => {
 			pull3 = Math.floor(Math.random() * (rows.length));
 			pull4 = Math.floor(Math.random() * (rows.length));
 			pull5 = Math.floor(Math.random() * (rows.length));
-			hands.push({id: p2id, board: key, hand:[{used: 0, color: "Blue", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url},
+			hands.push({id: p2id, board: key, hand:[{used: 0, color: "Red", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url},
 			   {used: 0, color: "Red", up: rows[pull2].upval, down: rows[pull2].downval, left: rows[pull2].leftval, right: rows[pull2].rightval, url: rows[pull2].url},
 			   {used: 0, color: "Red", up: rows[pull3].upval, down: rows[pull3].downval, left: rows[pull3].leftval, right: rows[pull3].rightval, url: rows[pull3].url},
 			   {used: 0, color: "Red", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
@@ -1299,8 +1299,8 @@ async function show_board(positions, callback){
 		var down = positions[0][1].down;
 		var left = positions[0][1].left;
 		var right = positions[0][1].right;
-		if(positions[0][1].color=="Blue") ctx.drawImage(bck1, 54, 25, 96, 120);
-		else ctx.drawImage(bck2, 54, 25, 96, 120)
+		if(positions[0][1].color=="Blue") ctx.drawImage(bck1, 152, 25, 96, 120);
+		else ctx.drawImage(bck2, 152, 25, 96, 120)
 		ctx.drawImage(character, 154, 27, 92, 116);
 		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 155, 40);
 		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 155, 40);
@@ -1312,8 +1312,8 @@ async function show_board(positions, callback){
 		var down = positions[0][2].down;
 		var left = positions[0][2].left;
 		var right = positions[0][2].right;
-		if(positions[0][2].color=="Blue") ctx.drawImage(bck1, 54, 25, 96, 120);
-		else ctx.drawImage(bck2, 54, 25, 96, 120)
+		if(positions[0][2].color=="Blue") ctx.drawImage(bck1, 250, 25, 96, 120);
+		else ctx.drawImage(bck2, 250, 25, 96, 120)
 		ctx.drawImage(character, 252, 27, 92, 116);
 		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 253, 40);
 		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 253, 40);
@@ -1326,8 +1326,8 @@ async function show_board(positions, callback){
 		var down = positions[1][0].down;
 		var left = positions[1][0].left;
 		var right = positions[1][0].right;
-		if(positions[0][3].color=="Blue") ctx.drawImage(bck1, 54, 25, 96, 120);
-		else ctx.drawImage(bck2, 54, 25, 96, 120)
+		if(positions[0][3].color=="Blue") ctx.drawImage(bck1, 54, 147, 96, 120);
+		else ctx.drawImage(bck2, 54, 147, 96, 120)
 		ctx.drawImage(character, 56, 149, 92, 116);
 		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 162);
 		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 162);
@@ -1339,8 +1339,8 @@ async function show_board(positions, callback){
 		var down = positions[1][1].down;
 		var left = positions[1][1].left;
 		var right = positions[1][1].right;
-		if(positions[1][1].color=="Blue") ctx.drawImage(bck1, 54, 25, 96, 120);
-		else ctx.drawImage(bck2, 54, 25, 96, 120)
+		if(positions[1][1].color=="Blue") ctx.drawImage(bck1, 152, 147, 96, 120);
+		else ctx.drawImage(bck2, 152, 147, 96, 120)
 		ctx.drawImage(character, 154, 149, 92, 116);
 		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 155, 162);
 		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 155, 162);
@@ -1352,8 +1352,8 @@ async function show_board(positions, callback){
 		var down = positions[1][2].down;
 		var left = positions[1][2].left;
 		var right = positions[1][2].right;
-		if(positions[1][2].color=="Blue") ctx.drawImage(bck1, 54, 25, 96, 120);
-		else ctx.drawImage(bck2, 54, 25, 96, 120)
+		if(positions[1][2].color=="Blue") ctx.drawImage(bck1, 250, 147, 96, 120);
+		else ctx.drawImage(bck2, 250, 147, 96, 120)
 		ctx.drawImage(character, 252, 149, 92, 116);
 		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 253, 162);
 		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 253, 162);
@@ -1367,8 +1367,8 @@ async function show_board(positions, callback){
 		var down = positions[2][0].down;
 		var left = positions[2][0].left;
 		var right = positions[2][0].right;
-		if(positions[2][0].color=="Blue") ctx.drawImage(bck1, 54, 25, 96, 120);
-		else ctx.drawImage(bck2, 54, 25, 96, 120)
+		if(positions[2][0].color=="Blue") ctx.drawImage(bck1, 54, 269, 96, 120);
+		else ctx.drawImage(bck2, 54, 269, 96, 120)
 		ctx.drawImage(character, 56, 271, 92, 116);
 		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 284);
 		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 284);
@@ -1380,8 +1380,8 @@ async function show_board(positions, callback){
 		var down = positions[2][1].down;
 		var left = positions[2][1].left;
 		var right = positions[2][1].right;
-		if(positions[2][1].color=="Blue") ctx.drawImage(bck1, 54, 25, 96, 120);
-		else ctx.drawImage(bck2, 54, 25, 96, 120)
+		if(positions[2][1].color=="Blue") ctx.drawImage(bck1, 152, 269, 96, 120);
+		else ctx.drawImage(bck2, 152, 269, 96, 120)
 		ctx.drawImage(character, 154, 271, 92, 116);
 		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 155, 284);
 		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 155, 284);
@@ -1393,8 +1393,8 @@ async function show_board(positions, callback){
 		var down = positions[2][2].down;
 		var left = positions[2][2].left;
 		var right = positions[2][2].right;
-		if(positions[2][2].color=="Blue") ctx.drawImage(bck1, 54, 25, 96, 120);
-		else ctx.drawImage(bck2, 54, 25, 96, 120)
+		if(positions[2][2].color=="Blue") ctx.drawImage(bck1, 250, 269, 96, 120);
+		else ctx.drawImage(bck2, 250, 269, 96, 120)
 		ctx.drawImage(character, 252, 271, 92, 116);
 		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 253, 284);
 		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 253, 284);
