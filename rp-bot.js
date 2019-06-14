@@ -1300,8 +1300,7 @@ Client.on('message',  async message => {
 			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 			channel.send(`Hand`, attachment);
 			//DELETE LATER 
-			hands = [];
-			boards = []
+			hands.splice(pointer, 1);
 				
 		break;
 			
