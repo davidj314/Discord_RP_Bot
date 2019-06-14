@@ -1317,6 +1317,8 @@ Client.on('message',  async message => {
 			const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 			channel.send(`Hand`, attachment);*/
 			//DELETE LATER 
+			console.log("waiting");
+			await delay(3000);
 			console.log("Player hand");
 			console.log(hands[pointer]);
 			show_hand(hands[pointer]);
