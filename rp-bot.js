@@ -1328,7 +1328,7 @@ async function resolve_fights_2(card, row, col, positions){
 
 			if (above!=-1){
 				if (above.color != thiscolor) updiff = above.val + cards[0].up;
-				if (cards[0].up > above.val)color_in.push([row, col])
+				if (cards[0].up > above.val)color_in.push([row-1, col])
 			}
 			if (below!=-1){
 				if (below.color != thiscolor) downdiff = below.val + cards[0].down;
