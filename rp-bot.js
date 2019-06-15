@@ -1304,15 +1304,19 @@ Client.on('message',  async message => {
 //resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
 async function resolve_fights_2(card, row, col, positions){
 	var t_card = card;
-	var cards = [t_card];
+	var cards = [[row, col, t_card]];
 	var next_cards = [];
 	var thiscolor = cards[0].color;
 	var color_in = [];
+	//var thisrow = row;
+	//var thiscol = col;
 	var combo = 0;
 	while (combo <2)
 	{
 		while(cards.length>0)
 		{
+			var thisrow = cards[0][0];
+			var thiscol = cards[0][1];
 			var above = -1;
 			var below = -1;
 			var left = -1;
@@ -1321,26 +1325,26 @@ async function resolve_fights_2(card, row, col, positions){
 			var downdiff = -100;
 			var leftdiff = -100;
 			var rightdiff = -100;
-			if (row > 0) above = {color: positions[row-1][col].color, val:positions[row-1][col].down} ;
-			if (row < 2) below = {color: positions[row+1][col].color, val:positions[row+1][col].up};
-			if (col > 0) left = {color: positions[row][col-1].color, val:positions[row][col-1].right};
-			if (col < 2) right = {color: positions[row][col+1].color, val:positions[row][col+1].left};
+			if (thisrow > 0) above = {color: positions[thisrow-1][thiscol].color, val:positions[thisrow-1][thiscol].down} ;
+			if (thisrow < 2) below = {color: positions[thisrow+1][thiscol].color, val:positions[thisrow+1][thiscol].up};
+			if (thiscol > 0) left = {color: positions[thisrow][thiscol-1].color, val:positions[thisrow][thiscol-1].right};
+			if (thiscol < 2) right = {color: positions[thisrow][thiscol+1].color, val:positions[thisrow][thiscol+1].left};
 
 			if (above!=-1){
 				if (above.color != thiscolor) updiff = above.val + cards[0].up;
-				if (cards[0].up > above.val)color_in.push([row-1, col])
+				if (cards[0].up > above.val)color_in.push([thisrow-1, thiscol])
 			}
 			if (below!=-1){
 				if (below.color != thiscolor) downdiff = below.val + cards[0].down;
-				if (cards[0].down > below.val)color_in.push([row+1, col]);
+				if (cards[0].down > below.val)color_in.push([thisrow+1, thiscol]);
 			}
 			if (left!=-1){
 				if (left.color != thiscolor) leftdiff = left.val + cards[0].left;
-				if (cards[0].left > left.val)color_in.push([row, col-1]);
+				if (cards[0].left > left.val)color_in.push([thisrow, thiscol-1]);
 			}
 			if (right!=-1){
 				if (right.color != thiscolor) rightdiff = right.val + cards[0].right;
-				if (cards[0].right > right.val)color_in.push([row, col+1]);
+				if (cards[0].right > right.val)color_in.push([thisrow, thiscol+1]);
 			}
 
 			var looked_at = [];
@@ -1348,51 +1352,52 @@ async function resolve_fights_2(card, row, col, positions){
 			if (updiff > -100 ){
 				if (!looked_at.includes(updiff))looked_at.push(updiff); //if never looked at, put it in
 				else if (!plus_match.includes(updiff))plus_match.push(updiff); //been looked at before, add if new 
-				console.log(`Updiff is ${updiff}`);
+				console.log(`For ${thisrow} ${thiscol} Updiff is ${updiff}`);
 			}
 			if (downdiff > -100 ){
 				if (!looked_at.includes(downdiff))looked_at.push(downdiff);
 				else if (!plus_match.includes(downdiff))plus_match.push(downdiff);
-				console.log(`downdiff is ${downdiff}`);
+				console.log(`For ${thisrow} ${thiscol} downdiff is ${downdiff}`);
 			}
 			if (leftdiff > -100 ){
 				if (!looked_at.includes(leftdiff))looked_at.push(leftdiff);
 				else if (!plus_match.includes(leftdiff))plus_match.push(leftdiff);	
-				console.log(`leftdiff is ${leftdiff}`);
+				console.log(`For ${thisrow} ${thiscol} leftdiff is ${leftdiff}`);
 			}
 			if (rightdiff > -100 ){
 				if (!looked_at.includes(rightdiff))looked_at.push(rightdiff);
 				else if (!plus_match.includes(rightdiff))plus_match.push(rightdiff);	
-				console.log(`rightdiff is ${rightdiff}`);
+				console.log(`For ${thisrow} ${thiscol} rightdiff is ${rightdiff}`);
 			}
 
 			plus_match.forEach(function(plus) {
 			if (updiff == plus)
-				if(!next_cards.includes(positions[row-1][col])){
-					color_in.push([row-1, col]);
-					next_cards.push(positions[row-1][col]);
-					console.log(`card ${row-1} ${col} being plus-taken`);
+				if(!next_cards.includes([thisrow-1, thiscol, positions[thisrow-1][thiscol]])){
+					color_in.push([thisrow-1, thiscol]);
+					next_cards.push([thisrow-1, thiscol, positions[thisrow-1][thiscol]]);
+					console.log(`card ${thisrow-1} ${thiscol} being plus-taken`);
 				}
 			if (downdiff == plus) 
-				if(!next_cards.includes(positions[row+1][col])){
-					color_in.push([row+1, col]);
-					next_cards.push(positions[row+1][col]);
-					console.log(`card ${row+1} ${col} being plus-taken`);
+				if(!next_cards.includes([thisrow+1, thiscol+1, positions[thisrow+1][thiscol]])){
+					color_in.push([thisrow+1, thiscol]);
+					next_cards.push([thisrow+1, thiscol+1, positions[thisrow+1][thiscol]]);
+					console.log(`card ${thisrow+1} ${thiscol} being plus-taken`);
 				}
 			if (leftdiff == plus) 
-				if(!next_cards.includes(positions[row][col-1])){
-					color_in.push([row, col-1]);
-					next_cards.push(positions[row][col-1]);
-					console.log(`card ${row} ${col-1} being plus-taken`);
+				if(!next_cards.includes([thisrow, thiscol-1, positions[thisrow][thiscol-1]])){
+					color_in.push([thisrow, thiscol-1]);
+					next_cards.push([thisrow, thiscol-1, positions[thisrow][thiscol-1]]);
+					console.log(`card ${thisrow} ${thiscol-1} being plus-taken`);
 				}
 			if (rightdiff == plus) 
-				if(!next_cards.includes(positions[row][col+1])){
-					color_in.push([row, col+1]);
-					next_cards.push(positions[row][col+1]);	
-					console.log(`card ${row} ${col+1} being plus-taken`);
+				if(!next_cards.includes([thisrow, thiscol+1, positions[thisrow][thiscol+1]])){
+					color_in.push([thisrow, thiscol+1]);
+					next_cards.push([thisrow, thiscol+1, positions[thisrow][thiscol+1]]);	
+					console.log(`card ${thisrow} ${thiscol+1} being plus-taken`);
 				}
 			});
 			cards.splice(0,1);
+			
 		}
 		//MAYBE CHANGE NEXT_CARDS TO DEAL WITH COORDS
 		console.log(`Nextcards count: ${next_cards.length}`);
@@ -1400,6 +1405,7 @@ async function resolve_fights_2(card, row, col, positions){
 		next_cards=[];
 		console.log(`Nextcards count: ${next_cards.length}`);
 		console.log(`Cards count: ${cards.length}`);
+		console.log(`Combo is ${combo}`);
 		combo++;
 	}//out of the while loop. Time to color
 	
