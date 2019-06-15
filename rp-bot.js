@@ -1327,19 +1327,19 @@ async function resolve_fights_2(card, row, col, positions){
 
 			if (above!=-1){
 				if (above.color != thiscolor) updiff = above.val + cards[0].up;
-				if (cards[0].up > above.val)color_in.push(positions[row-1][col])
+				if (cards[0].up > above.val)color_in.push([row, col])
 			}
 			if (below!=-1){
 				if (below.color != thiscolor) downdiff = below.val + cards[0].down;
-				if (cards[0].down > below.val)color_in.push(positions[row+1][col]);
+				if (cards[0].down > below.val)color_in.push([row+1, col]);
 			}
 			if (left!=-1){
 				if (left.color != thiscolor) leftdiff = left.val + cards[0].left;
-				if (cards[0].left > left.val)color_in.push(positions[row][col-1]);
+				if (cards[0].left > left.val)color_in.push([row, col-1]);
 			}
 			if (right!=-1){
 				if (right.color != thiscolor) rightdiff = right.val + cards[0].right;
-				if (cards[0].right > right.val)color_in.push(positions[row][col+1]);
+				if (cards[0].right > right.val)color_in.push([row, col+1]);
 			}
 
 			var looked_at = [];
@@ -1368,22 +1368,22 @@ async function resolve_fights_2(card, row, col, positions){
 			plus_match.forEach(function(plus) {
 			if (updiff == plus)
 				if(!next_cards.has(positions[row-1][col])){
-					color_in.push(positions[row-1][col]);
+					color_in.push([row-1, col]);
 					next_cards.push(positions[row-1][col]);
 				}
 			if (downdiff == plus) 
 				if(!next_cards.has(positions[row+1][col])){
-					color_in.push(positions[row+1][col]);
+					color_in.push([row+1, col]);
 					next_cards.push(positions[row+1][col]);
 				}
 			if (leftdiff == plus) 
 				if(!next_cards.has(positions[row][col-1])){
-					color_in.push(positions[row][col-1]);
+					color_in.push([row, col-1]);
 					next_cards.push(positions[row][col-1]);
 				}
 			if (rightdiff == plus) 
 				if(!next_cards.has(positions[row][col+1])){
-					color_in.push(positions[row][col+1]);
+					color_in.push([row, col+1]);
 					next_cards.push(positions[row][col+1]);	
 				}
 			});
@@ -1394,7 +1394,7 @@ async function resolve_fights_2(card, row, col, positions){
 		combo++;
 	}//out of the while loop. Time to color
 	
-	color_in.forEach(function(cell){cell.color=thiscolor});
+	color_in.forEach(function(cell){position[cell[0]][cell[1]].color=thiscolor);
 }
 
 /*
