@@ -1390,8 +1390,12 @@ async function resolve_fights_2(card, row, col, positions){
 			});
 			cards.splice(0,1);
 		}
-		cards = next_cards;
+		//MAYBE CHANGE NEXT_CARDS TO DEAL WITH COORDS
+		console.log(`Nextcards count: ${next_cards.length}`);
+		cards.concat(next_cards);
 		next_cards=[];
+		console.log(`Nextcards count: ${next_cards.length}`);
+		console.log(`Cards count: ${cards.length});
 		combo++;
 	}//out of the while loop. Time to color
 	
