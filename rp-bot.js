@@ -1371,21 +1371,25 @@ async function resolve_fights_2(card, row, col, positions){
 				if(!next_cards.includes(positions[row-1][col])){
 					color_in.push([row-1, col]);
 					next_cards.push(positions[row-1][col]);
+					console.log(`card ${row-1} ${col} being plus-taken`);
 				}
 			if (downdiff == plus) 
 				if(!next_cards.includes(positions[row+1][col])){
 					color_in.push([row+1, col]);
 					next_cards.push(positions[row+1][col]);
+					console.log(`card ${row+1} ${col} being plus-taken`);
 				}
 			if (leftdiff == plus) 
 				if(!next_cards.includes(positions[row][col-1])){
 					color_in.push([row, col-1]);
 					next_cards.push(positions[row][col-1]);
+					console.log(`card ${row} ${col-1} being plus-taken`);
 				}
 			if (rightdiff == plus) 
 				if(!next_cards.includes(positions[row][col+1])){
 					color_in.push([row, col+1]);
 					next_cards.push(positions[row][col+1]);	
+					console.log(`card ${row} ${col+1} being plus-taken`);
 				}
 			});
 			cards.splice(0,1);
@@ -1395,7 +1399,7 @@ async function resolve_fights_2(card, row, col, positions){
 		cards.concat(next_cards);
 		next_cards=[];
 		console.log(`Nextcards count: ${next_cards.length}`);
-		console.log(`Cards count: ${cards.length});
+		console.log(`Cards count: ${cards.length}`);
 		combo++;
 	}//out of the while loop. Time to color
 	
