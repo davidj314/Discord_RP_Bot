@@ -1396,7 +1396,7 @@ async function resolve_fights_2(card, row, col, positions){
 		}
 		//MAYBE CHANGE NEXT_CARDS TO DEAL WITH COORDS
 		console.log(`Nextcards count: ${next_cards.length}`);
-		ccards = cards.concat(next_cards);
+		cards = cards.concat(next_cards);
 		next_cards=[];
 		console.log(`Nextcards count: ${next_cards.length}`);
 		console.log(`Cards count: ${cards.length}`);
