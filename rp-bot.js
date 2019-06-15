@@ -1306,7 +1306,7 @@ async function resolve_fights_2(card, row, col, positions){
 	var t_card = card;
 	var cards = [[row, col, t_card]];
 	var next_cards = [];
-	var thiscolor = cards[0][2];
+	var thiscolor = card.color;
 	var color_in = [];
 	//var thisrow = row;
 	//var thiscol = col;
