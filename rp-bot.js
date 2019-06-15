@@ -1224,8 +1224,8 @@ Client.on('message',  async message => {
 			//turn: p2id, initiator:p1id, challenged:p2id,
 			if (author_id==board[temp].initiator) board[temp].turn = board[temp].challenged;
 			else board[temp].turn = board[temp].initiator;
-			
-			await resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
+			//card, row, col, positions
+			await resolve_fights_2(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
 			
 			await show_board(board[temp].positions, (msg, att)=>{message.channel.send(msg, att)});
 			//async function show_hand(hand, callback)
@@ -1298,7 +1298,7 @@ Client.on('message',  async message => {
 
 
 //resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
-async function resolve_fights_2(card, row, col, positions, stop=0){
+async function resolve_fights_2(card, row, col, positions){
 	var cards = [card];
 	var next_cards = [];
 	var thiscolor = cards[0].color;
@@ -1393,7 +1393,7 @@ async function resolve_fights_2(card, row, col, positions, stop=0){
 	color_in.forEach(function(cell){cell.color=thiscolor});
 }
 
-
+/*
 //resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
 async function resolve_fights(card, row, col, positions, stop=0){
 	var thiscolor = card.color;
@@ -1472,7 +1472,7 @@ async function resolve_fights(card, row, col, positions, stop=0){
 	
 	
 	
-}
+}*/
 
 async function finish_game(board, callback){
 	var initiator_points = 1;
