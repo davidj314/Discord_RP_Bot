@@ -1296,28 +1296,70 @@ Client.on('message',  async message => {
   	}
 });
 //resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
-async function resolve_fights(card, row, col, positions){
+async function resolve_fights(card, row, col, positions, stop=0){
+	var thiscolor = card.color;
 	var above = -1;
 	var below = -1;
 	var left = -1;
 	var right = -1;
+	var updiff = -100;
+	var downdiff = -100;
+	var leftdiff = -100;
+	var rightdiff = -100;
 	if (row > 0) above = {color: positions[row-1][col].color, val:positions[row-1][col].down} ;
 	if (row < 2) below = {color: positions[row+1][col].color, val:positions[row+1][col].up};
 	if (col > 0) left = {color: positions[row][col-1].color, val:positions[row][col-1].right};
 	if (col < 2) right = {color: positions[row][col+1].color, val:positions[row][col+1].left};
 	
 	if (above!=-1){
+		if (above.color != thiscolor) updiff = above.val + card.up;
 		if (card.up > above.val)positions[row-1][col].color=card.color;
 	}
 	if (below!=-1){
+		if (below.color != thiscolor) downdiff = below.val + card.down;
 		if (card.down > below.val)positions[row+1][col].color=card.color;
 	}
 	if (left!=-1){
+		if (left.color != thiscolor) leftdiff = left.val + card.left;
 		if (card.left > left.val)positions[row][col-1].color=card.color;
 	}
 	if (right!=-1){
+		if (right.color != thiscolor) rightdiff = right.val + card.right;
 		if (card.right > right.val)positions[row][col+1].color=card.color;
 	}
+	if (stop!=0)return;
+	var looked_at = [];
+	var plus_match = [];
+	if (updiff > -100 ){
+		if (!looked_at.includes(updiff))looked_at.push(updiff); //if never looked at, put it in
+		else if (!plus_match.includes(updiff))plus_match.push(updiff); //been looked at before, add if new 
+		console.log(`Updiff is ${updiff}`);
+	}
+	if (downdiff > -100 ){
+		if (!looked_at.includes(downdiff))looked_at.push(downdiff);
+		else if (!plus_match.includes(downdiff))plus_match.push(downdiff);
+		console.log(`downdiff is ${downdiff}`);
+	}
+	if (leftdiff > -100 ){
+		if (!looked_at.includes(leftdiff))looked_at.push(leftdiff);
+		else if (!plus_match.includes(leftdiff))plus_match.push(leftdiff);	
+		console.log(`leftdiff is ${leftdiff}`);
+	}
+	if (rightdiff > -100 ){
+		if (!looked_at.includes(rightdiff))looked_at.push(rightdiff);
+		else if (!plus_match.includes(rightdiff))plus_match.push(rightdiff);	
+		console.log(`rightdiff is ${rightdiff}`);
+	}
+	
+	plus_match.foreach(function(plus) {
+		if (updiff == plus){resolve_fights(positions[row-1][col], row-1, col, positions, stop=1);}
+		if (downdiff == plus){resolve_fights(positions[row+1][col], row+1, col, positions, stop=1);}
+		if (leftdiff == plus){resolve_fights(positions[row][col-1], row, col-1, positions, stop=1);}
+		if (rightdiff == plus){resolve_fights(positions[row][col+1], row, col+1, positions, stop=1);}
+	});
+	
+	
+	
 }
 
 async function finish_game(board, callback){
