@@ -1394,7 +1394,7 @@ async function resolve_fights_2(card, row, col, positions){
 		combo++;
 	}//out of the while loop. Time to color
 	
-	color_in.forEach(function(cell){position[cell[0]][cell[1]].color=thiscolor);
+	color_in.forEach(function(cell){position[cell[0]][cell[1]].color=thiscolor});
 }
 
 /*
