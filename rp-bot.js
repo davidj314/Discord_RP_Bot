@@ -1186,6 +1186,7 @@ Client.on('message',  async message => {
 			console.log("Showing hands.");
 			console.log(hands);
 			console.log(`Hand is\n ${hands[pointer].hand}`);
+			console.log(`Card fucking is\n ${hands[pointer].hand[card_index-1]}`);
 			if (hands[pointer].hand[card_index-1].used == 1){
 				channel.send("That card has already been used. Select another.");
 				break;
