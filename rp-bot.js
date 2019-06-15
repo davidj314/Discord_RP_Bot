@@ -1303,7 +1303,8 @@ Client.on('message',  async message => {
 
 //resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
 async function resolve_fights_2(card, row, col, positions){
-	var cards = [card];
+	var t_card = card;
+	var cards = [t_card];
 	var next_cards = [];
 	var thiscolor = cards[0].color;
 	var color_in = [];
