@@ -1351,7 +1351,7 @@ async function resolve_fights(card, row, col, positions, stop=0){
 		console.log(`rightdiff is ${rightdiff}`);
 	}
 	
-	plus_match.foreach(function(plus) {
+	plus_match.forEach(function(plus) {
 		if (updiff == plus){resolve_fights(positions[row-1][col], row-1, col, positions, stop=1);}
 		if (downdiff == plus){resolve_fights(positions[row+1][col], row+1, col, positions, stop=1);}
 		if (leftdiff == plus){resolve_fights(positions[row][col-1], row, col-1, positions, stop=1);}
