@@ -1183,6 +1183,8 @@ Client.on('message',  async message => {
 				channel.send("Board positions are 1 through 5. \n1 2 3\n4 5 6\n7 8 9");
 				break;
 			}
+			console.log("Showing hands.");
+			console.log(hands);
 			if (hands[pointer].hand[card_index-1].used == 1){
 				channel.send("That card has already been used. Select another.");
 				break;
