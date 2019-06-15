@@ -1295,9 +1295,109 @@ Client.on('message',  async message => {
         }
   	}
 });
+
+
+//resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
+async function resolve_fights_2(card, row, col, positions, stop=0){
+	var cards = [card];
+	var next_cards = [];
+	var thiscolor = cards[0].color;
+	var color_in = [];
+	var combo = 0;
+	while (combo <2)
+	{
+		while(cards.length>0)
+		{
+			var above = -1;
+			var below = -1;
+			var left = -1;
+			var right = -1;
+			var updiff = -100;
+			var downdiff = -100;
+			var leftdiff = -100;
+			var rightdiff = -100;
+			if (row > 0) above = {color: positions[row-1][col].color, val:positions[row-1][col].down} ;
+			if (row < 2) below = {color: positions[row+1][col].color, val:positions[row+1][col].up};
+			if (col > 0) left = {color: positions[row][col-1].color, val:positions[row][col-1].right};
+			if (col < 2) right = {color: positions[row][col+1].color, val:positions[row][col+1].left};
+
+			if (above!=-1){
+				if (above.color != thiscolor) updiff = above.val + cards[0].up;
+				if (cards[0].up > above.val)color_in.push(positions[row-1][col])
+			}
+			if (below!=-1){
+				if (below.color != thiscolor) downdiff = below.val + cards[0].down;
+				if (cards[0].down > below.val)color_in.push(positions[row+1][col]);
+			}
+			if (left!=-1){
+				if (left.color != thiscolor) leftdiff = left.val + cards[0].left;
+				if (cards[0].left > left.val)color_in.push(positions[row][col-1]);
+			}
+			if (right!=-1){
+				if (right.color != thiscolor) rightdiff = right.val + cards[0].right;
+				if (cards[0].right > right.val)color_in.push(positions[row][col+1]);
+			}
+
+			var looked_at = [];
+			var plus_match = [];
+			if (updiff > -100 ){
+				if (!looked_at.includes(updiff))looked_at.push(updiff); //if never looked at, put it in
+				else if (!plus_match.includes(updiff))plus_match.push(updiff); //been looked at before, add if new 
+				console.log(`Updiff is ${updiff}`);
+			}
+			if (downdiff > -100 ){
+				if (!looked_at.includes(downdiff))looked_at.push(downdiff);
+				else if (!plus_match.includes(downdiff))plus_match.push(downdiff);
+				console.log(`downdiff is ${downdiff}`);
+			}
+			if (leftdiff > -100 ){
+				if (!looked_at.includes(leftdiff))looked_at.push(leftdiff);
+				else if (!plus_match.includes(leftdiff))plus_match.push(leftdiff);	
+				console.log(`leftdiff is ${leftdiff}`);
+			}
+			if (rightdiff > -100 ){
+				if (!looked_at.includes(rightdiff))looked_at.push(rightdiff);
+				else if (!plus_match.includes(rightdiff))plus_match.push(rightdiff);	
+				console.log(`rightdiff is ${rightdiff}`);
+			}
+
+			plus_match.forEach(function(plus) {
+			if (updiff == plus)
+				if(!next_cards.has(positions[row-1][col])){
+					color_in.push(positions[row-1][col]);
+					next_cards.push(positions[row-1][col]);
+				}
+			if (downdiff == plus) 
+				if(!next_cards.has(positions[row+1][col])){
+					color_in.push(positions[row+1][col]);
+					next_cards.push(positions[row+1][col]);
+				}
+			if (leftdiff == plus) 
+				if(!next_cards.has(positions[row][col-1])){
+					color_in.push(positions[row][col-1]);
+					next_cards.push(positions[row][col-1]);
+				}
+			if (rightdiff == plus) 
+				if(!next_cards.has(positions[row][col+1])){
+					color_in.push(positions[row][col+1]);
+					next_cards.push(positions[row][col+1]);	
+				}
+			});
+			cards.splice(0,1);
+		}
+		cards = next_cards;
+		next_cards=[];
+		combo++;
+	}//out of the while loop. Time to color
+	
+	color_in.forEach(function(cell){cell.color=thiscolor};
+}
+
+
 //resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
 async function resolve_fights(card, row, col, positions, stop=0){
 	var thiscolor = card.color;
+	var copy = positions;
 	var above = -1;
 	var below = -1;
 	var left = -1;
@@ -1313,19 +1413,19 @@ async function resolve_fights(card, row, col, positions, stop=0){
 	
 	if (above!=-1){
 		if (above.color != thiscolor) updiff = above.val + card.up;
-		if (card.up > above.val)positions[row-1][col].color=card.color;
+		if (card.up > above.val)copy[row-1][col].color=card.color;
 	}
 	if (below!=-1){
 		if (below.color != thiscolor) downdiff = below.val + card.down;
-		if (card.down > below.val)positions[row+1][col].color=card.color;
+		if (card.down > below.val)copy[row+1][col].color=card.color;
 	}
 	if (left!=-1){
 		if (left.color != thiscolor) leftdiff = left.val + card.left;
-		if (card.left > left.val)positions[row][col-1].color=card.color;
+		if (card.left > left.val)copy[row][col-1].color=card.color;
 	}
 	if (right!=-1){
 		if (right.color != thiscolor) rightdiff = right.val + card.right;
-		if (card.right > right.val)positions[row][col+1].color=card.color;
+		if (card.right > right.val)copy[row][col+1].color=card.color;
 	}
 	if (stop!=0)return;
 	var looked_at = [];
@@ -1351,24 +1451,24 @@ async function resolve_fights(card, row, col, positions, stop=0){
 		console.log(`rightdiff is ${rightdiff}`);
 	}
 	
-	plus_match.forEach(function(plus) {
-		if (updiff == plus){
-			positions[row-1][col] = card.color;
-			resolve_fights(positions[row-1][col], row-1, col, positions, stop=1);
-		}
-		if (downdiff == plus){
-			positions[row+1][col] = card.color;
-			resolve_fights(positions[row+1][col], row+1, col, positions, stop=1);
-		}
-		if (leftdiff == plus){
-			positions[row][col-1] = card.color;
-			resolve_fights(positions[row][col-1], row, col-1, positions, stop=1);
-		}
-		if (rightdiff == plus){
-			positions[row][col+1] = card.color;
-			resolve_fights(positions[row][col+1], row, col+1, positions, stop=1);
-		}
+	plus_match.forEach(await asyn function(plus) {
+		if (updiff == plus) copy[row-1][col].color = card.color;
+		if (downdiff == plus) copy[row+1][col].color = card.color;
+		if (leftdiff == plus) copy[row][col-1].color = card.color;
+		if (rightdiff == plus) copy[row][col+1].color = card.color;
 	});
+	
+	plus_match.forEach(await async function(plus) {
+		if (updiff == plus) resolve_fights(copy[row-1][col], row-1, col, copy, stop=1);
+		if (downdiff == plus) resolve_fights(copy[row+1][col], row+1, col, copy, stop=1);
+		if (leftdiff == plus) resolve_fights(copy[row][col-1], row, col-1, copy, stop=1);
+		if (rightdiff == plus) resolve_fights(copy[row][col+1], row, col+1, copy, stop=1);	
+	});
+	
+	for (var i = 0; i < 3; i++)
+		for (var j = 0; j < 3; j++)
+			board[i][j].color = copy[i][j].color;
+	
 	
 	
 	
