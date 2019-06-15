@@ -1331,20 +1331,20 @@ async function resolve_fights_2(card, row, col, positions){
 			if (thiscol < 2) right = {color: positions[thisrow][thiscol+1].color, val:positions[thisrow][thiscol+1].left};
 
 			if (above!=-1){
-				if (above.color != thiscolor) updiff = above.val + cards[0].up;
-				if (cards[0].up > above.val)color_in.push([thisrow-1, thiscol])
+				if (above.color != thiscolor) updiff = above.val + cards[0][2].up;
+				if (cards[0][2].up > above.val)color_in.push([thisrow-1, thiscol])
 			}
 			if (below!=-1){
-				if (below.color != thiscolor) downdiff = below.val + cards[0].down;
-				if (cards[0].down > below.val)color_in.push([thisrow+1, thiscol]);
+				if (below.color != thiscolor) downdiff = below.val + cards[0][2].down;
+				if (cards[0][2].down > below.val)color_in.push([thisrow+1, thiscol]);
 			}
 			if (left!=-1){
-				if (left.color != thiscolor) leftdiff = left.val + cards[0].left;
-				if (cards[0].left > left.val)color_in.push([thisrow, thiscol-1]);
+				if (left.color != thiscolor) leftdiff = left.val + cards[0][2].left;
+				if (cards[0][2].left > left.val)color_in.push([thisrow, thiscol-1]);
 			}
 			if (right!=-1){
-				if (right.color != thiscolor) rightdiff = right.val + cards[0].right;
-				if (cards[0].right > right.val)color_in.push([thisrow, thiscol+1]);
+				if (right.color != thiscolor) rightdiff = right.val + cards[0][2].right;
+				if (cards[0][2].right > right.val)color_in.push([thisrow, thiscol+1]);
 			}
 
 			var looked_at = [];
