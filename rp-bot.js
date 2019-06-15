@@ -1368,22 +1368,22 @@ async function resolve_fights_2(card, row, col, positions){
 
 			plus_match.forEach(function(plus) {
 			if (updiff == plus)
-				if(!next_cards.has(positions[row-1][col])){
+				if(!next_cards.includes(positions[row-1][col])){
 					color_in.push([row-1, col]);
 					next_cards.push(positions[row-1][col]);
 				}
 			if (downdiff == plus) 
-				if(!next_cards.has(positions[row+1][col])){
+				if(!next_cards.includes(positions[row+1][col])){
 					color_in.push([row+1, col]);
 					next_cards.push(positions[row+1][col]);
 				}
 			if (leftdiff == plus) 
-				if(!next_cards.has(positions[row][col-1])){
+				if(!next_cards.includes(positions[row][col-1])){
 					color_in.push([row, col-1]);
 					next_cards.push(positions[row][col-1]);
 				}
 			if (rightdiff == plus) 
-				if(!next_cards.has(positions[row][col+1])){
+				if(!next_cards.includes(positions[row][col+1])){
 					color_in.push([row, col+1]);
 					next_cards.push(positions[row][col+1]);	
 				}
