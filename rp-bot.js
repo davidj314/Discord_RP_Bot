@@ -1417,9 +1417,9 @@ async function resolve_fights_2(card, row, col, positions, narrate, post){
 						console.log(`card ${thisrow-1} ${thiscol} being plus-taken`);
 					}
 				if (downdiff == plus && positions[thisrow+1][thiscol].color!= thiscolor) 
-					if(!next_cards.includes([thisrow+1, thiscol+1, positions[thisrow+1][thiscol]])){
+					if(!next_cards.includes([thisrow+1, thiscol, positions[thisrow+1][thiscol]])){
 						color_in.push([thisrow+1, thiscol]);
-						next_cards.push([thisrow+1, thiscol+1, positions[thisrow+1][thiscol]]);
+						next_cards.push([thisrow+1, thiscol, positions[thisrow+1][thiscol]]);
 						console.log(`card ${thisrow+1} ${thiscol} being plus-taken`);
 					}
 				if (leftdiff == plus && positions[thisrow][thiscol-1].color!= thiscolor) 
