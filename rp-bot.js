@@ -1249,12 +1249,8 @@ Client.on('message',  async message => {
 					row.leftval, 
 					row.rightval, 
 					(msg, att)=>{channel.send(msg, att)}
-					)},
+				)},
 				(msg)=>{channel.send(msg)}) ;
-			       },
-			(msg)=>{channel.send(msg)}
-			);
-		
 		break;
 		
 	    case 'cards':
