@@ -178,6 +178,9 @@ function update_training(server_id, user_id, set_char)
 		if (err){
 		    console.log(err, res);
 		}
+		else{
+			console.log('Training updated successfully');	
+		}
 		pool.end();
    	});
 }
@@ -1029,7 +1032,9 @@ Client.on('message',  async message => {
                 break;
 			
 	    case 'set_training':
-		
+		if (args.length != 2)break;
+		var cid = args[1];
+		insert_user_set_char(guild_id, author_id, cid);
 		break;
 			
 	    case 'make_em2':
