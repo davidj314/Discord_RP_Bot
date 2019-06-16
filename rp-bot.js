@@ -438,6 +438,7 @@ function get_lookup_val(server_id, key, callback){
 function get_char_id(server_id, owner_id, name, callback, bad){
     var select_query = "SELECT id FROM Names WHERE server_id = $1 AND Name = $2 AND owner_id=$3";
     var query_values = [server_id, name, owner_id];
+    var console.log(`SELECT id FROM Names WHERE server_id = ${server_id} AND Name = ${name} AND owner_id=${owner_id}`);
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
         console.log(result);
@@ -1146,6 +1147,7 @@ Client.on('message',  async message => {
                 }
 		var url = args[args.length-1];
 		//make_card(server_id, owner_id, char_id, url)
+		//get_char_id(server_id, owner_id, name, callback, bad)
 		get_char_id(guild_id, author_id, name, (cid)=>{make_card(guild_id, author_id, cid, url, name) ;}, (msg)=>{channel.send(msg)} ) ;	
 		
 		break;
