@@ -307,7 +307,7 @@ function make_card(server_id, owner_id, char_id, url, name) {
     }
     else if (res.rows.length > 0){
 	    console.log(`In the else if. assigning newid. Was ${newid}`);
-	    newid=res.rows[0].id;
+	    newid=res.rows[0].char_id;
 	    console.log(`Newid is now ${newid}`);
 	    if (newid != -1 )add_card_to_inv(server_id, owner_id, newid);
     }
