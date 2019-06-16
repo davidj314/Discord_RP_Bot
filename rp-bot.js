@@ -21,7 +21,31 @@ function make_Names(){
 
 function make_cards(){
 	//id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
-	var create_query = "CREATE TABLE Cards (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, char_id bigint NOT NULL, url varchar(800), leftval integer, upval integer, downval integer,  rightval integer, UNIQUE(server_id, char_id))";
+	var create_query = "CREATE TABLE Cards (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, char_id bigint NOT NULL, url varchar(800), leftval integer, upval integer, downval integer,  rightval integer, name varchar(255), UNIQUE(server_id, char_id))";
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+  	pool.query(create_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+    });//end pool.query   
+    pool.end()
+}//end function
+
+function drop_cards(){
+	var drop_query = "DROP TABLE Cards"	;
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+	pool.query(drop_query,(err, result) => {
+		if (err){
+			console.log('error occured dropping Cards');
+			return console.error('Error executing query', err.stack);
+		}
+	});
+	pool.end();
+}
+
+function make_card_inv(){
+	var create_query = "CREATE TABLE Card_Inv (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, cid bigint NOT NULL)";
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
   	pool.query(create_query,(err, result) => {
         if (err) {
@@ -31,6 +55,20 @@ function make_cards(){
     });//end pool.query   
     pool.end()
 }//end function
+
+function drop_card_inv(){
+	var drop_query = "DROP TABLE Card_Inv()"	;
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+	pool.query(drop_query,(err, result) => {
+		if (err){
+			console.log('error occured dropping Card_inv');
+			return console.error('Error executing query', err.stack);
+		}
+	});
+	pool.end();
+}
+
+
 
 function make_triggers(){
     var ceate_query = "CREATE TABLE Triggers(id SERIAL, server_id bigint NOT NULL, channel_id bigint NOT NULL, message_id bigint NOT NULL, emoji varchar (255) NOT NULL, role_snowflake bigint NOT NULL, UNIQUE(emoji, message_id))";
@@ -169,7 +207,7 @@ function add_bump(id, name){
 //Saves a provided name to be associated with user's id and server's id.
 function record_name(server_id, owner_id, name, callback)
 {
-    console.log('in the add info function');
+    console.log('in the name info function');
     var insert_query = "INSERT INTO Names (server_id, owner_id, name ) VALUES($1, $2, $3)";
     var values = [server_id, owner_id, name];
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
@@ -189,15 +227,15 @@ function record_name(server_id, owner_id, name, callback)
     console.log(printout);
 }//end function
 
-function make_card(server_id, owner_id, char_id, url) {
+function make_card(server_id, owner_id, char_id, url, name) {
 //id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
     console.log("Creating card with server, owner, char, url " + server_id + " " + owner_id + " " + char_id + " " + url);	
-    var insert_query = "INSERT INTO Cards (server_id, owner_id, char_id, upval, downval, leftval, rightval, url ) VALUES($1, $2, $3, $4, $5, $6, $7, $8)";
+    var insert_query = "INSERT INTO Cards (server_id, owner_id, char_id, upval, downval, leftval, rightval, url, name, xp ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id"
     var up = 0;
     var down = 0;
     var left = 0;
     var right = 0;
-    var points = 6;
+    var points = 7;
     while (points > 0)
     {
 	    var side = Math.floor(Math.random() * (4+1 - 1) + 1);
@@ -207,7 +245,9 @@ function make_card(server_id, owner_id, char_id, url) {
 	    else right++
 	    points--;
     }
-    var values = [server_id, owner_id, char_id, up, down, left, right, url];
+	//server_id, owner_id, char_id, upval, downval, leftval, rightval, url, name, xp 
+    var values = [server_id, owner_id, char_id, up, down, left, right, url, name, 0];
+    var newid = -1;
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     var printout =pool.query(insert_query, values,  (err, res) => {
     //23505 is unique restriction violation
@@ -216,6 +256,25 @@ function make_card(server_id, owner_id, char_id, url) {
             var error_string = 'Card already exists for that character'
             callback(error_string)
         }
+    console.log(err, res);
+    }
+  console.log(res);
+  newid =res.id
+   }); //end pool.query
+  pool.end();
+	
+  add_card_to_inv(server_id, owner_id, newid);
+}
+
+function add_card_to_inv(server_id, owner_id, cid) {
+//id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
+    console.log("Card to inventory. Player is ${owner_id}, card is ${card});	
+    var insert_query = "INSERT INTO Card_Inv (server_id, owner_id, cid ) VALUES($1, $2, $3)";
+    var values = [server_id, owner_id, cid];
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
+    var printout =pool.query(insert_query, values,  (err, res) => {
+    //23505 is unique restriction violation
+    if (err){
     console.log(err, res);
     }
   console.log(res);
@@ -393,6 +452,28 @@ function get_char_id(server_id, owner_id, name, callback, bad){
         //successfully found a result. Passes associated value to the callback function
         else{
             callback(result.rows[0].id)   
+        }
+    }); //end pool.query 
+    pool.end()
+}//end function
+
+function get_user_cards(server_id, owner_id, callback, bad){
+    var select_query = "SELECT Card_Inv.cid, Cards.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval  FROM Card_Inv WHERE Cards_Inv.server_id = $1 AND Cards_Inv.owner_id = $2 INNER JOIN Cards on Cards_Inv.cid=Cards.id";
+    var query_values = [server_id, owner_id];
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        //No returned rows indicate provided key is not associated with any row
+        else if (result.rows.length == 0) {
+            bad('No entry found. Perhaps you have no cards.')
+        }
+        //successfully found a result. Passes associated value to the callback function
+        else{
+            callback(result.rows)   
         }
     }); //end pool.query 
     pool.end()
@@ -889,12 +970,16 @@ Client.on('message',  async message => {
         switch(command){
                 
             case 'drop_em':
-                //drop_triggers();
+                drop_cards();
                 break;
                 
             case 'make_em':
                 make_cards();
                 break;
+			
+	    case 'make_em2':
+		make_card_inv();
+		break;
                 
             case 'minesweeper':
                 mine_sweep_game((msg)=>{channel.send(msg)});
@@ -1061,7 +1146,7 @@ Client.on('message',  async message => {
                 }
 		var url = args[args.length-1];
 		//make_card(server_id, owner_id, char_id, url)
-		get_char_id(guild_id, author_id, name, (cid)=>{make_card(guild_id, author_id, cid, url) ;}, (msg)=>{channel.send(msg)} ) ;	
+		get_char_id(guild_id, author_id, name, (cid)=>{make_card(guild_id, author_id, cid, url, name) ;}, (msg)=>{channel.send(msg)} ) ;	
 		
 		break;
 	
@@ -1454,86 +1539,6 @@ async function resolve_fights_2(card, row, col, positions, narrate, post){
 	color_in.forEach(function(cell){positions[cell[0]][cell[1]].color=thiscolor});
 }
 
-/*
-//resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
-async function resolve_fights(card, row, col, positions, stop=0){
-	var thiscolor = card.color;
-	var copy = positions;
-	var above = -1;
-	var below = -1;
-	var left = -1;
-	var right = -1;
-	var updiff = -100;
-	var downdiff = -100;
-	var leftdiff = -100;
-	var rightdiff = -100;
-	if (row > 0) above = {color: positions[row-1][col].color, val:positions[row-1][col].down} ;
-	if (row < 2) below = {color: positions[row+1][col].color, val:positions[row+1][col].up};
-	if (col > 0) left = {color: positions[row][col-1].color, val:positions[row][col-1].right};
-	if (col < 2) right = {color: positions[row][col+1].color, val:positions[row][col+1].left};
-	
-	if (above!=-1){
-		if (above.color != thiscolor) updiff = above.val + card.up;
-		if (card.up > above.val)copy[row-1][col].color=card.color;
-	}
-	if (below!=-1){
-		if (below.color != thiscolor) downdiff = below.val + card.down;
-		if (card.down > below.val)copy[row+1][col].color=card.color;
-	}
-	if (left!=-1){
-		if (left.color != thiscolor) leftdiff = left.val + card.left;
-		if (card.left > left.val)copy[row][col-1].color=card.color;
-	}
-	if (right!=-1){
-		if (right.color != thiscolor) rightdiff = right.val + card.right;
-		if (card.right > right.val)copy[row][col+1].color=card.color;
-	}
-	if (stop!=0)return;
-	var looked_at = [];
-	var plus_match = [];
-	if (updiff > -100 ){
-		if (!looked_at.includes(updiff))looked_at.push(updiff); //if never looked at, put it in
-		else if (!plus_match.includes(updiff))plus_match.push(updiff); //been looked at before, add if new 
-		console.log(`Updiff is ${updiff}`);
-	}
-	if (downdiff > -100 ){
-		if (!looked_at.includes(downdiff))looked_at.push(downdiff);
-		else if (!plus_match.includes(downdiff))plus_match.push(downdiff);
-		console.log(`downdiff is ${downdiff}`);
-	}
-	if (leftdiff > -100 ){
-		if (!looked_at.includes(leftdiff))looked_at.push(leftdiff);
-		else if (!plus_match.includes(leftdiff))plus_match.push(leftdiff);	
-		console.log(`leftdiff is ${leftdiff}`);
-	}
-	if (rightdiff > -100 ){
-		if (!looked_at.includes(rightdiff))looked_at.push(rightdiff);
-		else if (!plus_match.includes(rightdiff))plus_match.push(rightdiff);	
-		console.log(`rightdiff is ${rightdiff}`);
-	}
-	
-	plus_match.forEach(await asyn function(plus) {
-		if (updiff == plus) copy[row-1][col].color = card.color;
-		if (downdiff == plus) copy[row+1][col].color = card.color;
-		if (leftdiff == plus) copy[row][col-1].color = card.color;
-		if (rightdiff == plus) copy[row][col+1].color = card.color;
-	});
-	
-	plus_match.forEach(await async function(plus) {
-		if (updiff == plus) resolve_fights(copy[row-1][col], row-1, col, copy, stop=1);
-		if (downdiff == plus) resolve_fights(copy[row+1][col], row+1, col, copy, stop=1);
-		if (leftdiff == plus) resolve_fights(copy[row][col-1], row, col-1, copy, stop=1);
-		if (rightdiff == plus) resolve_fights(copy[row][col+1], row, col+1, copy, stop=1);	
-	});
-	
-	for (var i = 0; i < 3; i++)
-		for (var j = 0; j < 3; j++)
-			board[i][j].color = copy[i][j].color;
-	
-	
-	
-	
-}*/
 
 async function finish_game(board, callback){
 	var initiator_points = 1;
@@ -1559,12 +1564,12 @@ async function finish_game(board, callback){
 	else challenged_points++;
 	
 	//initiator_nick: p1nick, challenged_nick:
-	var finish_text = `Game Finished \n ${board.initiator_nick}'s Points: ${initiator_points} \n ${board.challenged_nick}'s Points: ${challenged_points}`;
+	var finish_text = `\nGame Finished \n ${board.initiator_nick}'s Points: ${initiator_points} \n ${board.challenged_nick}'s Points: ${challenged_points}`;
 	if (initiator_points > challenged_points) finish_text += `\n${board.initiator_nick} is the winner!`
 	else if (challenged_points > initiator_points) finish_text += `\n${board.challenged_nick} is the winner!`
-	else finish_text += `It's a draw!`
+	else finish_text += `\nIt's a draw!`
 	
-	const canvas = Canvas.createCanvas( 745, 180);
+	const canvas = Canvas.createCanvas( 396, 180);
 	const ctx = canvas.getContext('2d');
 	ctx.strokeStyle = '#74037b';
 	ctx.strokeRect(0, 0, canvas.width, canvas.height);
@@ -1615,7 +1620,7 @@ async function show_board(positions, callback){
 		var left = positions[0][0].left;
 		var right = positions[0][0].right;
 		if(positions[0][0].color=="Blue") ctx.drawImage(bck1, 54, 25, 96, 120);
-		else ctx.drawImage(bck2, 54, 25, 96, 120)
+		else ctx.drawImage(bck2, 54, 25, 96, 120);
 		ctx.drawImage(character, 56, 27, 92, 116);
 		ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 40);
 		ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`, 57, 40);
