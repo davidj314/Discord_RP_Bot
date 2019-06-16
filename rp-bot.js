@@ -1195,7 +1195,7 @@ Client.on('message',  async message => {
 		get_user_cards(guild_id, author_id, (rows)=>{
 			var output = "CID : Up : Left : Right : Down : Name\n";
 			var allcards = []
-			rows.forEach(function(row){ allcards.push({cid: row.cid, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval});
+			rows.forEach(function(row){ allcards.push({cid: row.cid, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
 			console.log(allcards);
 			channel.send(output);
 			}, (msg)=>{channel.send(msg);});
