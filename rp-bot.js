@@ -305,7 +305,7 @@ function make_card(server_id, owner_id, char_id, url, name, callback) {
         }
     console.log(err, res);
     }
-    else if (res.rows.length > 0){
+    else{
 	    console.log(`In the else if. assigning newid. Was ${newid}`);
 	    newid=char_id;
 	    console.log(`Newid is now ${newid}`);
