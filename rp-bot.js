@@ -479,6 +479,7 @@ function get_user_cards(server_id, owner_id, callback, bad){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
+	    console.log(result.rows);
             callback(result.rows)   
         }
     }); //end pool.query 
@@ -1187,6 +1188,15 @@ Client.on('message',  async message => {
 			(msg)=>{channel.send(msg)}
 			);
 		
+		break;
+		
+	    case 'cards':
+		//get_user_cards(server_id, owner_id, callback, bad)
+		get_user_cards(guild_id, author_id, (rows)=>{
+			var output = "CID:Up:Left:Right:Down:Name\n"
+			rows.forEach(function(row){ output+= `${row.cid}:${row.up}:${row.left}:${row.right}:${row.down}:${row.name}\n`;});
+			channel.send(output);
+			}, (msg)=>{channel.send(msg);});
 		break;
 			
 	    case 'say':
