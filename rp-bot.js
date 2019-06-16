@@ -1345,10 +1345,9 @@ async function resolve_fights_2(card, row, col, positions, narrate, post){
 
 			if (above!=-1){
 				updiff = above.val + cards[0][2].up;
-				if (cards[0][2].up > above.val){
+				if (cards[0][2].up > above.val&& above.color!=thiscolor){
 					color_in.push([thisrow-1, thiscol]);
 					if (combo>0){
-						positions[thisrow-1][thiscol].color=thiscolor;
 						next_cards.push([thisrow-1, thiscol, positions[thisrow-1][thiscol]]);
 						narrate('COMBO!!');
 					}
@@ -1357,10 +1356,9 @@ async function resolve_fights_2(card, row, col, positions, narrate, post){
 			}
 			if (below!=-1){
 				downdiff = below.val + cards[0][2].down;
-				if (cards[0][2].down > below.val){
+				if (cards[0][2].down > below.val&& below.color!=thiscolor){
 					color_in.push([thisrow+1, thiscol]);
 					if (combo>0){
-						positions[thisrow+1][thiscol].color=thiscolor;
 						next_cards.push([thisrow+1, thiscol, positions[thisrow+1][thiscol]]);
 						narrate('COMBO!!');
 					}
@@ -1368,10 +1366,9 @@ async function resolve_fights_2(card, row, col, positions, narrate, post){
 			}
 			if (left!=-1){
 				leftdiff = left.val + cards[0][2].left;
-				if (cards[0][2].left > left.val){
+				if (cards[0][2].left > left.val&& left.color!=thiscolor){
 					color_in.push([thisrow, thiscol-1]);
 					if (combo>0){
-						positions[thisrow][thiscol-1].color=thiscolor;
 						next_cards.push([thisrow, thiscol-1, positions[thisrow][thiscol-1]]);
 						narrate('COMBO!!');
 					}
@@ -1379,12 +1376,11 @@ async function resolve_fights_2(card, row, col, positions, narrate, post){
 			}
 			if (right!=-1){
 				rightdiff = right.val + cards[0][2].right;
-				if (cards[0][2].right > right.val){
+				if (cards[0][2].right > right.val&& right.color!=thiscolor){
 					color_in.push([thisrow, thiscol+1]);
 					if (combo>0){
-						positions[thisrow][thiscol+1].color=thiscolor;
 						next_cards.push([thisrow, thiscol+1, positions[thisrow][thiscol+1]]);
-						narrate('COMBO effect!!');
+						narrate('COMBO!!');
 					}
 				}
 			}
