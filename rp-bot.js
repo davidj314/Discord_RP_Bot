@@ -533,6 +533,29 @@ function get_user_cards(server_id, owner_id, callback, bad){
     pool.end()
 }//end function
 
+function get_user_made_cards(server_id, owner_id, callback, bad){
+    var select_query = "SELECT Card_Inv.cid, Names.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval, Cards.xp  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id INNER JOIN Card_Inv ON Cards.id = Card_Inv.cid WHERE Card_Inv.server_id = $1 AND Card.owner_id = $2";
+    var query_values = [server_id, owner_id];
+    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    pool.query(select_query, query_values, (err, result) => {
+        console.log(result);
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);
+        }
+        //No returned rows indicate provided key is not associated with any row
+        else if (result.rows.length == 0) {
+            bad('No entry found. Perhaps you have no cards.')
+        }
+        //successfully found a result. Passes associated value to the callback function
+        else{
+	    console.log(result.rows);
+            callback(result.rows)   
+        }
+    }); //end pool.query 
+    pool.end()
+}//end function
+
 function get_card_info(server_id, owner_id, cid, callback, bad){
     var select_query = "SELECT url, upval, downval, leftval, rightval FROM Cards WHERE server_id = $1 AND char_id = $2 AND owner_id=$3";
     var query_values = [server_id, cid, owner_id];
@@ -1275,6 +1298,42 @@ Client.on('message',  async message => {
 			channel.send(output);
 			}, (msg)=>{channel.send(msg);});
 		break;
+			
+	    case 'made_cards':
+		//get_user_cards(server_id, owner_id, callback, bad)
+		get_user_made_cards(guild_id, author_id, (rows)=>{
+			var output = "CID         Name                              Up               Left               Right          Down           Total        XP\n";
+			var allcards = []
+			rows.forEach(function(row){ allcards.push({xp: row.xp,cid: row.cid, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
+			console.log(allcards);
+			for(var i = 0; i < allcards.length; i++){
+				output += allcards[i].cid;
+				if (allcards[i].cid < 10){output += "             "}
+				if (allcards[i].cid >= 10 && allcards[i].cid <100){output += "            "}
+				if (allcards[i].cid > 99){output += "           "}
+				if (allcards[i].name.length > 34) allcards[i].name = allcards.name.slice(0,34);
+				var buffer = 36 - allcards[i].name.length;
+				var bigbuff = "                                        ";
+				var lilbuff = bigbuff.slice(0,19);
+				output += allcards[i].name;
+				output += bigbuff.slice(0, buffer);
+				output += allcards[i].up;
+				output += lilbuff;
+				output += allcards[i].left;
+				output += lilbuff;
+				output += allcards[i].right;
+				output += lilbuff;
+				output += allcards[i].down;
+				output += lilbuff;
+				output += allcards[i].total;
+				output += lilbuff;
+				output += allcards[i].xp;
+				output += '\n';
+			}
+			channel.send(output);
+			}, (msg)=>{channel.send(msg);});
+		break;
+			
 			
 	    case 'say':
 		var phrase = '';
