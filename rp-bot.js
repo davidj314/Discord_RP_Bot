@@ -1241,7 +1241,7 @@ Client.on('message',  async message => {
 			if (author_id==board[temp].initiator) board[temp].turn = board[temp].challenged;
 			else board[temp].turn = board[temp].initiator;
 			//card, row, col, positions
-			await resolve_fights_2(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions, (msg)=>{channel.send(msg);});
+			await resolve_fights_2(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions, (msg)=>{channel.send(msg);}, (msg, att)=>{channel.send(msg, att)});
 			
 			await show_board(board[temp].positions, (msg, att)=>{message.channel.send(msg, att)});
 			//async function show_hand(hand, callback)
@@ -1314,7 +1314,7 @@ Client.on('message',  async message => {
 
 
 //resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
-async function resolve_fights_2(card, row, col, positions, narrate){
+async function resolve_fights_2(card, row, col, positions, narrate, post){
 	var t_card = card;
 	var cards = [[row, col, t_card]];
 	var next_cards = [];
@@ -1411,7 +1411,7 @@ async function resolve_fights_2(card, row, col, positions, narrate){
 					else if (!plus_match.includes(rightdiff))plus_match.push(rightdiff);	
 					console.log(`For ${thisrow} ${thiscol} rightdiff is ${rightdiff}`);
 				}
-				narrate('PLUS effect!!');
+				if (plus_match.length>0)narrate('PLUS effect!!');
 				plus_match.forEach(function(plus) {
 				if (updiff == plus && positions[thisrow-1][thiscol].color!= thiscolor)
 					if(!next_cards.includes([thisrow-1, thiscol, positions[thisrow-1][thiscol]])){
@@ -1451,6 +1451,7 @@ async function resolve_fights_2(card, row, col, positions, narrate){
 		console.log(`Combo is ${combo}`);
 		combo++;
 		if(cards.length==0)combo=10;
+		else await show_board(positions,  post);
 	}//out of the while loop. Time to color
 	
 	color_in.forEach(function(cell){positions[cell[0]][cell[1]].color=thiscolor});
