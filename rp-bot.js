@@ -1130,7 +1130,7 @@ Client.on('message',  async message => {
 				channel.send('They are already in a game. They can use rp!end_game to end it.');
 				return;
 			}
-		}
+		});
 		var key = guild_id+ p1id;
 		var newboard = {lock: key, plays: 0, turn: p2id, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]};
 		board.push(newboard);
