@@ -1316,6 +1316,7 @@ Client.on('message',  async message => {
 				output += "                 "
 				output += allcards[i].total;
 				output += lilbuff;
+				output += lilbuff;
 				output += allcards[i].up;
 				output += lilbuff;
 				output += allcards[i].left;
