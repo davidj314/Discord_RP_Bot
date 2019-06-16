@@ -1409,7 +1409,7 @@ async function resolve_fights_2(card, row, col, positions, narrate){
 					else if (!plus_match.includes(rightdiff))plus_match.push(rightdiff);	
 					console.log(`For ${thisrow} ${thiscol} rightdiff is ${rightdiff}`);
 				}
-				narrate('PLUS effect!!`);
+				narrate('PLUS effect!!');
 				plus_match.forEach(function(plus) {
 				if (updiff == plus && positions[thisrow-1][thiscol].color!= thiscolor)
 					if(!next_cards.includes([thisrow-1, thiscol, positions[thisrow-1][thiscol]])){
