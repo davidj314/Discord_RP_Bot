@@ -1329,6 +1329,7 @@ async function resolve_fights_2(card, row, col, positions, narrate, post){
 		{
 			var thisrow = cards[0][0];
 			var thiscol = cards[0][1];
+			positions[thisrow][thiscol].color=thiscolor
 			var above = -1;
 			var below = -1;
 			var left = -1;
