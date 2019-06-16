@@ -1121,6 +1121,16 @@ Client.on('message',  async message => {
 		var p2id = message.mentions.users.first().id.toString();
 		var p1nick = message.author.username;
 		var p2nick = message.mentions.users.first().username;
+		board.forEach(function(B){
+			if (B.initiator==p1id){
+				channel.send('You are already in a game. rp!end_game to end it.');
+				return;
+			}
+			if(B.challenged ==p2id){
+				channel.send('They are already in a game. They can use rp!end_game to end it.');
+				return;
+			}
+		}
 		var key = guild_id+ p1id;
 		var newboard = {lock: key, plays: 0, turn: p2id, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]};
 		board.push(newboard);
@@ -1229,7 +1239,7 @@ Client.on('message',  async message => {
 			if (author_id==board[temp].initiator) board[temp].turn = board[temp].challenged;
 			else board[temp].turn = board[temp].initiator;
 			//card, row, col, positions
-			await resolve_fights_2(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
+			await resolve_fights_2(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions, (msg)=>{channel.send(msg);});
 			
 			await show_board(board[temp].positions, (msg, att)=>{message.channel.send(msg, att)});
 			//async function show_hand(hand, callback)
@@ -1302,7 +1312,7 @@ Client.on('message',  async message => {
 
 
 //resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
-async function resolve_fights_2(card, row, col, positions){
+async function resolve_fights_2(card, row, col, positions, narrate){
 	var t_card = card;
 	var cards = [[row, col, t_card]];
 	var next_cards = [];
@@ -1337,6 +1347,7 @@ async function resolve_fights_2(card, row, col, positions){
 					if (combo>0){
 						positions[thisrow-1][thiscol].color=thiscolor;
 						next_cards.push([thisrow-1, thiscol, positions[thisrow-1][thiscol]]);
+						narrate('COMBO!!');
 					}
 				}
 				
@@ -1348,6 +1359,7 @@ async function resolve_fights_2(card, row, col, positions){
 					if (combo>0){
 						positions[thisrow+1][thiscol].color=thiscolor;
 						next_cards.push([thisrow+1, thiscol, positions[thisrow+1][thiscol]]);
+						narrate('COMBO!!');
 					}
 				}
 			}
@@ -1358,6 +1370,7 @@ async function resolve_fights_2(card, row, col, positions){
 					if (combo>0){
 						positions[thisrow][thiscol-1].color=thiscolor;
 						next_cards.push([thisrow, thiscol-1, positions[thisrow][thiscol-1]]);
+						narrate('COMBO!!');
 					}
 				}
 			}
@@ -1368,6 +1381,7 @@ async function resolve_fights_2(card, row, col, positions){
 					if (combo>0){
 						positions[thisrow][thiscol+1].color=thiscolor;
 						next_cards.push([thisrow, thiscol+1, positions[thisrow][thiscol+1]]);
+						narrate('COMBO effect!!');
 					}
 				}
 			}
@@ -1395,7 +1409,7 @@ async function resolve_fights_2(card, row, col, positions){
 					else if (!plus_match.includes(rightdiff))plus_match.push(rightdiff);	
 					console.log(`For ${thisrow} ${thiscol} rightdiff is ${rightdiff}`);
 				}
-
+				narrate('PLUS effect!!`);
 				plus_match.forEach(function(plus) {
 				if (updiff == plus && positions[thisrow-1][thiscol].color!= thiscolor)
 					if(!next_cards.includes([thisrow-1, thiscol, positions[thisrow-1][thiscol]])){
@@ -1554,6 +1568,8 @@ async function finish_game(board, callback){
 	const ctx = canvas.getContext('2d');
 	ctx.strokeStyle = '#74037b';
 	ctx.strokeRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = '#000000';
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	// Select the font size and type from one of the natively available fonts
 	ctx.font = '20px sans-serif';
@@ -1561,8 +1577,8 @@ async function finish_game(board, callback){
 	ctx.fillStyle = '#ffffff';
 	ctx.strokeStyle = 'black';
 	ctx.lineWidth = 1; 
-	ctx.strokeText(finish_text);
-	ctx.fillText(finish_text);
+	ctx.strokeText(finish_text, 0, 0);
+	ctx.fillText(finish_text, 0, 0);
 
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'hand.png');
 	callback(`The end`, attachment);	
