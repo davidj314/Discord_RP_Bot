@@ -137,7 +137,51 @@ function make_lookup(){
     pool.end()
 }//end function
 
+function make_trainings(){
+    var ceate_query = "CREATE TABLE Trainings(id SERIAL, server_id bigint NOT NULL, user_id bigint NOT NULL, set_char bigint, UNIQUE (server_id, user_id ))";
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    pool.query(ceate_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+        console.log('no error');
+        console.log(result); 
+    });   //end pool.query
+    pool.end()
+}//end function
+
 //----------------------------------------TABLE INSERTS---------------------------------------------------
+
+function insert_user_set_char(server_id, user_id, set_char)
+{
+	var insert_query = "INSERT INTO Trainings(server_id, user_id, set_char) Values($1, $2,$3)";
+	var values = [server_id, user_id, set_char];
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+	pool.query(insert_query, values,  (err, res) => {
+		if (err){
+		    if(err.code == '23505'){
+			update_training(server_id, user_id, set_char);
+		    }
+		    console.log(err, res);
+		}
+		pool.end();
+   	});
+}
+
+function update_training(server_id, user_id, set_char)
+{
+	var insert_query = "UPDATE Trainings SET set_char=$3 WHERE server_id=$1 AND user_id=$2";
+	var values = [server_id, user_id, set_char];
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+	pool.query(insert_query, values,  (err, res) => {
+		if (err){
+		    console.log(err, res);
+		}
+		pool.end();
+   	});
+}
+
 function insert_new_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
 {
     var insert_query = "INSERT INTO Triggers (server_id, channel_id, message_id, emoji, role_snowflake) VALUES($1, $2, $3, $4, $5)";
@@ -977,15 +1021,19 @@ Client.on('message',  async message => {
         switch(command){
                 
             case 'drop_em':
-                drop_cards();
+                //drop_cards();
                 break;
                 
             case 'make_em':
-                make_cards();
+                make_trainings();
                 break;
 			
+	    case 'set_training':
+		
+		break;
+			
 	    case 'make_em2':
-		make_card_inv();
+		//make_card_inv();
 		break;
                 
             case 'minesweeper':
