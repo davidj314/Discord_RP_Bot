@@ -265,7 +265,7 @@ function make_card(server_id, owner_id, char_id, url, name) {
    }); //end pool.query
   pool.end();
 	
-  if (newid > -1 )add_card_to_inv(server_id, owner_id, newid);
+  if (newid != -1 )add_card_to_inv(server_id, owner_id, newid);
 }
 
 function add_card_to_inv(server_id, owner_id, cid) {
