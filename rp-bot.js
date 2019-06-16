@@ -44,6 +44,18 @@ function drop_cards(){
 	pool.end();
 }
 
+function drop_train(){
+	var drop_query = "DROP TABLE Trainings"	;
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+	pool.query(drop_query,(err, result) => {
+		if (err){
+			console.log('error occured dropping Cards');
+			return console.error('Error executing query', err.stack);
+		}
+	});
+	pool.end();
+}
+
 function make_card_inv(){
 	var create_query = "CREATE TABLE Card_Inv (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, cid bigint NOT NULL)";
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
@@ -1047,10 +1059,14 @@ Client.on('message',  async message => {
         switch(command){
                 
             case 'drop_em':
-                //drop_cards();
+                drop_cards();
+		drop_card_inv();
+		drop_train();
                 break;
                 
             case 'make_em':
+		make_cards();
+		make_card_inv();
                 make_trainings();
                 break;
 			
