@@ -1217,7 +1217,7 @@ Client.on('message',  async message => {
 				output += allcards[i].down;
 				output += lilbuff;
 				output += allcards[i].total;
-				output += lilbuff;
+				output += '\n';
 			}
 			channel.send(output);
 			}, (msg)=>{channel.send(msg);});
