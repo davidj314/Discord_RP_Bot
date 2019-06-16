@@ -1309,16 +1309,10 @@ Client.on('message',  async message => {
 			console.log(allcards);
 			for(var i = 0; i < allcards.length; i++){
 				output += allcards[i].cid;
-				//if (allcards[i].cid < 10){output += "             "}
-				//if (allcards[i].cid >= 10 && allcards[i].cid <100){output += "            "}
-				//if (allcards[i].cid > 99){output += "           "}
-				//if (allcards[i].name.length > 34) allcards[i].name = allcards.name.slice(0,34);
-				//var buffer = 36 - allcards[i].name.length;
 				var bigbuff = "                                        ";
 				var lilbuff = bigbuff.slice(0,19);
-				output += "     ";
+				output += "      ";
 				output += allcards[i].xp;
-				output += lilbuff;
 				output += "                 "
 				output += allcards[i].total;
 				output += lilbuff;
