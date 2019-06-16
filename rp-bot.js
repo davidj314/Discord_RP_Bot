@@ -1193,8 +1193,8 @@ Client.on('message',  async message => {
 	    case 'cards':
 		//get_user_cards(server_id, owner_id, callback, bad)
 		get_user_cards(guild_id, author_id, (rows)=>{
-			var output = "CID:Up:Left:Right:Down:Name\n"
-			rows.forEach(function(row){ output+= `${row.cid}:${row.up}:${row.left}:${row.right}:${row.down}:${row.name}\n`;});
+			var output = "CID : Up : Left : Right : Down : Name\n"
+			rows.forEach(function(row){ output+= `${row.cid} : ${row.upval}  : ${row.leftval}  : ${row.rightval}  : ${row.downval}  : ${row.name}\n`;});
 			channel.send(output);
 			}, (msg)=>{channel.send(msg);});
 		break;
