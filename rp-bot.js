@@ -268,7 +268,7 @@ function make_card(server_id, owner_id, char_id, url, name) {
 
 function add_card_to_inv(server_id, owner_id, cid) {
 //id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
-    console.log("Card to inventory. Player is ${owner_id}, card is ${card});	
+    console.log("Card to inventory. Player is ${owner_id}, card is ${card}");	
     var insert_query = "INSERT INTO Card_Inv (server_id, owner_id, cid ) VALUES($1, $2, $3)";
     var values = [server_id, owner_id, cid];
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
