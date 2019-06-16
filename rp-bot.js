@@ -1269,21 +1269,20 @@ Client.on('message',  async message => {
 	    case 'cards':
 		//get_user_cards(server_id, owner_id, callback, bad)
 		get_user_cards(guild_id, author_id, (rows)=>{
-			var output = "CID         Name                              Up               Left               Right          Down           Total\n";
+			var output = "CID         Up               Left               Right          Down           Total            Name   \n";
 			var allcards = []
 			rows.forEach(function(row){ allcards.push({cid: row.cid, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
 			console.log(allcards);
 			for(var i = 0; i < allcards.length; i++){
 				output += allcards[i].cid;
-				if (allcards[i].cid < 10){output += "             "}
-				if (allcards[i].cid >= 10 && allcards[i].cid <100){output += "            "}
-				if (allcards[i].cid > 99){output += "           "}
-				if (allcards[i].name.length > 34) allcards[i].name = allcards.name.slice(0,34);
-				var buffer = 36 - allcards[i].name.length;
+				//if (allcards[i].cid < 10){output += "             "}
+				//if (allcards[i].cid >= 10 && allcards[i].cid <100){output += "            "}
+				//if (allcards[i].cid > 99){output += "           "}
+				//if (allcards[i].name.length > 34) allcards[i].name = allcards.name.slice(0,34);
+				//var buffer = 36 - allcards[i].name.length;
 				var bigbuff = "                                        ";
 				var lilbuff = bigbuff.slice(0,19);
-				output += allcards[i].name;
-				output += bigbuff.slice(0, buffer);
+				output += "         "
 				output += allcards[i].up;
 				output += lilbuff;
 				output += allcards[i].left;
@@ -1293,6 +1292,8 @@ Client.on('message',  async message => {
 				output += allcards[i].down;
 				output += lilbuff;
 				output += allcards[i].total;
+				output += lilbuff;
+				output += allcards[i].name;
 				output += '\n';
 			}
 			channel.send(output);
