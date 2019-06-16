@@ -1303,7 +1303,7 @@ Client.on('message',  async message => {
 	    case 'made_cards':
 		//get_user_cards(server_id, owner_id, callback, bad)
 		get_user_made_cards(guild_id, author_id, (rows)=>{
-			var output = "CID   XP           Total                              Up               Left               Right          Down                Name \n";
+			var output = "CID   XP           Total                               Up               Left               Right          Down                Name \n";
 			var allcards = []
 			rows.forEach(function(row){ allcards.push({xp: row.xp,cid: row.cid, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
 			console.log(allcards);
@@ -1311,7 +1311,7 @@ Client.on('message',  async message => {
 				output += allcards[i].cid;
 				var bigbuff = "                                        ";
 				var lilbuff = bigbuff.slice(0,19);
-				output += "      ";
+				output += "       ";
 				output += allcards[i].xp;
 				output += "                 "
 				output += allcards[i].total;
