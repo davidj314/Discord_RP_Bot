@@ -259,7 +259,7 @@ function make_card(server_id, owner_id, char_id, url, name) {
     console.log(err, res);
     }
     else if (res.rows.length > 0){
-	    newid=res.id
+	    newid=res.rows[0].id
     }
   console.log(res);
    }); //end pool.query
