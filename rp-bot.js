@@ -1121,16 +1121,18 @@ Client.on('message',  async message => {
 		var p2id = message.mentions.users.first().id.toString();
 		var p1nick = message.author.username;
 		var p2nick = message.mentions.users.first().username;
+		var terminate = 0;
 		board.forEach(function(B){
 			if (B.initiator==p1id){
 				channel.send('You are already in a game. rp!end_game to end it.');
-				return;
+				terminate=1;
 			}
 			if(B.challenged ==p2id){
 				channel.send('They are already in a game. They can use rp!end_game to end it.');
-				return;
+				terminate=1
 			}
 		});
+		if (terminate)return;
 		var key = guild_id+ p1id;
 		var newboard = {lock: key, plays: 0, turn: p2id, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]};
 		board.push(newboard);
