@@ -1193,8 +1193,10 @@ Client.on('message',  async message => {
 	    case 'cards':
 		//get_user_cards(server_id, owner_id, callback, bad)
 		get_user_cards(guild_id, author_id, (rows)=>{
-			var output = "CID : Up : Left : Right : Down : Name\n"
-			rows.forEach(function(row){ output+= `${row.cid} : ${row.upval}  : ${row.leftval}  : ${row.rightval}  : ${row.downval}  : ${row.name}\n`;});
+			var output = "CID : Up : Left : Right : Down : Name\n";
+			var allcards = []
+			rows.forEach(function(row){ allcards.push({cid: row.cid, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval});
+			console.log(allcards);
 			channel.send(output);
 			}, (msg)=>{channel.send(msg);});
 		break;
