@@ -69,7 +69,7 @@ function make_card_inv(){
 }//end function
 
 function drop_card_inv(){
-	var drop_query = "DROP TABLE Card_Inv()"	;
+	var drop_query = "DROP TABLE Card_Inv"	;
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(drop_query,(err, result) => {
 		if (err){
