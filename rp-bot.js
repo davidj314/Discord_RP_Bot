@@ -259,12 +259,13 @@ function make_card(server_id, owner_id, char_id, url, name) {
     console.log(err, res);
     }
     else if (res.rows.length > 0){
-	    newid=res.rows[0].id
+	    console.log(`In the else if. assigning newid. Was ${newid}`);
+	    newid=res.rows[0].id;
     }
   console.log(res);
    }); //end pool.query
   pool.end();
-	
+  console.log(`Newid is now ${newid}`);
   if (newid != -1 )add_card_to_inv(server_id, owner_id, newid);
 }
 
