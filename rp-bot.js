@@ -556,9 +556,9 @@ function get_user_made_cards(server_id, owner_id, callback, bad){
     pool.end()
 }//end function
 
-function get_card_info(server_id, owner_id, cid, callback, bad){
-    var select_query = "SELECT url, upval, downval, leftval, rightval FROM Cards WHERE server_id = $1 AND char_id = $2 AND owner_id=$3";
-    var query_values = [server_id, cid, owner_id];
+function get_card_info(server_id, cid, callback, bad){
+    var select_query = "SELECT url, upval, downval, leftval, rightval FROM Cards WHERE server_id = $1 AND char_id = $2";
+    var query_values = [server_id, cid];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
         console.log(result);
@@ -1236,20 +1236,11 @@ Client.on('message',  async message => {
 	
 	    case 'see_card':
 		if (args[1] == null)break;
-		var name = '';
-		for (i=1;i < args.length; i++){
-                    if (i > 1) name += ' ';
-                    name += args[i];
-                }
+		var cid = args[1];
 		//show_card(url, up, down, left, right, callback)
 		//get_card_info(server_id, owner_id, char_id, callback, bad)
-		get_char_id(
-			guild_id, 
-			author_id, 
-			name, 
-			(cid)=>{get_card_info(
-				guild_id, 
-				author_id, 
+		get_card_info(
+				guild_id,  
 				cid, 
 				(row)=>{show_card(
 					row.url, 
