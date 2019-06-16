@@ -1180,13 +1180,13 @@ Client.on('message',  async message => {
 			}
 			
 			if (card_index > 5 || boardnum < 0){
-				channel.send("Board positions are 1 through 5. \n1 2 3\n4 5 6\n7 8 9");
+				channel.send("Card positions are 1 through 5. \n1 2 3\n4 5 6\n7 8 9");
 				break;
 			}
 			console.log("Showing hands.");
 			console.log(hands);
 			console.log(`Hand is\n ${hands[pointer].hand}`);
-			console.log(`Card fucking is\n ${hands[pointer].hand[card_index-1]}`);
+			console.log(`Card in position ${card_index} is\n ${hands[pointer].hand[card_index-1]}`);
 			if (hands[pointer].hand[card_index-1].used == 1){
 				channel.send("That card has already been used. Select another.");
 				break;
