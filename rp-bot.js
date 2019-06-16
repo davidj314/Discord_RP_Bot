@@ -464,7 +464,7 @@ function get_char_id(server_id, owner_id, name, callback, bad){
 }//end function
 
 function get_user_cards(server_id, owner_id, callback, bad){
-    var select_query = "SELECT Card_Inv.cid, Names.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval  FROM Card_Inv INNER JOIN Names ON Card_Inv.cid=Cards.id INNER JOIN Cards ON Cards.char_id = Names.id WHERE Card_Inv.server_id = $1 AND Card_Inv.owner_id = $2";
+    var select_query = "SELECT Card_Inv.cid, Names.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval  FROM Card_Inv INNER JOIN Names ON Card_Inv.cid=Names.id INNER JOIN Cards ON Cards.char_id = Names.id WHERE Card_Inv.server_id = $1 AND Card_Inv.owner_id = $2";
     var query_values = [server_id, owner_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
