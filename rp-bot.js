@@ -274,7 +274,7 @@ function record_name(server_id, owner_id, name, callback)
     console.log(printout);
 }//end function
 
-function make_card(server_id, owner_id, char_id, url, name) {
+function make_card(server_id, owner_id, char_id, url, name, callback) {
 //id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
     console.log("Creating card with server, owner, char, url " + server_id + " " + owner_id + " " + char_id + " " + url);	
     var insert_query = "INSERT INTO Cards (server_id, owner_id, char_id, upval, downval, leftval, rightval, url, xp ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)"
@@ -1230,7 +1230,7 @@ Client.on('message',  async message => {
 		var url = args[args.length-1];
 		//make_card(server_id, owner_id, char_id, url)
 		//get_char_id(server_id, owner_id, name, callback, bad)
-		get_char_id(guild_id, author_id, name, (cid)=>{make_card(guild_id, author_id, cid, url, name) ;}, (msg)=>{channel.send(msg)} ) ;	
+		get_char_id(guild_id, author_id, name, (cid)=>{make_card(guild_id, author_id, cid, url, name,(msg)=>{channel.send(msg);} ) ;}, (msg)=>{channel.send(msg)} ) ;	
 		
 		break;
 	
