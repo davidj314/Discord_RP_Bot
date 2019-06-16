@@ -1559,7 +1559,7 @@ async function finish_game(board, callback){
 	else challenged_points++;
 	
 	//initiator_nick: p1nick, challenged_nick:
-	var finish_text = `Game Finished\n${board.initiator_nick}'s Points: ${board.challenged_nick}'s Points: ${challenged_points}`;
+	var finish_text = `Game Finished \n ${board.initiator_nick}'s Points: ${initiator_points} \n ${board.challenged_nick}'s Points: ${challenged_points}`;
 	if (initiator_points > challenged_points) finish_text += `\n${board.initiator_nick} is the winner!`
 	else if (challenged_points > initiator_points) finish_text += `\n${board.challenged_nick} is the winner!`
 	else finish_text += `It's a draw!`
