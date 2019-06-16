@@ -277,7 +277,7 @@ function record_name(server_id, owner_id, name, callback)
 function make_card(server_id, owner_id, char_id, url, name) {
 //id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
     console.log("Creating card with server, owner, char, url " + server_id + " " + owner_id + " " + char_id + " " + url);	
-    var insert_query = "INSERT INTO Cards (server_id, owner_id, char_id, upval, downval, leftval, rightval, url, xp ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id"
+    var insert_query = "INSERT INTO Cards (server_id, owner_id, char_id, upval, downval, leftval, rightval, url, xp ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)"
     var up = 0;
     var down = 0;
     var left = 0;
@@ -307,7 +307,7 @@ function make_card(server_id, owner_id, char_id, url, name) {
     }
     else if (res.rows.length > 0){
 	    console.log(`In the else if. assigning newid. Was ${newid}`);
-	    newid=res.rows[0].char_id;
+	    newid=res.rows[0].cid;
 	    console.log(`Newid is now ${newid}`);
 	    if (newid != -1 )add_card_to_inv(server_id, owner_id, newid);
     }
