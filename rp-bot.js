@@ -21,7 +21,7 @@ function make_Names(){
 
 function make_cards(){
 	//id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
-	var create_query = "CREATE TABLE Cards (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, char_id bigint NOT NULL, url varchar(800), leftval integer, upval integer, downval integer,  rightval integer, name varchar(255), UNIQUE(server_id, char_id))";
+	var create_query = "CREATE TABLE Cards (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, char_id bigint NOT NULL, url varchar(800), leftval integer, upval integer, downval integer,  rightval integer, xp, UNIQUE(server_id, char_id))";
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
   	pool.query(create_query,(err, result) => {
         if (err) {
@@ -230,7 +230,7 @@ function record_name(server_id, owner_id, name, callback)
 function make_card(server_id, owner_id, char_id, url, name) {
 //id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
     console.log("Creating card with server, owner, char, url " + server_id + " " + owner_id + " " + char_id + " " + url);	
-    var insert_query = "INSERT INTO Cards (server_id, owner_id, char_id, upval, downval, leftval, rightval, url, name, xp ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id"
+    var insert_query = "INSERT INTO Cards (server_id, owner_id, char_id, upval, downval, leftval, rightval, url, xp ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id"
     var up = 0;
     var down = 0;
     var left = 0;
@@ -246,7 +246,7 @@ function make_card(server_id, owner_id, char_id, url, name) {
 	    points--;
     }
 	//server_id, owner_id, char_id, upval, downval, leftval, rightval, url, name, xp 
-    var values = [server_id, owner_id, char_id, up, down, left, right, url, name, 0];
+    var values = [server_id, owner_id, char_id, up, down, left, right, url, 0];
     var newid = -1;
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     var printout =pool.query(insert_query, values,  (err, res) => {
@@ -258,12 +258,14 @@ function make_card(server_id, owner_id, char_id, url, name) {
         }
     console.log(err, res);
     }
+    else if (res.rows.length > 0){
+	    newid=res.id
+    }
   console.log(res);
-  newid =res.id
    }); //end pool.query
   pool.end();
 	
-  add_card_to_inv(server_id, owner_id, newid);
+  if (newid > -1 )add_card_to_inv(server_id, owner_id, newid);
 }
 
 function add_card_to_inv(server_id, owner_id, cid) {
