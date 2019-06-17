@@ -1466,7 +1466,7 @@ Client.on('message',  async message => {
 		//get_user_cards(server_id, owner_id, callback, bad)
 			
 		//pop_pack(server_id, user_id)
-		pop_pack(guild_id, author_id, get_all_cards(guild_id, (rows)=>{
+		pop_pack(guild_id, author_id,()=> {get_all_cards(guild_id, (rows)=>{
 			var cids = []
 			rows.forEach(
 				function(row){ 
@@ -1475,7 +1475,7 @@ Client.on('message',  async message => {
 			console.log(cids);
 			var card_id = Math.floor(Math.random() * cids.length);
 			add_card_to_inv(guild_id, author_id, cids[card_id]);
-			})//end get all cards
+			})}//end get all cards
 			  , (msg)=>{channel.send(msg)}
 			 );
 		
