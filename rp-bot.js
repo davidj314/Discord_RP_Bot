@@ -1426,13 +1426,13 @@ Client.on('message',  async message => {
 			}
 			var base = 0;
 			var doot = 1800;
-			do while(doot < output.length)
+			do 
 			{
 				var txt = output.slice(base,doot);
 				base+=1800;
-				doot+=1800;
 				channel.send(txt);
 			}
+			while(base < output.length)
 			
 			}, (msg)=>{channel.send(msg);});
 		break;
