@@ -441,7 +441,7 @@ function get_training(server_id, user_id, callback)
 		}
 		//successfully found a result. Passes rows to the callback function
 		else{
-			callback(result.rows[0].char_id)
+			callback(result.rows[0].set_char)
 		}
    	 }); //end pool.query 
    	 pool.end() 
