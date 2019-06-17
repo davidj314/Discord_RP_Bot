@@ -1320,7 +1320,7 @@ Client.on('message',  async message => {
 		if (points>=36)return;
 	}
 	
-}  , (msg)=>{;})//end get_card_info  });//end get_training
+}  , (msg)=>{;})});//end get_training
 	
 	
     
