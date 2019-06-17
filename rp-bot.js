@@ -1280,15 +1280,16 @@ Client.on('message',  async message => {
 	
     get_training(message.guild.id, message.author.id, (char_id)=>{  get_card_info(message.guild.id, char_id, (card)=>{   
 
-	var points = card.upval + card.downval + card.leftval + card.rightval-1;
+	var points = card.upval + card.downval + card.leftval + card.rightval;
 	if (points >= 36) return;
 	var up_num = card.upval;
 	var down_num = card.downval;
 	var left_num = card.leftval;
 	var right_num = card.rightval;
 	
-	var goal = clevels[points];
-	var xp = card.xp + message.content.length
+	var goal = clevels[points-7];
+	console.log(`points is ${points}`);
+	var xp = parseInt(card.xp) + message.content.length;
 	
 	console.log(`Goal is ${goal} and xp is ${xp}`);
 	while (xp > goal)
