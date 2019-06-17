@@ -394,6 +394,52 @@ function add_card_to_inv(server_id, owner_id, cid) {
 }
 
 //----------------------------------------TABLE SELECTS---------------------------------------------------
+function pop_pack(server_id, user_id)
+{
+	var select_query = "SELECT Packs WHERE server_id = $1 AND user_id = $2";
+	var values = [server_id, user_id];
+    	var select_query = "SELECT server_id, channel_id, message_id FROM Triggers";
+    	var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    	pool.query(select_query, (err, result) => {
+		console.log(result);
+		if (err) {
+		    console.log('error occurred');
+		    return console.error('Error executing query', err.stack);
+		}
+		//No returned rows indicate provided key is not associated with any row
+		else if (result.rows.length == 0) {
+		    console.log('No rows returned')
+		    return;
+		}
+		//successfully found a result. Passes rows to the callback function
+		else{
+			if (result.rows[0].Packs == 0)bad('You have no packs');
+			else {
+				decrement_packs(server_id, user_id);   
+				callback(server_id, user_id);
+			}
+		}
+   	 }); //end pool.query 
+   	 pool.end() 
+}
+
+function decrement_packs(server_id, user_id)
+{
+	var insert_query = "UPDATE Packs SET Packs=Packs-1 WHERE server_id=$1 AND user_id=$2";
+	var values = [server_id, user_id];
+	console.log("Incrementing Pack");
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+	pool.query(insert_query, values,  (err, res) => {
+		if (err){
+		    console.log(err, res);
+		}
+		else{
+			console.log('Packs decremented successfully');	
+		}
+		pool.end();
+   	});
+}
+
 function get_triggers(callback){
     var select_query = "SELECT server_id, channel_id, message_id FROM Triggers";
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
