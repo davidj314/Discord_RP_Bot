@@ -1427,6 +1427,8 @@ Client.on('message',  async message => {
 				}
 			}
 			
+			if (output.length > 0) channel.send(output);
+			
 			}, (msg)=>{channel.send(msg);});
 		break;
 			
