@@ -163,6 +163,20 @@ function make_trainings(){
     pool.end()
 }//end function
 
+function make_packs(){
+    var ceate_query = "CREATE TABLE Packs(id SERIAL, server_id bigint NOT NULL, user_id bigint NOT NULL, Packs bigint, UNIQUE (server_id, user_id ))";
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    pool.query(ceate_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+        console.log('no error');
+        console.log(result); 
+    });   //end pool.query
+    pool.end()
+}//end function
+
 //----------------------------------------TABLE INSERTS---------------------------------------------------
 
 function insert_user_set_char(server_id, user_id, set_char)
@@ -185,6 +199,39 @@ function update_training(server_id, user_id, set_char)
 {
 	var insert_query = "UPDATE Trainings SET set_char=$3 WHERE server_id=$1 AND user_id=$2";
 	var values = [server_id, user_id, set_char];
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+	pool.query(insert_query, values,  (err, res) => {
+		if (err){
+		    console.log(err, res);
+		}
+		else{
+			console.log('Training updated successfully');	
+		}
+		pool.end();
+   	});
+}
+
+function insert_new_pack_count(server_id, user_id)
+{
+	var insert_query = "INSERT INTO Packs(server_id, user_id, 1) Values($1, $2)";
+	var values = [server_id, user_id];
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+	pool.query(insert_query, values,  (err, res) => {
+		if (err){
+		    if(err.code == '23505'){
+			increment_packs(server_id, user_id);
+		    }
+		    console.log(err, res);
+		}
+		pool.end();
+   	});
+}
+
+function increment_packs(server_id, user_id)
+{
+	var insert_query = "UPDATE Packs SET Packs=Packs+1 WHERE server_id=$1 AND user_id=$2";
+	var values = [server_id, user_id];
+	console.log("Incrementing Pack");
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(insert_query, values,  (err, res) => {
 		if (err){
@@ -1065,10 +1112,16 @@ Client.on('message',  async message => {
                 break;
                 
             case 'make_em':
-		make_cards();
-		make_card_inv();
-                make_trainings();
+		//make_cards();
+		//make_card_inv();
+                //make_trainings();
+		make_packs();
                 break;
+			
+	   case 'add_pack':
+		//insert_new_pack_count(server_id, user_id)
+		insert_new_pack_count(guild_id, author_id);
+		break;
 			
 	    case 'set_training':
 		if (args.length != 2)break;
