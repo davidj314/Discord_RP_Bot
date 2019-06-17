@@ -1423,7 +1423,7 @@ Client.on('message',  async message => {
 			rows.forEach(function(row){ cids.push(row.char_id)});
 			console.log(cids);
 			var card_id = Math.floor(Math.random() * cids.length);
-			add_card_to_inv(guild_id, author_id, card_id);
+			add_card_to_inv(guild_id, author_id, cids[card_id]);
 			}, (msg)=>{channel.send(msg);});
 		break;
 			
