@@ -430,7 +430,7 @@ function get_training(server_id, user_id, callback)
 	var select_query = "SELECT set_char FROM Trainings WHERE server_id = $1 AND user_id = $2";
 	var values = [server_id, user_id];
 	var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
-    	pool.query(select_query, (err, result) => {
+    	pool.query(select_query, values,(err, result) => {
 		console.log(result);
 		if (err) {
 		    console.log('error occurred');
