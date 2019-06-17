@@ -427,7 +427,7 @@ function decrement_packs(server_id, user_id)
 {
 	var insert_query = "UPDATE Packs SET Packs=Packs-1 WHERE server_id=$1 AND user_id=$2";
 	var values = [server_id, user_id];
-	console.log("Incrementing Pack");
+	console.log("Decrementing Pack");
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(insert_query, values,  (err, res) => {
 		if (err){
@@ -1464,13 +1464,21 @@ Client.on('message',  async message => {
 			
 		case 'open_cards':
 		//get_user_cards(server_id, owner_id, callback, bad)
-		get_all_cards(guild_id, (rows)=>{
+			
+		//pop_pack(server_id, user_id)
+		pop_packs(guild_id, author_id, get_all_cards(guild_id, (rows)=>{
 			var cids = []
-			rows.forEach(function(row){ cids.push(row.char_id)});
+			rows.forEach(
+				function(row){ 
+					cids.push(row.char_id)
+				});//end foreach
 			console.log(cids);
 			var card_id = Math.floor(Math.random() * cids.length);
 			add_card_to_inv(guild_id, author_id, cids[card_id]);
-			}, (msg)=>{channel.send(msg);});
+			})//end get all cards
+			  , (msg)=>{channel.send(msg)}
+			 );
+		
 		break;
 			
 	    case 'made_cards':
