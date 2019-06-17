@@ -1401,13 +1401,11 @@ Client.on('message',  async message => {
 			var allcards = []
 			rows.forEach(function(row){ allcards.push({cid: row.cid, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
 			console.log(allcards);
+			console.log(`Allcards.length is ${allcards.length}`);
+			
 			for(var i = 0; i < allcards.length; i++){
+				console.log(`i is ${i}`);
 				output += allcards[i].cid;
-				//if (allcards[i].cid < 10){output += "             "}
-				//if (allcards[i].cid >= 10 && allcards[i].cid <100){output += "            "}
-				//if (allcards[i].cid > 99){output += "           "}
-				//if (allcards[i].name.length > 34) allcards[i].name = allcards.name.slice(0,34);
-				//var buffer = 36 - allcards[i].name.length;
 				var bigbuff = "                                        ";
 				var lilbuff = bigbuff.slice(0,19);
 				output += "                 "
@@ -1423,7 +1421,7 @@ Client.on('message',  async message => {
 				output += lilbuff;
 				output += allcards[i].name;
 				output += '\n';
-				if(output.length > 1800){
+				if(output.length > 1700){
 					channel.send(output);
 					output="";
 				}
