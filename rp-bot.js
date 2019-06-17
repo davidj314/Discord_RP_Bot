@@ -1424,7 +1424,16 @@ Client.on('message',  async message => {
 				output += allcards[i].name;
 				output += '\n';
 			}
-			channel.send(output);
+			var base = 0;
+			var doot = 1800;
+			do while(doot < output.length)
+			{
+				var txt = output.slice(base,doot);
+				base+=1800;
+				doot+=1800;
+				channel.send(txt);
+			}
+			
 			}, (msg)=>{channel.send(msg);});
 		break;
 			
