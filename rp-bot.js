@@ -1432,7 +1432,7 @@ Client.on('message',  async message => {
 		get_user_made_cards(guild_id, author_id, (rows)=>{
 			var output = "CID   XP           Total                               Up               Left               Right          Down              Name \n";
 			var allcards = []
-			rows.forEach(function(row){ allcards.push({xp: row.xp,cid: row.cid, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
+			rows.forEach(function(row){ allcards.push({xp: row.xp,cid: row.char_id, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
 			console.log(allcards);
 			for(var i = 0; i < allcards.length; i++){
 				output += allcards[i].cid;
