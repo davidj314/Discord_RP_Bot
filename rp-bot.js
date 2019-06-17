@@ -1426,6 +1426,7 @@ Client.on('message',  async message => {
 			}
 			var base = 0;
 			var doot = 1800;
+			console.log(output);
 			do 
 			{
 				var txt = output.slice(base,doot);
