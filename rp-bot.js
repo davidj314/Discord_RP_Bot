@@ -213,7 +213,7 @@ function update_training(server_id, user_id, set_char)
 
 function insert_new_pack_count(server_id, user_id)
 {
-	var insert_query = "INSERT INTO Packs(server_id, user_id, 1) Values($1, $2)";
+	var insert_query = "INSERT INTO Packs(server_id, user_id, Packs) Values($1, $2, 1)";
 	var values = [server_id, user_id];
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(insert_query, values,  (err, res) => {
