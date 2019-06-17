@@ -1423,18 +1423,11 @@ Client.on('message',  async message => {
 				output += lilbuff;
 				output += allcards[i].name;
 				output += '\n';
+				if(output.length > 1800){
+					channel.send(output);
+					output="";
+				}
 			}
-			var base = 0;
-			var doot = 1800;
-			console.log(output);
-			do 
-			{
-				var txt = output.slice(base,doot);
-				base+=1800;
-				doot+=1800;
-				channel.send(txt);
-			}
-			while(base < output.length)
 			
 			}, (msg)=>{channel.send(msg);});
 		break;
