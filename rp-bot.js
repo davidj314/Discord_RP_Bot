@@ -394,7 +394,7 @@ function add_card_to_inv(server_id, owner_id, cid) {
 }
 
 //----------------------------------------TABLE SELECTS---------------------------------------------------
-function pop_pack(server_id, user_id callback, bad)
+function pop_pack(server_id, user_id, callback, bad)
 {
 	var select_query = "SELECT Packs WHERE server_id = $1 AND user_id = $2";
 	var values = [server_id, user_id];
