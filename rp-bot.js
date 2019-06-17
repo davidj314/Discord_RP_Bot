@@ -1431,6 +1431,7 @@ Client.on('message',  async message => {
 			{
 				var txt = output.slice(base,doot);
 				base+=1800;
+				doot+=1800;
 				channel.send(txt);
 			}
 			while(base < output.length)
