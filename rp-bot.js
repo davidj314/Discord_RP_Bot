@@ -1416,6 +1416,17 @@ Client.on('message',  async message => {
 			}, (msg)=>{channel.send(msg);});
 		break;
 			
+		case 'open_cards':
+		//get_user_cards(server_id, owner_id, callback, bad)
+		get_all_cards(guild_id, (rows)=>{
+			var cids = []
+			rows.forEach(function(row){ cids.row.char_id});
+			console.log(cids);
+			var card_id = Math.floor(Math.random() * cids.length);
+			add_card_to_inv(guild_id, author_id, newid);
+			}, (msg)=>{channel.send(msg);});
+		break;
+			
 	    case 'made_cards':
 		//get_user_cards(server_id, owner_id, callback, bad)
 		get_user_made_cards(guild_id, author_id, (rows)=>{
