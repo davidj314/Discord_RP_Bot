@@ -4,6 +4,37 @@ const Canvas = require('canvas');
 var PG = require('pg');
 var board = [];
 var hands = [];
+var clevels = [
+	500,
+	1000, //1500
+	1500, //3000
+	3000, //6000
+	5000, //11000
+	7500, //18500
+	10000, //28500
+	12500,//41000
+	15000,//56000
+	17500,//72500
+	20000,//92500  46maxs
+	20000,//56
+	20000,//66
+	20000,//76
+	20000,//86
+	20000, //96 maxs
+	20000,
+	20000,
+	20000,
+	20000,
+	20000,
+	20000,
+	20000,
+	20000,
+	20000,
+	20000,
+	20000,
+	20000,
+	20000]
+	
 //----------------------------------------TABLE CREATION---------------------------------------------------
 
 //Creates table to hold character names. Does not check for table existing beforehand.
@@ -394,6 +425,87 @@ function add_card_to_inv(server_id, owner_id, cid) {
 }
 
 //----------------------------------------TABLE SELECTS---------------------------------------------------
+function get_training(server_id, user_id, callback)
+{
+	var select_query = "SELECT set_char FROM Trainings WHERE server_id = $1 AND user_id = $2";
+	var values = [server_id, user_id];
+	var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
+    	pool.query(select_query, (err, result) => {
+		console.log(result);
+		if (err) {
+		    console.log('error occurred');
+		    return console.error('Error executing query', err.stack);
+		}
+		else if (result.rows.length == 0) {
+		    return;
+		}
+		//successfully found a result. Passes rows to the callback function
+		else{
+			callback(result.rows[0].char_id)
+		}
+   	 }); //end pool.query 
+   	 pool.end() 
+}
+/*  get_training(guild_id, author_id, (char_id)=>{  get_card_info(guild_id, char_id, (card)=>{   
+
+	var points = card.upval + card.downval + card.leftval + card.rightval-1;
+	if (points >= 36) return;
+	var up_num = card.upval;
+	var down_num = card.downval;
+	var left_num = card.leftval;
+	var right_num = card.rightval;
+	
+	var goal = clevels[points];
+	var xp = card.xp + message.content.length
+	
+	console.log(`Goal is ${goal} and xp is ${xp}`);
+	while (xp > goal)
+	{
+		xp -= goal;
+		points++;
+		goal = clevels[points];
+		console.log(`Goal is ${goal} and xp is ${xp}`);
+		while (10 > 1)
+		{
+			var side = Math.floor(Math.random() * (4+1 - 1) + 1);
+			if (side == 1 && up_num < 9){
+				lvl_card(guild_id, upval, char_id)
+				break;
+			}
+			else if (side == 2 && left_num < 9){
+				lvl_card(guild_id, leftval, char_id)
+				break;
+			}
+			else if (side == 3 && right_num < 9){
+				lvl_card(guild_id, rightval, char_id)
+				break;
+			}
+			else if (side == 4 && down_num < 9){
+				lvl_card(guild_id, downval, char_id)
+				break;
+			}
+		}
+		if (points>=36)return;
+	}
+	
+}  , (msg)=>{;})//end get_card_info  });//end get_training
+*/
+
+function lvl_card(server_id, direction, char_id)
+{
+	var update_query = "UPATE Cards Set $direction = $direction+1";
+	var values = [direction];
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+	pool.query(update_query, values,  (err, res) => {
+		if (err){
+		    console.log(err, res);
+		}
+		else{
+		}
+		pool.end();
+   	});
+}
+
 function pop_pack(server_id, user_id, callback, bad)
 {
 	var select_query = "SELECT Packs WHERE server_id = $1 AND user_id = $2";
@@ -685,7 +797,7 @@ function get_user_made_cards(server_id, owner_id, callback, bad){
 }//end function
 
 function get_card_info(server_id, cid, callback, bad){
-    var select_query = "SELECT url, upval, downval, leftval, rightval FROM Cards WHERE server_id = $1 AND char_id = $2";
+    var select_query = "SELECT url, xp, upval, downval, leftval, rightval FROM Cards WHERE server_id = $1 AND char_id = $2";
     var query_values = [server_id, cid];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
@@ -1164,6 +1276,53 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
 
 Client.on('message',  async message => {
     disboard_check(message);
+	
+	
+    get_training(message.guild.id, message.author.id, (char_id)=>{  get_card_info(message.guild.id, char_id, (card)=>{   
+
+	var points = card.upval + card.downval + card.leftval + card.rightval-1;
+	if (points >= 36) return;
+	var up_num = card.upval;
+	var down_num = card.downval;
+	var left_num = card.leftval;
+	var right_num = card.rightval;
+	
+	var goal = clevels[points];
+	var xp = card.xp + message.content.length
+	
+	console.log(`Goal is ${goal} and xp is ${xp}`);
+	while (xp > goal)
+	{
+		xp -= goal;
+		points++;
+		goal = clevels[points];
+		console.log(`Goal is ${goal} and xp is ${xp}`);
+		while (10 > 1)
+		{
+			var side = Math.floor(Math.random() * (4+1 - 1) + 1);
+			if (side == 1 && up_num < 9){
+				lvl_card(guild_id, upval, char_id)
+				break;
+			}
+			else if (side == 2 && left_num < 9){
+				lvl_card(guild_id, leftval, char_id)
+				break;
+			}
+			else if (side == 3 && right_num < 9){
+				lvl_card(guild_id, rightval, char_id)
+				break;
+			}
+			else if (side == 4 && down_num < 9){
+				lvl_card(guild_id, downval, char_id)
+				break;
+			}
+		}
+		if (points>=36)return;
+	}
+	
+}  , (msg)=>{;})//end get_card_info  });//end get_training
+	
+	
     
     if (message.content.substring(0,3) === 'rp!') { 
         console.log(message.content);
@@ -1187,9 +1346,9 @@ Client.on('message',  async message => {
 		make_packs();
                 break;
 			
-	   case 'open_pack':
-		
-		break;
+
+			
+
 	   case 'add_pack':
 		//insert_new_pack_count(server_id, user_id)
 		insert_new_pack_count(guild_id, author_id);
@@ -1441,11 +1600,6 @@ Client.on('message',  async message => {
 			console.log(allcards);
 			for(var i = 0; i < allcards.length; i++){
 				output += allcards[i].cid;
-				//if (allcards[i].cid < 10){output += "             "}
-				//if (allcards[i].cid >= 10 && allcards[i].cid <100){output += "            "}
-				//if (allcards[i].cid > 99){output += "           "}
-				//if (allcards[i].name.length > 34) allcards[i].name = allcards.name.slice(0,34);
-				//var buffer = 36 - allcards[i].name.length;
 				var bigbuff = "                                        ";
 				var lilbuff = bigbuff.slice(0,19);
 				output += "                 "
@@ -1467,9 +1621,7 @@ Client.on('message',  async message => {
 		break;
 			
 		case 'open_cards':
-		//get_user_cards(server_id, owner_id, callback, bad)
 			
-		//pop_pack(server_id, user_id)
 		pop_pack(guild_id, author_id,()=> {get_all_cards(guild_id, (rows)=>{
 			var cids = []
 			rows.forEach(
