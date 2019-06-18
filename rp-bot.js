@@ -1783,11 +1783,16 @@ Client.on('message',  async message => {
 			console.log(hands);
 			console.log(`p1nick: ${p1nick} , p2nick: ${p2nick} `);
 			await show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
-			await show_hand(hands[hands.length-2].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
-			await show_hand(hands[hands.length-1].hand, p2nick, (msg, att)=>{channel.send(msg, att)});
-			message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
+			for (int i = 0; i < hands.length;i++){
+				if (hands[i].id == author_id)await show_hand(hands[hands.length-2].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
+				if (hands[i].id == p2id)await show_hand(hands[hands.length-2].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
+			}
 		
-		}, (msg)=>{channel.send(msg)});		
+		}, (msg)=>{channel.send(msg)});	
+			
+		
+		
+		message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
 		break;
 			
 		case 'triplace':
