@@ -1669,6 +1669,7 @@ Client.on('message',  async message => {
 			rows.forEach(
 				function(row){ 
 					cids.push(row.char_id)
+					console.log(`pushing cid: ${row.char_id}`);
 				});//end foreach
 			console.log(cids);
 			var card_id = Math.floor(Math.random() * cids.length);
