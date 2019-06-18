@@ -1823,13 +1823,13 @@ Client.on('message',  async message => {
 			console.log(`p1nick: ${p1nick} , p2nick: ${p2nick} `);
 			await show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
 			for (var i = 0; i < hands.length;i++){
-				if (hands[i].id == author_id && hands[i].server == guild_id){
+				if (hands[i].id == author_id && hands[i].server == guild_id && hands[i].board==key){
 					await show_hand(hands[i].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
 					break;
 				}
 			}
 			for (var i = 0; i < hands.length;i++){
-				if (hands[i].id == p2id && hands[i].server == guild_id){
+				if (hands[i].id == p2id && hands[i].server == guild_id && hands[i].board==key){
 					await show_hand(hands[i].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
 					break;
 				}
