@@ -1823,10 +1823,16 @@ Client.on('message',  async message => {
 			console.log(`p1nick: ${p1nick} , p2nick: ${p2nick} `);
 			await show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
 			for (var i = 0; i < hands.length;i++){
-				if (hands[i].id == author_id && hands[i].server == guild_id)await show_hand(hands[i].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
+				if (hands[i].id == author_id && hands[i].server == guild_id){
+					await show_hand(hands[i].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
+					break;
+				}
 			}
 			for (var i = 0; i < hands.length;i++){
-				if (hands[i].id == p2id && hands[i].server == guild_id)await show_hand(hands[i].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
+				if (hands[i].id == p2id && hands[i].server == guild_id){
+					await show_hand(hands[i].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
+					break;
+				}
 			}
 			message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
 		}, (msg)=>{channel.send('Other player might lack cards'); kill_game(p2id, guild_id);});	
