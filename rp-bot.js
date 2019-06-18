@@ -553,6 +553,7 @@ function pop_pack(server_id, user_id, callback, bad)
 		}
 		//successfully found a result. Passes rows to the callback function
 		else{
+			console.log(`Number of packs is ${result.rows[0].Packs}`);
 			if (result.rows[0].Packs == 0)bad('You have no packs');
 			else {
 				decrement_packs(server_id, user_id);   
@@ -1365,15 +1366,15 @@ Client.on('message',  async message => {
         switch(command){
                 
             case 'drop_em':
-                drop_cards();
-		drop_card_inv();
-		drop_train();
+                //drop_cards();
+		//drop_card_inv();
+		//drop_train();
                 break;
                 
             case 'make_em':
-		make_cards();
-		make_card_inv();
-                make_trainings();
+		//make_cards();
+		//make_card_inv();
+                //make_trainings();
 		//make_packs();
                 break;			
 
