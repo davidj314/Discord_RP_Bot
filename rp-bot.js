@@ -493,7 +493,7 @@ function get_training(server_id, user_id, callback)
 
 function lvl_card(server_id, direction, char_id)
 {
-	var update_query = "UPATE Cards Set $direction = $direction+1";
+	var update_query = "UPATE Cards Set $1 = $1+1";
 	var values = [direction];
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(update_query, values,  (err, res) => {
