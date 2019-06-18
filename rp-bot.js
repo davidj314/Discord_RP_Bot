@@ -493,8 +493,8 @@ function get_training(server_id, user_id, callback)
 
 function lvl_card(server_id, direction, char_id)
 {
-	var update_query = "UPATE Cards Set $1 = $1+1";
-	var values = [direction];
+	var update_query = "UPATE Cards Set $1 = $1+1 WHERE char_id = $2 AND server_id = $3";
+	var values = [direction, char_id, server_id];
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(update_query, values,  (err, res) => {
 		if (err){
@@ -1291,13 +1291,12 @@ Client.on('message',  async message => {
 	console.log(`points is ${points}`);
 	var xp = parseInt(card.xp) + message.content.length;
 	
-	console.log(`Goal is ${goal} and xp is ${xp}`);
 	while (xp > goal)
 	{
+		console.log(`Goal is ${goal} and xp is ${xp}`);
 		xp -= goal;
 		points++;
 		goal = clevels[points-8];
-		console.log(`Goal is ${goal} and xp is ${xp}`);
 		while (10 > 1)
 		{
 			var side = Math.floor(Math.random() * (4+1 - 1) + 1);
