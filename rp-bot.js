@@ -801,7 +801,7 @@ function get_user_cards(server_id, owner_id, callback, bad){
     pool.end()
 }//end function
 
-function get_user_made_cards(server_id, owner_id, callback, bad){
+asnyc function get_user_made_cards(server_id, owner_id, callback, bad){
     var select_query = "SELECT Cards.char_id, Cards.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval, Cards.xp  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id WHERE Cards.server_id = $1 AND Cards.owner_id = $2";
     var query_values = [server_id, owner_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
@@ -1761,7 +1761,7 @@ Client.on('message',  async message => {
 		board.push(newboard);
 		
 		//get_user_cards(guild_id, author_id, (rows)
-		get_user_cards(guild_id, author_id, async (rows)=>{
+		await get_user_cards(guild_id, author_id, async (rows)=>{
 			var pull1 = Math.floor(Math.random() * (rows.length));
 			var pull2 = Math.floor(Math.random() * (rows.length));
 			var pull3 = Math.floor(Math.random() * (rows.length));
@@ -1774,7 +1774,9 @@ Client.on('message',  async message => {
 			   {used: 0, color: "Blue", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
 			}, (msg)=>{channel.send(msg)});
 			
-			get_user_cards(guild_id, author_id, async (rows)=>{
+			await get_user_cards(guild_id, author_id, async (rows)=>{
+			console.log(`The hands are: `);
+			console.log(hands);
 			pull1 = Math.floor(Math.random() * (rows.length));
 			pull2 = Math.floor(Math.random() * (rows.length));
 			pull3 = Math.floor(Math.random() * (rows.length));
@@ -1786,8 +1788,7 @@ Client.on('message',  async message => {
 			   {used: 0, color: "Red", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
 			   {used: 0, color: "Red", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
 			}, (msg)=>{channel.send(msg)});
-			console.log(`The hands are: `);
-			console.log(hands);
+			
 			await show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
 			await show_hand(hands[hands.length-2].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
 			await show_hand(hands[hands.length-1].hand, p2nick, (msg, att)=>{channel.send(msg, att)});
