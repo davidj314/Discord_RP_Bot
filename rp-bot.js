@@ -1926,7 +1926,7 @@ function kill_game(user_id){
 			break;
 		}
 	}
-	if (board_index==-1)break;
+	if (board_index==-1)return;
 	board.splice(board_index, 1);
 	for (var i = 0; i < hands.length;i++){
 		if(hands[i].board==board_lock){
