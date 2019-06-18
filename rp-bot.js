@@ -1915,7 +1915,7 @@ Client.on('message',  async message => {
 			
 			//initiator
 			for (var i = 0; i < hands.length; i++){
-				if (hands[i].id == board[temp].initiator){
+				if (hands[i].id == board[temp].initiator && hands[i].server == guild_id){
 					pointer = i;
 					break;
 				}
