@@ -1671,7 +1671,7 @@ Client.on('message',  async message => {
 					cids.push(row.char_id)
 					console.log(`pushing cid: ${row.char_id}`);
 				});//end foreach
-			console.log(cids);
+			//console.log(cids);
 			var card_id = Math.floor(Math.random() * cids.length);
 			add_card_to_inv(guild_id, author_id, cids[card_id]);
 			get_card_info(
