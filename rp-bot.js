@@ -1747,7 +1747,7 @@ Client.on('message',  async message => {
 			
 			}, (msg)=>{channel.send(msg)});
 			
-		await get_user_cards(guild_id, author_id, async (rows)=>{
+		await get_user_cards(guild_id, p2id, async (rows)=>{
 			pull1 = Math.floor(Math.random() * (rows.length));
 			pull2 = Math.floor(Math.random() * (rows.length));
 			pull3 = Math.floor(Math.random() * (rows.length));
