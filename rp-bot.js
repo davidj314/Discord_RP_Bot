@@ -210,7 +210,7 @@ function make_packs(){
 
 //----------------------------------------TABLE INSERTS---------------------------------------------------
 
-function insert_user_set_char(server_id, user_id, set_char)
+function insert_user_set_char(server_id, user_id, set_char, callback)
 {
 	var insert_query = "INSERT INTO Trainings(server_id, user_id, set_char) Values($1, $2,$3)";
 	var values = [server_id, user_id, set_char];
@@ -222,11 +222,14 @@ function insert_user_set_char(server_id, user_id, set_char)
 		    }
 		    console.log(err, res);
 		}
+		else{
+			callback (`Now training card of id ${set_char}`);	
+		}
 		pool.end();
    	});
 }
 
-function update_training(server_id, user_id, set_char)
+function update_training(server_id, user_id, set_char, callback)
 {
 	var insert_query = "UPDATE Trainings SET set_char=$3 WHERE server_id=$1 AND user_id=$2";
 	var values = [server_id, user_id, set_char];
@@ -234,6 +237,7 @@ function update_training(server_id, user_id, set_char)
 	pool.query(insert_query, values,  (err, res) => {
 		if (err){
 		    console.log(err, res);
+		    callback(`Failed to set training card`);
 		}
 		else{
 			console.log('Training updated successfully');	
@@ -1384,7 +1388,7 @@ Client.on('message',  async message => {
 	    case 'set_training':
 		if (args.length != 2)break;
 		var cid = args[1];
-		insert_user_set_char(guild_id, author_id, cid);
+		insert_user_set_char(guild_id, author_id, cid, (msg)=>{channel.send(msg);});
 		break;
 			
 	    case 'make_em2':
@@ -1546,7 +1550,10 @@ Client.on('message',  async message => {
                     if (i > 1) author += ' ';
                     author += args[i];
                 }
-                convert_to_userid(message.guild.members, author, (a_id)=>{ get_authors_names(guild_id, a_id, (msg)=>{channel.send(msg)})});
+                convert_to_userid(message.guild.members, author, (a_id)=>{ get_authors_names(guild_id, a_id, (msg)=>
+											     {
+			for(var i = 0; i < msg.length, i+=1800)(channel.send(msg.slice(i, i+1800))
+		})});
                 break;
 			
 	    case 'make_card':
