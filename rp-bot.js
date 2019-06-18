@@ -779,7 +779,7 @@ function get_all_cards(server_id, callback, bad){
 }//end function
 
 async function get_user_cards(server_id, owner_id, callback, bad){
-    var select_query = "SELECT Card_Inv.cid, Cards.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id INNER JOIN Card_Inv ON Cards.char_id = Card_Inv.cid WHERE Card_Inv.server_id = $1 AND Card_Inv.owner_id = $2";
+    var select_query = "SELECT Card_Inv.cid, Cards.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval, Cards.url  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id INNER JOIN Card_Inv ON Cards.char_id = Card_Inv.cid WHERE Card_Inv.server_id = $1 AND Card_Inv.owner_id = $2";
     var query_values = [server_id, owner_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
@@ -1761,7 +1761,7 @@ Client.on('message',  async message => {
 		board.push(newboard);
 		
 		//get_user_cards(guild_id, author_id, (rows)
-		await get_all_cards(guild_id, async (rows)=>{
+		await get_user_cards(guild_id, author_id, async (rows)=>{
 			var pull1 = Math.floor(Math.random() * (rows.length));
 			var pull2 = Math.floor(Math.random() * (rows.length));
 			var pull3 = Math.floor(Math.random() * (rows.length));
