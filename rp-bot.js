@@ -1481,7 +1481,11 @@ Client.on('message',  async message => {
                 help_txt += "rp!find [key] -- Displays what was recorded with the key \n";
                 help_txt += "rp!save_character [name] -- Saves the character name supplied and associates it with the user \n";
                 help_txt += "rp!characters [username/nickname/id] -- Displays all characters saved by given user. Omit user to get all characters. \n";
-                help_txt += "rp!roll [minumum] [maximum] -- Generates number between minimum and maximum. Minimum is assumed 0 if omitted"
+                help_txt += "rp!roll [minumum] [maximum] -- Generates number between minimum and maximum. Minimum is assumed 0 if omitted.\n";
+		help_txt += "rp!make_card [character name] -- Makes a card for one of YOUR saved characters.\n";
+		help_txt += "rp!cards -- Shows all the cards in your inventory, including their ID and value.\n";
+		help_txt += "rp!made_cards -- Shows all the cards you've made from characters.\n";
+		help_txt += "rp!see_card [ID] -- Shows card of given ID as a picture.\n";
                 channel.send( help_txt);
                 break;
                 
