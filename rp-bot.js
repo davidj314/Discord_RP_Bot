@@ -285,7 +285,7 @@ function increment_packs(server_id, user_id)
 		    console.log(err, res);
 		}
 		else{
-			console.log('Training updated successfully');	
+			console.log('Packs incremented successfully');	
 		}
 		pool.end();
    	});
