@@ -1787,6 +1787,7 @@ Client.on('message',  async message => {
 			
 			console.log(`The hands are: `);
 			console.log(hands);
+			console.log(`p1nick: ${p1nick} , p2nick: ${p2nick} `);
 			await show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
 			await show_hand(hands[hands.length-2].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
 			await show_hand(hands[hands.length-1].hand, p2nick, (msg, att)=>{channel.send(msg, att)});
@@ -2284,6 +2285,7 @@ async function show_board(positions, callback){
 
 async function show_hand(hand, nick, callback)
 {
+	console.log("In show hand");
 	const canvas = Canvas.createCanvas( 745, 180);
 	const ctx = canvas.getContext('2d');
 	ctx.strokeStyle = '#74037b';
@@ -2291,6 +2293,7 @@ async function show_hand(hand, nick, callback)
 
 	const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
 	const bck2 = await Canvas.loadImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ScbytNAjJFFGQRhGm-Me3ad-SJZbyzYm3A2FpU4MDsaao6D-');
+	console.log("Loaded images?");
 	// Select the font size and type from one of the natively available fonts
 	ctx.font = '20px sans-serif';
 	// Select the style that will be used to fill the text in
@@ -2301,6 +2304,8 @@ async function show_hand(hand, nick, callback)
 
 			
 	for (var i = 0; i < hand.length; i++){
+		console.log("Messing with this card:");
+		console.log(hand[i]);
 		var url = hand[i].url;
 		if (hand[i].used == 1)continue; 
 		const character = await Canvas.loadImage(url);
