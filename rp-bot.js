@@ -1921,7 +1921,7 @@ Client.on('message',  async message => {
 			
 			//initiator
 			for (var i = 0; i < hands.length; i++){
-				if (hands[i].id == board[temp].initiator && hands[i].server == guild_id){
+				if (hands[i].id == board[temp].initiator && hands[i].server == guild_id && hands[i].board==board[temp].lock){
 					pointer = i;
 					break;
 				}
@@ -1932,7 +1932,7 @@ Client.on('message',  async message => {
 				await show_hand(hands[pointer].hand, board[temp].initiator_nick, (msg, att)=>{message.channel.send(msg, att)});
 
 				for (var i = 0; i < hands.length; i++){
-					if (hands[i].id == board[temp].challenged && hands[i].server == guild_id){
+					if (hands[i].id == board[temp].challenged && hands[i].server == guild_id && hands[i].board==board[temp].lock){
 						pointer = i;
 						break;
 					}
