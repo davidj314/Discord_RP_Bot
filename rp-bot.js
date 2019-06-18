@@ -1789,12 +1789,12 @@ Client.on('message',  async message => {
 			for (var i = 0; i < hands.length;i++){
 				if (hands[i].id == p2id)await show_hand(hands[i].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
 			}
-		
+			message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
 		}, (msg)=>{channel.send(msg)});	
 			
 		
 		
-		message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
+		
 		break;
 			
 		case 'triplace':
