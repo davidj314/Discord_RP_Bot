@@ -511,9 +511,9 @@ function lvl_card(server_id, direction, char_id)
 }
 
 
-function add_xp(server_id, xp, char_id)
+function set_xp(server_id, xp, char_id)
 {
-	var update_query = "UPDATE Cards Set xp = xp+$3 WHERE server_id=$1 AND char_id=$2";
+	var update_query = "UPDATE Cards Set xp = $3 WHERE server_id=$1 AND char_id=$2";
 	console.log(`update query is ${update_query}`);
 	console.log(`The Char_id is ${char_id}.`);
 	var values = [server_id, char_id, xp];
@@ -1345,7 +1345,7 @@ Client.on('message',  async message => {
 		if (points>=36)return;
 	}
 	    
-	    add_xp(message.guild.id, xp, card.char_id);
+	    set_xp(message.guild.id, xp, card.char_id);
 	
 }  , (msg)=>{;})});//end get_training
 	
