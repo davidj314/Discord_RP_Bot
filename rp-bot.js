@@ -504,7 +504,7 @@ function lvl_card(server_id, direction, char_id)
 		else{
 		    console.log("updated successfully?")
 		}
-		console.print(res);
+		console.log(res);
 		pool.end();
    	});
 }
