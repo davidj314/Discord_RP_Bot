@@ -1474,7 +1474,7 @@ Client.on('message',  async message => {
 			break;
 			
 	case 'tri_help':
-			var help_txt = "";
+			var help_txt = "Triple Triad Help\n";
 			help_txt += "rp!tri_rules -- Explains how to play triple triad.\n"
 			help_txt += "rp!starter_packs -- Get your first 5 card packs.\n";
 			help_txt += "rp!open_cards -- Open a card pack to get a new card.\n";
