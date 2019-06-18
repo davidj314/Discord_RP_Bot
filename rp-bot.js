@@ -1644,7 +1644,7 @@ Client.on('message',  async message => {
 						(msg, att)=>{channel.send(msg, att)}
 					)
 				},
-				(msg)=>{channel.send(msg)});/end get card info
+				(msg)=>{channel.send(msg)});//end get card info
 			
 			
 			
