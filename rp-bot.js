@@ -1377,17 +1377,17 @@ Client.on('message',  async message => {
         switch(command){
                 
             case 'drop_em':
-                drop_cards();
-		drop_card_inv();
-		drop_train();
-		drop_packs();
+                //drop_cards();
+		//drop_card_inv();
+		//drop_train();
+		//drop_packs();
                 break;
                 
             case 'make_em':
-		make_cards();
-		make_card_inv();
-                make_trainings();
-		make_packs();
+		//make_cards();
+		//make_card_inv();
+                //make_trainings();
+		//make_packs();
                 break;			
 
 			
@@ -1498,6 +1498,7 @@ Client.on('message',  async message => {
 		help_txt += "rp!cards -- Shows all the cards in your inventory, including their ID and value.\n";
 		help_txt += "rp!made_cards -- Shows all the cards you've made from characters.\n";
 		help_txt += "rp!see_card [ID] -- Shows card of given ID as a picture.\n";
+		help_txt += "rp!set_training [Card ID] -- Sets that card as the one you are training.\n";
 		help_txt += "rp!tri_help -- Shows commands to play triple triad.\n";
                 channel.send( help_txt);
                 break;
