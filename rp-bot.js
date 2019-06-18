@@ -52,7 +52,7 @@ function make_Names(){
 
 function make_cards(){
 	//id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
-	var create_query = "CREATE TABLE Cards (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, char_id bigint NOT NULL, url varchar(800), leftval integer, upval integer, downval integer,  rightval integer, xp bigint NOT NULL, UNIQUE(server_id, char_id))";
+	var create_query = "CREATE TABLE Cards (id SERIAL, server_id bigint NOT NULL, owner_id bigint NOT NULL, char_id bigint NOT NULL, url varchar(800), leftval integer, upval integer, downval integer,  rightval integer, xp bigint NOT NULL, name varchar(255) NOT NULL, UNIQUE(server_id, char_id))";
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
   	pool.query(create_query,(err, result) => {
         if (err) {
@@ -371,7 +371,7 @@ function record_name(server_id, owner_id, name, callback)
 function make_card(server_id, owner_id, char_id, url, name, callback) {
 //id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
     console.log("Creating card with server, owner, char, url " + server_id + " " + owner_id + " " + char_id + " " + url);	
-    var insert_query = "INSERT INTO Cards (server_id, owner_id, char_id, upval, downval, leftval, rightval, url, xp ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)"
+    var insert_query = "INSERT INTO Cards (server_id, owner_id, char_id, upval, downval, leftval, rightval, url, xp, name ) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)"
     var up = 0;
     var down = 0;
     var left = 0;
@@ -387,7 +387,7 @@ function make_card(server_id, owner_id, char_id, url, name, callback) {
 	    points--;
     }
 	//server_id, owner_id, char_id, upval, downval, leftval, rightval, url, name, xp 
-    var values = [server_id, owner_id, char_id, up, down, left, right, url, 0];
+    var values = [server_id, owner_id, char_id, up, down, left, right, url, 0, name];
     var newid = -1;
     var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
     var printout =pool.query(insert_query, values,  (err, res) => {
@@ -756,7 +756,7 @@ function get_char_id(server_id, owner_id, name, callback, bad){
 }//end function
 
 function get_all_cards(server_id, callback, bad){
-    var select_query = "SELECT Cards.char_id, Names.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id WHERE Cards.server_id = $1 AND Names.server_id=$1";
+    var select_query = "SELECT Cards.char_id, Cards.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id WHERE Cards.server_id = $1 AND Names.server_id=$1";
     var query_values = [server_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
@@ -779,7 +779,7 @@ function get_all_cards(server_id, callback, bad){
 }//end function
 
 function get_user_cards(server_id, owner_id, callback, bad){
-    var select_query = "SELECT Card_Inv.cid, Names.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id INNER JOIN Card_Inv ON Cards.char_id = Card_Inv.cid WHERE Card_Inv.server_id = $1 AND Card_Inv.owner_id = $2";
+    var select_query = "SELECT Card_Inv.cid, Cards.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id INNER JOIN Card_Inv ON Cards.char_id = Card_Inv.cid WHERE Card_Inv.server_id = $1 AND Card_Inv.owner_id = $2";
     var query_values = [server_id, owner_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
@@ -802,7 +802,7 @@ function get_user_cards(server_id, owner_id, callback, bad){
 }//end function
 
 function get_user_made_cards(server_id, owner_id, callback, bad){
-    var select_query = "SELECT Cards.char_id, Names.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval, Cards.xp  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id WHERE Cards.server_id = $1 AND Cards.owner_id = $2";
+    var select_query = "SELECT Cards.char_id, Cards.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval, Cards.xp  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id WHERE Cards.server_id = $1 AND Cards.owner_id = $2";
     var query_values = [server_id, owner_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
