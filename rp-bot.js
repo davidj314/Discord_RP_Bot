@@ -1785,7 +1785,7 @@ Client.on('message',  async message => {
 			await show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
 			for (var i = 0; i < hands.length;i++){
 				if (hands[i].id == author_id)await show_hand(hands[i].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
-				if (hands[i].id == p2id)await show_hand(hands[hands[i]].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
+				if (hands[i].id == p2id)await show_hand(hands[i].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
 			}
 		
 		}, (msg)=>{channel.send(msg)});	
