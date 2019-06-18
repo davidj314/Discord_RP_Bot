@@ -1756,18 +1756,18 @@ Client.on('message',  async message => {
 		var p2nick = message.mentions.users.first().username;
 		var terminate = 0;
 		board.forEach(function(B){
-			if (B.initiator==p1id){
+			if (B.initiator==p1id && B.server==guild_id){
 				channel.send('You are already in a game. rp!end_game to end it.');
 				terminate=1;
 			}
-			if(B.challenged ==p2id){
+			if(B.challenged ==p2id && B.server==guild_id){
 				channel.send('They are already in a game. They can use rp!end_game to end it.');
 				terminate=1
 			}
 		});
 		if (terminate)return;
 		var key = guild_id+ p1id;
-		var newboard = {lock: key, plays: 0, turn: p2id, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]};
+		var newboard = {lock: key, plays: 0, server: guild_id, turn: p2id, initiator:p1id, challenged:p2id, initiator_nick: p1nick, challenged_nick: p2nick,  positions: [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]   ]};
 		board.push(newboard);
 		
 		//get_user_cards(guild_id, author_id, (rows)
@@ -1791,7 +1791,7 @@ Client.on('message',  async message => {
 				rows.splice(pull1,1);
 			}
 
-			hands.push({id: p1id, board: key, hand:hand_cards});
+			hands.push({id: p1id, board: key, server:guild_id, hand:hand_cards});
 			
 			}, (msg)=>{channel.send(msg)});
 			
@@ -1815,17 +1815,17 @@ Client.on('message',  async message => {
 				rows.splice(pull1,1);
 			}
 
-			hands.push({id: p2id, board: key, hand:hand_cards});
+			hands.push({id: p2id, board: key, server:guild_id, hand:hand_cards});
 			
 			console.log(`The hands are: `);
 			console.log(hands);
 			console.log(`p1nick: ${p1nick} , p2nick: ${p2nick} `);
 			await show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
 			for (var i = 0; i < hands.length;i++){
-				if (hands[i].id == author_id)await show_hand(hands[i].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
+				if (hands[i].id == author_id && hands[i].server == guild_id)await show_hand(hands[i].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
 			}
 			for (var i = 0; i < hands.length;i++){
-				if (hands[i].id == p2id)await show_hand(hands[i].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
+				if (hands[i].id == p2id && hands[i].server == guild_id)await show_hand(hands[i].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
 			}
 			message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
 		}, (msg)=>{channel.send('Other player might lack cards')});	
@@ -1843,7 +1843,7 @@ Client.on('message',  async message => {
 			var boardnum = parseInt(args[2]);
 			var pointer = -1;
 			for (var i = 0; i < hands.length; i++){
-				if (hands[i].id == author_id){
+				if (hands[i].id == author_id && hands[i].server==guild_id){
 					pointer = i;
 					break;
 				}
@@ -1925,7 +1925,7 @@ Client.on('message',  async message => {
 				await show_hand(hands[pointer].hand, board[temp].initiator_nick, (msg, att)=>{message.channel.send(msg, att)});
 
 				for (var i = 0; i < hands.length; i++){
-					if (hands[i].id == board[temp].challenged){
+					if (hands[i].id == board[temp].challenged && hands[i].server == guild_id){
 						pointer = i;
 						break;
 					}
@@ -1939,7 +1939,7 @@ Client.on('message',  async message => {
 				//erase hands from the game
 				for (var i = 0; i < hands.length; i++)
 				{
-					if (hands[i].board == boardid){
+					if (hands[i].board == boardid && hands[i].server == guild_id){
 						console.log("Slicing a hand.");
 						hands.splice(i, 1);
 						i--;
@@ -1947,13 +1947,11 @@ Client.on('message',  async message => {
 				}
 				board.splice(temp,1);
 				console.log("Game finished");
-				console.log(hands);
-				console.log(board);
 			}
 			break;
 			
 		case 'end_game':
-			kill_game(author_id)
+			kill_game(author_id, guild_id)
 			break;
 			
 			
@@ -1961,15 +1959,17 @@ Client.on('message',  async message => {
   	}
 });
 
-function kill_game(user_id){
+function kill_game(user_id, server_id){
 	var board_index = -1;
 	var board_lock = -1
 	for (var i = 0; i < board.length; i++){
 		if (board[i].initiator == user_id || board[i].challenged==user_id) 
 		{
-			board_index = i;
-			board_lock= board[i].lock;
-			break;
+			if (board[i].server == server_id){
+				board_index = i;
+				board_lock= board[i].lock;
+				break;
+			}
 		}
 	}
 	if (board_index==-1)return;
