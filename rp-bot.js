@@ -1734,30 +1734,29 @@ Client.on('message',  async message => {
 		
 		//get_user_cards(guild_id, author_id, (rows)
 		await get_user_cards(guild_id, author_id, async (rows)=>{
-			var pull1 = Math.floor(Math.random() * (rows.length));
-			var pull2 = Math.floor(Math.random() * (rows.length));
-			var pull3 = Math.floor(Math.random() * (rows.length));
-			var pull4 = Math.floor(Math.random() * (rows.length));
-			var pull5 = Math.floor(Math.random() * (rows.length));
-			hands.push({id: p1id, board: key, hand:[{used: 0, color: "Blue", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url},
-			   {used: 0, color: "Blue", up: rows[pull2].upval, down: rows[pull2].downval, left: rows[pull2].leftval, right: rows[pull2].rightval, url: rows[pull2].url},
-			   {used: 0, color: "Blue", up: rows[pull3].upval, down: rows[pull3].downval, left: rows[pull3].leftval, right: rows[pull3].rightval, url: rows[pull3].url},
-			   {used: 0, color: "Blue", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
-			   {used: 0, color: "Blue", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
+			var hand = [];
+			var hand_cards = [];
+			while (hand.length < 5)
+			{
+				var pull1 = Math.floor(Math.random() * (rows.length));
+				hand.push({used: 0, color: "Blue", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url});
+				rows.splice(pull1,1);
+			}
+
+			hands.push({id: p1id, board: key, hand:hand_cards});
 			
 			}, (msg)=>{channel.send(msg)});
 			
 		await get_user_cards(guild_id, p2id, async (rows)=>{
-			pull1 = Math.floor(Math.random() * (rows.length));
-			pull2 = Math.floor(Math.random() * (rows.length));
-			pull3 = Math.floor(Math.random() * (rows.length));
-			pull4 = Math.floor(Math.random() * (rows.length));
-			pull5 = Math.floor(Math.random() * (rows.length));
-			hands.push({id: p2id, board: key, hand:[{used: 0, color: "Red", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url},
-			   {used: 0, color: "Red", up: rows[pull2].upval, down: rows[pull2].downval, left: rows[pull2].leftval, right: rows[pull2].rightval, url: rows[pull2].url},
-			   {used: 0, color: "Red", up: rows[pull3].upval, down: rows[pull3].downval, left: rows[pull3].leftval, right: rows[pull3].rightval, url: rows[pull3].url},
-			   {used: 0, color: "Red", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
-			   {used: 0, color: "Red", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
+			
+			var hand_cards = [];
+			while (hand.length < 5)
+			{
+				var pull1 = Math.floor(Math.random() * (rows.length));
+				hand.push({used: 0, color: "Red", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url});
+				rows.splice(pull1,1);
+			}
+			hands.push({id: p2id, board: key, hand:hand_cards});
 			
 			console.log(`The hands are: `);
 			console.log(hands);
