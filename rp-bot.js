@@ -1371,12 +1371,11 @@ Client.on('message',  async message => {
                 break;
                 
             case 'make_em':
-		//make_cards();
-		//make_card_inv();
-                //make_trainings();
-		make_packs();
-                break;
-			
+		make_cards();
+		make_card_inv();
+                make_trainings();
+		//make_packs();
+                break;			
 
 			
 
