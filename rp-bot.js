@@ -1775,7 +1775,7 @@ Client.on('message',  async message => {
 			if (rows.length < 5)
 			{
 				channel.send('You lack the required amount of cards');
-				kill_game(author_id);
+				kill_game(author_id, guild_id);
 				return;
 			}
 			var hand = [];
@@ -1800,7 +1800,7 @@ Client.on('message',  async message => {
 			if (rows.length < 5)
 			{
 				channel.send('That Player lacks the required amount of cards');
-				kill_game(author_id);
+				kill_game(author_id, guild_id);
 				return;
 			}
 			
