@@ -1829,7 +1829,7 @@ Client.on('message',  async message => {
 				if (hands[i].id == p2id && hands[i].server == guild_id)await show_hand(hands[i].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
 			}
 			message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
-		}, (msg)=>{channel.send('Other player might lack cards')});	
+		}, (msg)=>{channel.send('Other player might lack cards'); kill_game(p2id, guild_id);});	
 			
 		
 		
