@@ -1787,7 +1787,7 @@ Client.on('message',  async message => {
 			   {used: 0, color: "Red", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
 			}, (msg)=>{channel.send(msg)});
 			console.log(`The hands are: `);
-			console.logh(hands);
+			console.log(hands);
 			await show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
 			await show_hand(hands[hands.length-2].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
 			await show_hand(hands[hands.length-1].hand, p2nick, (msg, att)=>{channel.send(msg, att)});
