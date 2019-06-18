@@ -1457,17 +1457,19 @@ Client.on('message',  async message => {
                 help_txt += "rp!save_character [name] -- Saves the character name supplied and associates it with the user \n";
                 help_txt += "rp!characters [username/nickname/id] -- Displays all characters saved by given user. Omit user to get all characters. \n";
                 help_txt += "rp!roll [minumum] [maximum] -- Generates number between minimum and maximum. Minimum is assumed 0 if omitted.\n";
-		help_txt += "rp!make_card [character name] -- Makes a card for one of YOUR saved characters.\n";
-		help_txt += "rp!cards -- Shows all the cards in your inventory, including their ID and value.\n";
-		help_txt += "rp!made_cards -- Shows all the cards you've made from characters.\n";
-		help_txt += "rp!see_card [ID] -- Shows card of given ID as a picture.\n";
-		help_txt += "rp!set_training [Card ID] -- Sets that card as the one you are training.\n";
-		help_txt += "rp!tri_help -- Shows commands to play triple triad.\n";
+		help_txt += "rp!tri_help -- Shows commands involving Triple Triad!\n";
                 channel.send( help_txt);
                 break;
 			
 	case 'tri_help':
 			var help_txt = "";
+			help_txt += "rp!starter_packs -- Get your first 5 card packs.\n";
+			help_txt += "rp!open_cards -- Open a card pack to get a new card.\n";
+			help_txt += "rp!make_card [character name] -- Makes a card for one of YOUR saved characters.\n";
+			help_txt += "rp!cards -- Shows all the cards in your inventory, including their ID and value.\n";
+			help_txt += "rp!made_cards -- Shows all the cards you've made from characters.\n";
+			help_txt += "rp!see_card [ID] -- Shows card of given ID as a picture.\n";
+			help_txt += "rp!set_training [Card ID] -- Sets that card as the one you are training.\n";
 			help_txt += "rp!game @mention -- Starts a game of triple triad with the user mentioned.\n";
 			help_txt += "rp!triplace [x] [y] -- Places the card in slot X of your hand at position Y on the board.\n";
 			help_txt += "Hand positions are 1 through 5. Board positions are 1 through nine. First row is 1, 2, 3.\n";
