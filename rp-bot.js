@@ -778,7 +778,7 @@ function get_all_cards(server_id, callback, bad){
     pool.end()
 }//end function
 
-function get_user_cards(server_id, owner_id, callback, bad){
+async function get_user_cards(server_id, owner_id, callback, bad){
     var select_query = "SELECT Card_Inv.cid, Cards.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id INNER JOIN Card_Inv ON Cards.char_id = Card_Inv.cid WHERE Card_Inv.server_id = $1 AND Card_Inv.owner_id = $2";
     var query_values = [server_id, owner_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
@@ -800,8 +800,8 @@ function get_user_cards(server_id, owner_id, callback, bad){
     }); //end pool.query 
     pool.end()
 }//end function
-
-asnyc function get_user_made_cards(server_id, owner_id, callback, bad){
+//async 
+function get_user_made_cards(server_id, owner_id, callback, bad){
     var select_query = "SELECT Cards.char_id, Cards.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval, Cards.xp  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id WHERE Cards.server_id = $1 AND Cards.owner_id = $2";
     var query_values = [server_id, owner_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
