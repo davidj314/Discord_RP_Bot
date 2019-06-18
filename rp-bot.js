@@ -510,6 +510,26 @@ function lvl_card(server_id, direction, char_id)
    	});
 }
 
+
+function add_xp(server_id, xp, char_id)
+{
+	var update_query = "UPDATE Cards Set xp = xp+$3 WHERE server_id=$1 AND char_id=$2";
+	console.log(`update query is ${update_query}`);
+	console.log(`The Char_id is ${char_id}.`);
+	var values = [server_id, char_id, xp];
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+	pool.query(update_query, values,  (err, res) => {
+		if (err){
+		    console.log(err, res);
+		}
+		else{
+		    console.log("updated successfully?")
+		}
+		console.log(res);
+		pool.end();
+   	});
+}
+
 function pop_pack(server_id, user_id, callback, bad)
 {
 	var select_query = "SELECT Packs WHERE server_id = $1 AND user_id = $2";
@@ -1324,6 +1344,8 @@ Client.on('message',  async message => {
 		}
 		if (points>=36)return;
 	}
+	    
+	    add_xp(message.guild.id, xp, card.char_id);
 	
 }  , (msg)=>{;})});//end get_training
 	
