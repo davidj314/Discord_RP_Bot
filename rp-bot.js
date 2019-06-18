@@ -1461,8 +1461,21 @@ Client.on('message',  async message => {
                 channel.send( help_txt);
                 break;
 			
+	case 'tri_rules':
+			var rules = "";
+			rules += "How to play triple Triad\n"
+			rules += "Players place cards from their hand onto the board. When a card is placed, the numbers on it and "
+			rules += "adjacent cards are evaluated. Each card that is less than the corestponding value on the placed "
+			rules += "card is turned to the side of the person placing the card.\n Plus and Combo! \n";
+			rules += "If two or more pairs add up to the same amount, the adjacent cards are turned to the side of the "
+			rules += "card placed. This includes pairs owned by the same person. Any card turned via Plus is assessed as"
+			rules += " if it was just placed (but cannot Plus again), turning via the Combo rule. Any cards turned by combo can also combo others."
+			channel.send(rules);
+			break;
+			
 	case 'tri_help':
 			var help_txt = "";
+			help_txt += "rp!tri_rules -- Explains how to play triple triad.\n"
 			help_txt += "rp!starter_packs -- Get your first 5 card packs.\n";
 			help_txt += "rp!open_cards -- Open a card pack to get a new card.\n";
 			help_txt += "rp!make_card [character name] -- Makes a card for one of YOUR saved characters.\n";
