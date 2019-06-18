@@ -548,9 +548,8 @@ function set_xp(server_id, xp, char_id)
 
 function pop_pack(server_id, user_id, callback, bad)
 {
-	var select_query = "SELECT Packs WHERE server_id = $1 AND user_id = $2";
+	var select_query = "SELECT Packs FROM Packs WHERE server_id = $1 AND user_id = $2";
 	var values = [server_id, user_id];
-    	var select_query = "SELECT server_id, channel_id, message_id FROM Triggers";
     	var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     	pool.query(select_query, (err, result) => {
 		console.log(result);
