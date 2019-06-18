@@ -1736,9 +1736,13 @@ Client.on('message',  async message => {
 		await get_user_cards(guild_id, author_id, async (rows)=>{
 			var hand = [];
 			var hand_cards = [];
+			console.log(`ROWS IS`);
+			console.log(rows);
 			while (hand_cards.length < 5)
 			{
+				console.log(`Row num is ${rows.length}, Hand count is ${hand_cards.length}`);
 				var pull1 = Math.floor(Math.random() * (rows.length));
+				console.log(rows[pull1]);
 				hand.push({used: 0, color: "Blue", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url});
 				rows.splice(pull1,1);
 			}
