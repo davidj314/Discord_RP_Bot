@@ -462,50 +462,6 @@ function get_training(server_id, user_id, callback)
    	 }); //end pool.query 
    	 pool.end() 
 }
-/*  get_training(guild_id, author_id, (char_id)=>{  get_card_info(guild_id, char_id, (card)=>{   
-
-	var points = card.upval + card.downval + card.leftval + card.rightval-1;
-	if (points >= 36) return;
-	var up_num = card.upval;
-	var down_num = card.downval;
-	var left_num = card.leftval;
-	var right_num = card.rightval;
-	
-	var goal = clevels[points];
-	var xp = card.xp + message.content.length
-	
-	console.log(`Goal is ${goal} and xp is ${xp}`);
-	while (xp > goal)
-	{
-		xp -= goal;
-		points++;
-		goal = clevels[points];
-		console.log(`Goal is ${goal} and xp is ${xp}`);
-		while (10 > 1)
-		{
-			var side = Math.floor(Math.random() * (4+1 - 1) + 1);
-			if (side == 1 && up_num < 9){
-				lvl_card(guild_id, upval, char_id)
-				break;
-			}
-			else if (side == 2 && left_num < 9){
-				lvl_card(guild_id, leftval, char_id)
-				break;
-			}
-			else if (side == 3 && right_num < 9){
-				lvl_card(guild_id, rightval, char_id)
-				break;
-			}
-			else if (side == 4 && down_num < 9){
-				lvl_card(guild_id, downval, char_id)
-				break;
-			}
-		}
-		if (points>=36)return;
-	}
-	
-}  , (msg)=>{;})//end get_card_info  });//end get_training
-*/
 
 function lvl_card(server_id, direction, char_id)
 {
@@ -1318,7 +1274,7 @@ Client.on('message',  async message => {
     disboard_check(message);
 	
 	
-    if (5 < 1)get_training(message.guild.id, message.author.id, (char_id)=>{  get_card_info(message.guild.id, char_id, (card)=>{   
+    get_training(message.guild.id, message.author.id, (char_id)=>{  get_card_info(message.guild.id, char_id, (card)=>{   
 
 	var points = card.upval + card.downval + card.leftval + card.rightval;
 	if (points >= 36) return;
