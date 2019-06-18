@@ -1360,10 +1360,10 @@ Client.on('message',  async message => {
 		break;
 			
 		
-	case 'starter_packs:
-			//starter_pack(server_id, user_id)
-			starter_pack(guild_id, author_id);
-			break;
+	case 'starter_packs':
+		//starter_pack(server_id, user_id)
+		starter_pack(guild_id, author_id);
+		break;
 			
 			
 	    case 'make_em2':
