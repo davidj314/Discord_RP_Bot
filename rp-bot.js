@@ -1773,7 +1773,9 @@ Client.on('message',  async message => {
 			   {used: 0, color: "Blue", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
 			   {used: 0, color: "Blue", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
 			
+			}, (msg)=>{channel.send(msg)});
 			
+		await get_user_cards(guild_id, author_id, async (rows)=>{
 			pull1 = Math.floor(Math.random() * (rows.length));
 			pull2 = Math.floor(Math.random() * (rows.length));
 			pull3 = Math.floor(Math.random() * (rows.length));
