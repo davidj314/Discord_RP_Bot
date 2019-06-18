@@ -258,13 +258,29 @@ function update_training(server_id, user_id, set_char, callback)
 
 function insert_new_pack_count(server_id, user_id)
 {
-	var insert_query = "INSERT INTO Packs(server_id, user_id, Packs) Values($1, $2, 1)";
+	var insert_query = "INSERT INTO Packs(server_id, user_id, Packs) Values($1, $2, 6)";
 	var values = [server_id, user_id];
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(insert_query, values,  (err, res) => {
 		if (err){
 		    if(err.code == '23505'){
 			increment_packs(server_id, user_id);
+		    }
+		   // console.log(err, res);
+		}
+		pool.end();
+   	});
+}
+
+function starter_pack(server_id, user_id)
+{
+	var insert_query = "INSERT INTO Packs(server_id, user_id, Packs) Values($1, $2, 5)";
+	var values = [server_id, user_id];
+	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+	pool.query(insert_query, values,  (err, res) => {
+		if (err){
+		    if(err.code == '23505'){
+			callback("You've gotten the starter packs already.");
 		    }
 		    console.log(err, res);
 		}
@@ -1342,6 +1358,13 @@ Client.on('message',  async message => {
 		var cid = args[1];
 		insert_user_set_char(guild_id, author_id, cid, (msg)=>{channel.send(msg);});
 		break;
+			
+		
+	case 'starter_packs:
+			//starter_pack(server_id, user_id)
+			starter_pack(guild_id, author_id);
+			break;
+			
 			
 	    case 'make_em2':
 		//make_card_inv();
