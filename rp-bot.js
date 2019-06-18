@@ -1632,7 +1632,7 @@ Client.on('message',  async message => {
 			add_card_to_inv(guild_id, author_id, cids[card_id]);
 			get_card_info(
 				guild_id,  
-				cid, 
+				cids[card_id], 
 				(row)=>{
 					channel.send(`You obtained: ${row.name}`);
 					show_card(
