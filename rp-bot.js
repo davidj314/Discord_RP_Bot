@@ -1761,7 +1761,7 @@ Client.on('message',  async message => {
 		board.push(newboard);
 		
 		//get_user_cards(guild_id, author_id, (rows)
-		await get_user_cards(guild_id, author_id, async (rows)=>{
+		await get_all_cards(guild_id, async (rows)=>{
 			var pull1 = Math.floor(Math.random() * (rows.length));
 			var pull2 = Math.floor(Math.random() * (rows.length));
 			var pull3 = Math.floor(Math.random() * (rows.length));
@@ -1772,7 +1772,6 @@ Client.on('message',  async message => {
 			   {used: 0, color: "Blue", up: rows[pull3].upval, down: rows[pull3].downval, left: rows[pull3].leftval, right: rows[pull3].rightval, url: rows[pull3].url},
 			   {used: 0, color: "Blue", up: rows[pull4].upval, down: rows[pull4].downval, left: rows[pull4].leftval, right: rows[pull4].rightval, url: rows[pull4].url},
 			   {used: 0, color: "Blue", up: rows[pull5].upval, down: rows[pull5].downval, left: rows[pull5].leftval, right: rows[pull5].rightval, url: rows[pull5].url}]});
-			}, (msg)=>{channel.send(msg)});
 			
 			await get_user_cards(guild_id, author_id, async (rows)=>{
 			console.log(`The hands are: `);
