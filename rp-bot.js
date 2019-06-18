@@ -1294,7 +1294,8 @@ Client.on('message',  async message => {
 	var goal = clevels[points-7];
 	console.log(`points is ${points}`);
 	var xp = parseInt(card.xp) + message.content.length;
-	
+	console.log(`Goal is ${goal} and xp is ${xp}`);
+	    
 	while (xp > goal)
 	{
 		console.log(`Goal is ${goal} and xp is ${xp}`);
