@@ -1791,6 +1791,7 @@ Client.on('message',  async message => {
 		break;
 			
 		case 'triplace':
+			console.log("in triplace");
 			if (args[1] == null)break;
 			if (args[2] == null)break;
 			var card_index =  parseInt(args[1]);
