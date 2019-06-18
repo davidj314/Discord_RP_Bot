@@ -1736,7 +1736,7 @@ Client.on('message',  async message => {
 		await get_user_cards(guild_id, author_id, async (rows)=>{
 			if (rows.length < 5)
 			{
-				channel.send('You the required amount of cards');
+				channel.send('You lack the required amount of cards');
 				kill_game(author_id);
 				return;
 			}
@@ -1790,7 +1790,7 @@ Client.on('message',  async message => {
 				if (hands[i].id == p2id)await show_hand(hands[i].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
 			}
 			message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
-		}, (msg)=>{channel.send(msg)});	
+		}, (msg)=>{channel.send('Other player might lack cards')});	
 			
 		
 		
