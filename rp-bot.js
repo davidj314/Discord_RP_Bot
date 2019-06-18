@@ -708,7 +708,7 @@ function get_char_id(server_id, owner_id, name, callback, bad){
     console.log(`SELECT id FROM Names WHERE server_id = ${server_id} AND Name = ${name} AND owner_id=${owner_id}`);
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
-        console.log(result);
+        //console.log(result);
         if (err) {
             console.log('error occurred');
             return console.error('Error executing query', err.stack);
@@ -741,7 +741,7 @@ function get_all_cards(server_id, callback, bad){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
-	    console.log(result.rows);
+	   // console.log(result.rows);
             callback(result.rows)   
         }
     }); //end pool.query 
@@ -753,7 +753,7 @@ async function get_user_cards(server_id, owner_id, callback, bad){
     var query_values = [server_id, owner_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
-        console.log(result);
+        //console.log(result);
         if (err) {
             console.log('error occurred');
             return console.error('Error executing query', err.stack);
@@ -797,7 +797,7 @@ function get_card_info(server_id, cid, callback, bad){
     var query_values = [server_id, cid];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
-        console.log(result);
+       // console.log(result);
         if (err) {
             console.log('error occurred');
             return console.error('Error executing query', err.stack);
@@ -819,7 +819,7 @@ function get_card_list(server_id, callback, bad){
     var query_values = [server_id];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
-        console.log(result);
+       // console.log(result);
         if (err) {
             console.log('error occurred');
             return console.error('Error executing query', err.stack);
@@ -1977,6 +1977,9 @@ function kill_game(user_id, server_id){
 	if (board_index==-1)return;
 	console.log("killing a board");
 	board.splice(board_index, 1);
+	console.log(`Boardid is ${board_lock}`);
+	console.log(`hands count is ${hands.length}`);
+	console.log(hands);
 	for (var i = 0; i < hands.length;i++){
 		if(hands[i].board==board_lock){
 			console.log(`Killing hand ${i}`);
@@ -2350,8 +2353,8 @@ async function show_hand(hand, nick, callback)
 
 			
 	for (var i = 0; i < hand.length; i++){
-		console.log("Messing with this card:");
-		console.log(hand[i]);
+		//console.log("Messing with this card:");
+		//console.log(hand[i]);
 		var url = hand[i].url;
 		if (hand[i].used == 1)continue; 
 		const character = await Canvas.loadImage(url);
