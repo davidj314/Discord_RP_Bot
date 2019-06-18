@@ -1974,10 +1974,13 @@ function kill_game(user_id, server_id){
 		}
 	}
 	if (board_index==-1)return;
+	console.log("killing a board");
 	board.splice(board_index, 1);
 	for (var i = 0; i < hands.length;i++){
 		if(hands[i].board==board_lock){
+			console.log(`Killing hand ${i}`);
 			hands.splice(i, 1);
+			console.log(`${hands.length} hands remain`);
 			i--;
 		}
 	}
