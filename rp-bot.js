@@ -1962,7 +1962,8 @@ Client.on('message',  async message => {
 
 function kill_game(user_id, server_id){
 	var board_index = -1;
-	var board_lock = -1
+	var board_lock = -1;
+	console.log(`Number of boards is ${board.length}`);
 	for (var i = 0; i < board.length; i++){
 		if (board[i].initiator == user_id || board[i].challenged==user_id) 
 		{
