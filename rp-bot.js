@@ -777,7 +777,7 @@ function get_user_made_cards(server_id, owner_id, callback, bad){
 }//end function
 
 function get_card_info(server_id, cid, callback, bad){
-    var select_query = "SELECT url, xp, upval, downval, leftval, rightval, char_id FROM Cards WHERE server_id = $1 AND char_id = $2";
+    var select_query = "SELECT url, xp, upval, downval, leftval, rightval, char_id, name FROM Cards WHERE server_id = $1 AND char_id = $2";
     var query_values = [server_id, cid];
     var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
     pool.query(select_query, query_values, (err, result) => {
@@ -1630,7 +1630,25 @@ Client.on('message',  async message => {
 			console.log(cids);
 			var card_id = Math.floor(Math.random() * cids.length);
 			add_card_to_inv(guild_id, author_id, cids[card_id]);
-			})}//end get all cards
+			get_card_info(
+				guild_id,  
+				cid, 
+				(row)=>{
+					channel.send(`You obtained: ${row.name}`);
+					show_card(
+						row.url, 
+						row.upval, 
+						row.downval, 
+						row.leftval, 
+						row.rightval, 
+						(msg, att)=>{channel.send(msg, att)}
+					)
+				},
+				(msg)=>{channel.send(msg)});/end get card info
+			
+			
+			
+			})}//end get all cards 
 			  , (msg)=>{channel.send(msg)}
 			 );
 		
