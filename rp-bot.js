@@ -1296,25 +1296,25 @@ Client.on('message',  async message => {
 	{
 		xp -= goal;
 		points++;
-		goal = clevels[points];
+		goal = clevels[points-8];
 		console.log(`Goal is ${goal} and xp is ${xp}`);
 		while (10 > 1)
 		{
 			var side = Math.floor(Math.random() * (4+1 - 1) + 1);
 			if (side == 1 && up_num < 9){
-				lvl_card(guild_id, upval, char_id)
+				lvl_card(message.guild.id, 'upval', card.char_id)
 				break;
 			}
 			else if (side == 2 && left_num < 9){
-				lvl_card(guild_id, leftval, char_id)
+				lvl_card(message.guild.id, 'leftval', card.char_id)
 				break;
 			}
 			else if (side == 3 && right_num < 9){
-				lvl_card(guild_id, rightval, char_id)
+				lvl_card(message.guild.id, 'rightval', card.char_id)
 				break;
 			}
 			else if (side == 4 && down_num < 9){
-				lvl_card(guild_id, downval, char_id)
+				lvl_card(message.guild.id, 'downval', card.char_id)
 				break;
 			}
 		}
