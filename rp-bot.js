@@ -1734,6 +1734,12 @@ Client.on('message',  async message => {
 		
 		//get_user_cards(guild_id, author_id, (rows)
 		await get_user_cards(guild_id, author_id, async (rows)=>{
+			if (rows.length < 5)
+			{
+				channel.send('You the required amount of cards');
+				kill_game(author_id);
+				return;
+			}
 			var hand = [];
 			var hand_cards = [];
 			console.log(`ROWS IS`);
@@ -1752,6 +1758,14 @@ Client.on('message',  async message => {
 			}, (msg)=>{channel.send(msg)});
 			
 		await get_user_cards(guild_id, p2id, async (rows)=>{
+			
+			if (rows.length < 5)
+			{
+				channel.send('That Player lacks the required amount of cards');
+				kill_game(author_id);
+				return;
+			}
+			
 			
 			var hand_cards = [];
 			while (hand_cards.length < 5)
@@ -1893,30 +1907,34 @@ Client.on('message',  async message => {
 			break;
 			
 		case 'end_game':
-			var board_index = -1;
-			var board_lock = -1
-			for (var i = 0; i < board.length; i++){
-				if (board[i].initiator == author_id || board[i].challenged==author_id) 
-				{
-					board_index = i;
-					board_lock= board[i].lock;
-					break;
-				}
-			}
-			if (board_index==-1)break;
-			board.splice(board_index, 1);
-			for (var i = 0; i < hands.length;i++){
-				if(hands[i].board==board_lock){
-					hands.splice(i, 1);
-					i--;
-				}
-			}
+			kill_game(author_id)
 			break;
 			
 			
         }
   	}
 });
+
+function kill_game(user_id){
+	var board_index = -1;
+	var board_lock = -1
+	for (var i = 0; i < board.length; i++){
+		if (board[i].initiator == user_id || board[i].challenged==user_id) 
+		{
+			board_index = i;
+			board_lock= board[i].lock;
+			break;
+		}
+	}
+	if (board_index==-1)break;
+	board.splice(board_index, 1);
+	for (var i = 0; i < hands.length;i++){
+		if(hands[i].board==board_lock){
+			hands.splice(i, 1);
+			i--;
+		}
+	}
+}
 
 
 //resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
