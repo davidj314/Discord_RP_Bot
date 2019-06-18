@@ -1552,7 +1552,7 @@ Client.on('message',  async message => {
                 }
                 convert_to_userid(message.guild.members, author, (a_id)=>{ get_authors_names(guild_id, a_id, (msg)=>
 											     {
-			for(var i = 0; i < msg.length, i+=1800)(channel.send(msg.slice(i, i+1800)))
+			for(var i = 0; i < msg.length; i+=1800) channel.send(msg.slice(i, i+1800))
 		})});
                 break;
 			
