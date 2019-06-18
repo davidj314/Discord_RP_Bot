@@ -1515,6 +1515,8 @@ Client.on('message',  async message => {
                                             
             case 'save_character':
                 if (args[1] == null) break;
+		if (message.content.indexOf("http") !=-1){channel.send("No Links please."); break;}
+		if (args.length > 10) {channel.send("Names only, please."); break;}
                 var name = '';
                 for (var i=1;i < args.length; i++){
                     if (i > 1) name += ' ';
