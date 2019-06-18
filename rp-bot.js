@@ -208,6 +208,18 @@ function make_packs(){
     pool.end()
 }//end function
 
+function drop_packs(){
+    var drop_query = "DROP TABLE Packs";
+    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
+    pool.query(drop_query,(err, result) => {
+        if (err) {
+            console.log('error occurred');
+            return console.error('Error executing query', err.stack);;
+        }
+    });//end pool.query   
+    pool.end()
+}//end function
+
 //----------------------------------------TABLE INSERTS---------------------------------------------------
 
 function insert_user_set_char(server_id, user_id, set_char, callback)
@@ -1369,13 +1381,14 @@ Client.on('message',  async message => {
                 //drop_cards();
 		//drop_card_inv();
 		//drop_train();
+		drop_packs();
                 break;
                 
             case 'make_em':
 		//make_cards();
 		//make_card_inv();
                 //make_trainings();
-		//make_packs();
+		make_packs();
                 break;			
 
 			
