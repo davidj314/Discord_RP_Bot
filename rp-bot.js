@@ -495,6 +495,7 @@ function lvl_card(server_id, direction, char_id)
 {
 	var update_query = "UPDATE Cards Set "+ direction + "=" +direction + "+1 WHERE server_id=$1 AND char_id=$2";
 	console.log(`update query is ${update_query}`);
+	console.log(`The Char_id is ${char_id}.`);
 	var values = [server_id, char_id];
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(update_query, values,  (err, res) => {
