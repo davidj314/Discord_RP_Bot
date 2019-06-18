@@ -1328,8 +1328,13 @@ Client.on('message',  async message => {
 			
 
 	   case 'add_pack':
-		//insert_new_pack_count(server_id, user_id)
-		insert_new_pack_count(guild_id, author_id);
+		if (message.member.hasPermission("BAN_MEMBERS") == false) {
+			channel.send("You lack permissions for this command.");
+		}
+		else{
+			var other_id = message.mentions.users.first().id;
+			insert_new_pack_count(guild_id, other_id);	
+		}
 		break;
 			
 	    case 'set_training':
