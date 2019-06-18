@@ -494,6 +494,7 @@ function get_training(server_id, user_id, callback)
 function lvl_card(server_id, direction, char_id)
 {
 	var update_query = "UPDATE Cards Set "+ direction + "=" +direction + "+1 WHERE server_id=$1 AND char_id=$2";
+	console.log(`update query is ${update_query}`);
 	var values = [server_id, char_id];
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(update_query, values,  (err, res) => {
@@ -501,7 +502,9 @@ function lvl_card(server_id, direction, char_id)
 		    console.log(err, res);
 		}
 		else{
+		    console.log("updated successfully?")
 		}
+		console.print(res);
 		pool.end();
    	});
 }
