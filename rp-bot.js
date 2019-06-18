@@ -188,8 +188,7 @@ function make_trainings(){
             console.log('error occurred');
             return console.error('Error executing query', err.stack);;
         }
-        console.log('no error');
-        console.log(result); 
+        console.log('no error making trainings table');
     });   //end pool.query
     pool.end()
 }//end function
@@ -202,8 +201,7 @@ function make_packs(){
             console.log('error occurred');
             return console.error('Error executing query', err.stack);;
         }
-        console.log('no error');
-        console.log(result); 
+        console.log('no error making packs');
     });   //end pool.query
     pool.end()
 }//end function
@@ -282,7 +280,7 @@ function increment_packs(server_id, user_id)
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(insert_query, values,  (err, res) => {
 		if (err){
-		    console.log(err, res);
+			console.log(err, res);
 		}
 		else{
 			console.log('Packs incremented successfully');	
@@ -373,7 +371,6 @@ function record_name(server_id, owner_id, name, callback)
         }
     console.log(err, res);
     }
-  console.log(res);
   pool.end();
 });
     
@@ -412,12 +409,9 @@ function make_card(server_id, owner_id, char_id, url, name, callback) {
     console.log(err, res);
     }
     else{
-	    console.log(`In the else if. assigning newid. Was ${newid}`);
 	    newid=char_id;
-	    console.log(`Newid is now ${newid}`);
 	    if (newid != -1 )add_card_to_inv(server_id, owner_id, newid);
     }
-  console.log(res);
    }); //end pool.query
   pool.end();
   
@@ -435,7 +429,6 @@ function add_card_to_inv(server_id, owner_id, cid) {
     if (err){
     console.log(err, res);
     }
-  console.log(res);
    }); //end pool.query
   pool.end();
 }
@@ -466,8 +459,6 @@ function get_training(server_id, user_id, callback)
 function lvl_card(server_id, direction, char_id)
 {
 	var update_query = "UPDATE Cards Set "+ direction + "=" +direction + "+1 WHERE server_id=$1 AND char_id=$2";
-	console.log(`update query is ${update_query}`);
-	console.log(`The Char_id is ${char_id}.`);
 	var values = [server_id, char_id];
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(update_query, values,  (err, res) => {
@@ -475,7 +466,7 @@ function lvl_card(server_id, direction, char_id)
 		    console.log(err, res);
 		}
 		else{
-		    console.log("updated successfully?")
+		    console.log("Card leveled up successfully?")
 		}
 		console.log(res);
 		pool.end();
@@ -486,8 +477,6 @@ function lvl_card(server_id, direction, char_id)
 function set_xp(server_id, xp, char_id)
 {
 	var update_query = "UPDATE Cards Set xp = $3 WHERE server_id=$1 AND char_id=$2";
-	console.log(`update query is ${update_query}`);
-	console.log(`The Char_id is ${char_id}.`);
 	var values = [server_id, char_id, xp];
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(update_query, values,  (err, res) => {
@@ -497,7 +486,6 @@ function set_xp(server_id, xp, char_id)
 		else{
 		    console.log("updated successfully?")
 		}
-		console.log(res);
 		pool.end();
    	});
 }
@@ -520,8 +508,7 @@ function pop_pack(server_id, user_id, callback, bad)
 		}
 		//successfully found a result. Passes rows to the callback function
 		else{
-			console.log(`Number of packs is ${result.rows[0].packs}`);
-			if (result.rows[0].packs == 0)bad('You have no packs');
+			if (result.rows[0].packs < 1)bad('You have no packs');
 			else {
 				decrement_packs(server_id, user_id);   
 				callback(server_id, user_id);
@@ -535,7 +522,6 @@ function decrement_packs(server_id, user_id)
 {
 	var insert_query = "UPDATE Packs SET Packs=Packs-1 WHERE server_id=$1 AND user_id=$2";
 	var values = [server_id, user_id];
-	console.log("Decrementing Pack");
 	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
 	pool.query(insert_query, values,  (err, res) => {
 		if (err){
@@ -762,7 +748,6 @@ async function get_user_cards(server_id, owner_id, callback, bad){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
-	    console.log(result.rows);
             callback(result.rows)   
         }
     }); //end pool.query 
@@ -785,7 +770,6 @@ function get_user_made_cards(server_id, owner_id, callback, bad){
         }
         //successfully found a result. Passes associated value to the callback function
         else{
-	    console.log(result.rows);
             callback(result.rows)   
         }
     }); //end pool.query 
@@ -1177,8 +1161,6 @@ function disboard_check(message){
 
 async function show_card(url, up, down, left, right, callback)
 {
-	console.log("trying to show a card");
-	console.log(`Top ${up}, Bottom ${down}, Left ${left}, Right ${right}, URL ${url}` );
 	const canvas = Canvas.createCanvas( 144, 180);
 	const ctx = canvas.getContext('2d');
 	ctx.strokeStyle = '#74037b';
@@ -1186,7 +1168,6 @@ async function show_card(url, up, down, left, right, callback)
 	
 	const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
 	const character = await Canvas.loadImage(url);
-	console.log("the url is "+url);
 	// Select the font size and type from one of the natively available fonts
 	ctx.font = '20px sans-serif';
 	// Select the style that will be used to fill the text in
@@ -1201,9 +1182,7 @@ async function show_card(url, up, down, left, right, callback)
 	ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`,  7, 22);
 	
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
-	console.log("Should be sending message")
-	callback(`Card`, attachment);	
-	
+	callback(`Card`, attachment);		
 }
 
 function convert_role_to_snowflake(server, role, callback, printerror){
@@ -1765,10 +1744,7 @@ Client.on('message',  async message => {
 			await show_hand(hands[hands.length-1].hand, p2nick, (msg, att)=>{channel.send(msg, att)});
 			message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
 		
-		}, (msg)=>{channel.send(msg)});
-			
-			
-				
+		}, (msg)=>{channel.send(msg)});		
 		break;
 			
 		case 'triplace':
