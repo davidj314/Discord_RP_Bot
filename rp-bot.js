@@ -1269,7 +1269,7 @@ Client.on('message',  async message => {
     disboard_check(message);
 	
 	
-    if( 5 > 100)get_training(message.guild.id, message.author.id, (char_id)=>{  get_card_info(message.guild.id, char_id, (card)=>{   
+    get_training(message.guild.id, message.author.id, (char_id)=>{  get_card_info(message.guild.id, char_id, (card)=>{   
 
 	var points = card.upval + card.downval + card.leftval + card.rightval;
 	if (points >= 36) return;
