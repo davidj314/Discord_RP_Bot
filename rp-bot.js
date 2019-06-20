@@ -1734,10 +1734,15 @@ Client.on('message',  async message => {
 				if(allcards[i].xp < 10) output +=0;
 				if(allcards[i].xp < 100) output +=0;
 				if(allcards[i].xp > 999){
-					output +=(allcards[i].xp)-(allcards[i].xp%1000);
-					output +=allcards[i].xp%1000/100;
+					var divthous = (((allcards[i].xp)-(allcards[i].xp%1000))/1000);
+					var rest = allcards[i].xp%1000;
+					var dec = (((rest)-(rest%100))/100)
+					output +=divthous;
+					output +=".";
+					output += dec;
 					output += "k";
 				}
+				else output += allcards[i].xp
 				output += lilbuff;
 				output += "     ";
 				output += allcards[i].name;
