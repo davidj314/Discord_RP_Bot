@@ -1475,17 +1475,21 @@ Client.on('message',  async message => {
 			
 	case 'tri_help':
 			var help_txt = "Triple Triad Help\n";
+			help_txt += "```Getting cards```";
 			help_txt += "rp!tri_rules -- Explains how to play triple triad.\n"
 			help_txt += "rp!starter_packs -- Get your first 5 card packs.\n";
 			help_txt += "rp!open_cards -- Open a card pack to get a new card.\n";
 			help_txt += "rp!make_card [character name] [URL] -- Makes a card for one of YOUR saved characters.\n";
+			help_txt += "Seeing cards";
 			help_txt += "rp!cards -- Shows all the cards in your inventory, including their ID and value.\n";
 			help_txt += "rp!made_cards -- Shows all the cards you've made from characters.\n";
 			help_txt += "rp!see_card [ID] -- Shows card of given ID as a picture.\n";
+			help_txt += "```Improving cards```";
 			help_txt += "rp!set_training [Card ID] -- Sets that card as the one you are training.\n";
+			help_txt += "```Playing Triple triad```";
 			help_txt += "rp!game @mention -- Starts a game of triple triad with the user mentioned.\n";
 			help_txt += "rp!triplace [x] [y] -- Places the card in slot X of your hand at position Y on the board.\n";
-			help_txt += "Hand positions are 1 through 5. Board positions are 1 through nine. First row is 1, 2, 3.\n";
+			help_txt += "   Hand positions are 1 through 5. Board positions are 1 through nine. First row is 1, 2, 3.\n";
 			help_txt += "rp!end_game -- Stops the current game of Triple Triad you're playing."
 			channel.send(help_txt);
 			break;
