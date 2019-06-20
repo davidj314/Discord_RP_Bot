@@ -1734,7 +1734,7 @@ Client.on('message',  async message => {
 				if(allcards[i].xp < 10) output +=0;
 				if(allcards[i].xp < 100) output +=0;
 				if(allcards[i].xp > 999){
-					output +=(allcards[i].xp/1000)-(allcards[i].xp%1000);
+					output +=(allcards[i].xp)-(allcards[i].xp%1000);
 					output +=allcards[i].xp%1000/100;
 					output += "k";
 				}
