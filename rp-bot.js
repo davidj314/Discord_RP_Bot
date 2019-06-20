@@ -1610,12 +1610,12 @@ Client.on('message',  async message => {
 			
 			for(var i = 0; i < allcards.length; i++){
 				console.log(`i is ${i}`);
-				if (cid/10 < 1) output += 0;
-				if (cid/100<1) output += 0;
+				if (cid/10 < 1) output += '0';
+				if (cid/100<1) output += '0';
 				output += allcards[i].cid;
 				var bigbuff = "                                            ";
 				var lilbuff = bigbuff.slice(0,19);
-				output += "                 "
+				output += "                      "
 				output += allcards[i].total;
 				output += lilbuff;
 				output += allcards[i].up;
