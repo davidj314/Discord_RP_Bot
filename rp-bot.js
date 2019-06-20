@@ -1476,7 +1476,6 @@ Client.on('message',  async message => {
 	case 'tri_help':
 			var help_txt = "Triple Triad Help\n";
 			help_txt += "```Getting cards```";
-			help_txt += "rp!tri_rules -- Explains how to play triple triad.\n"
 			help_txt += "rp!starter_packs -- Get your first 5 card packs.\n";
 			help_txt += "rp!open_cards -- Open a card pack to get a new card.\n";
 			help_txt += "rp!make_card [character name] [URL] -- Makes a card for one of YOUR saved characters.\n";
@@ -1487,6 +1486,7 @@ Client.on('message',  async message => {
 			help_txt += "```Improving cards```";
 			help_txt += "rp!set_training [Card ID] -- Sets that card as the one you are training.\n";
 			help_txt += "```Playing Triple triad```";
+			help_txt += "rp!tri_rules -- Explains how to play triple triad.\n"
 			help_txt += "rp!game @mention -- Starts a game of triple triad with the user mentioned.\n";
 			help_txt += "rp!triplace [x] [y] -- Places the card in slot X of your hand at position Y on the board.\n";
 			help_txt += "   Hand positions are 1 through 5. Board positions are 1 through nine. First row is 1, 2, 3.\n";
@@ -1705,7 +1705,7 @@ Client.on('message',  async message => {
 	    case 'made_cards':
 		//get_user_cards(server_id, owner_id, callback, bad)
 		get_user_made_cards(guild_id, author_id, (rows)=>{
-			var output = "CID   XP           Total                               Up               Left               Right          Down              Name \n";
+			var output = "CID   Total                               Up               Left               Right          Down              Name                            XP \n";
 			var allcards = []
 			rows.forEach(function(row){ allcards.push({xp: row.xp,cid: row.char_id, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
 			console.log(allcards);
@@ -1714,8 +1714,6 @@ Client.on('message',  async message => {
 				var bigbuff = "                                        ";
 				var lilbuff = bigbuff.slice(0,19);
 				output += "       ";
-				output += allcards[i].xp;
-				output += "                 "
 				output += allcards[i].total;
 				output += lilbuff;
 				output += lilbuff;
@@ -1728,6 +1726,8 @@ Client.on('message',  async message => {
 				output += allcards[i].down;
 				output += lilbuff;
 				output += allcards[i].name;
+				output += lilbuff;
+				output += allcards[i].xp;
 				output += '\n';
 			}
 			channel.send(output);
