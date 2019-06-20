@@ -1712,10 +1712,12 @@ Client.on('message',  async message => {
 			rows.forEach(function(row){ allcards.push({xp: row.xp,cid: row.char_id, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
 			console.log(allcards);
 			for(var i = 0; i < allcards.length; i++){
+				if (allcards[i].cid/10 < 1) output += "0"
+				if (allcards[i].cid/10 < 1) output += "0"
 				output += allcards[i].cid;
 				var bigbuff = "                                        ";
 				var lilbuff = bigbuff.slice(0,19);
-				output += "         ";
+				output += "              ";
 				output += allcards[i].total;
 				output += lilbuff;
 				output += allcards[i].up;
