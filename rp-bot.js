@@ -1728,7 +1728,15 @@ Client.on('message',  async message => {
 				output += lilbuff;
 				output += allcards[i].down;
 				output += lilbuff;
-				output += allcards[i].xp;
+				//xp output
+				//output += allcards[i].xp;
+				if(allcards[i].xp < 10) output +=0;
+				if(allcards[i].xp < 100) output +=0;
+				if(allcards[i].xp > 999){
+					output +=allcards[i].xp/1000;
+					output +=allcards[i].xp%1000/100;
+					output += "k";
+				}
 				output += lilbuff;
 				output += "     ";
 				output += allcards[i].name;
