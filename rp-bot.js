@@ -1270,7 +1270,7 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
 
 Client.on('message',  async message => {
     disboard_check(message);
-	
+    tester.goodbye((msg)=>{message.channel.send(msg)});
 	
     get_training(message.guild.id, message.author.id, (char_id)=>{  get_card_info(message.guild.id, char_id, (card)=>{   
 
