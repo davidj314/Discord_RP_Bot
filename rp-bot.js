@@ -1,5 +1,6 @@
 var Discord = require('discord.js');
-var Tester = require('Card');
+var Tester = require('Cards');
+var meow = new Thingy();
 var Client = new Discord.Client();
 const Canvas = require('canvas');
 var PG = require('pg');
@@ -1225,7 +1226,7 @@ function convert_role_to_snowflake(server, role, callback, printerror){
 
 Client.on('ready', () => {
     console.log('I am ready!');
-    Card.hello();
+    con();
     console.log(Tester);
     //goodbye((msg)=>{message.channel.send(msg)});
     console.log(Tester.Cards);
