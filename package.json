@@ -9,7 +9,7 @@
   "dependencies": {
     "discord.js": "11.5.0",
     "request": "2.81.0",
-    "Card_Mod": ""davidj314/Discord_Character_Card_Game#master"
+    "Card_Mod": ""davidj314/Discord_Character_Card_Game#master",
     "pg": "7.x",
     "canvas": "2.3.1",
     "hashmap": "2.3.0"
