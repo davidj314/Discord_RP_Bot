@@ -1,5 +1,5 @@
 var Discord = require('discord.js');
-var Tester = require('Card');
+var Tester = require('Cards');
 //var meow = new Thingy();
 var Client = new Discord.Client();
 const Canvas = require('canvas');
@@ -1848,13 +1848,13 @@ Client.on('message',  async message => {
 			await show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
 			for (var i = 0; i < hands.length;i++){
 				if (hands[i].id == author_id && hands[i].server == guild_id && hands[i].board==key){
-					await show_hand(hands[i].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
+					await Tester.show_hand(hands[i].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
 					break;
 				}
 			}
 			for (var i = 0; i < hands.length;i++){
 				if (hands[i].id == p2id && hands[i].server == guild_id && hands[i].board==key){
-					await show_hand(hands[i].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
+					await Tester.show_hand(hands[i].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
 					break;
 				}
 			}
