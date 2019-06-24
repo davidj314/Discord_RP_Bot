@@ -1898,7 +1898,7 @@ function auto_turn(positions, hand, callback){
 	var flatpos = -1;
 	var maybe = Math.floor(Math.random() * 5);
 	while (picked < 0){
-		if (hand[maybe.used!=0])picked=maybe
+		if (hand[maybe].used!=0)picked=maybe
 		else if(maybe==0) maybe=4
 		else maybe-= 1
 	}
