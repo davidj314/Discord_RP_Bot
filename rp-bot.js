@@ -1,6 +1,6 @@
 var Discord = require('discord.js');
 var Tester = require('Cards');
-var meow = new Thingy();
+//var meow = new Thingy();
 var Client = new Discord.Client();
 const Canvas = require('canvas');
 var PG = require('pg');
