@@ -11,7 +11,7 @@
     "request": "2.81.0",
     "pg": "7.x",
     "canvas": "2.3.1",
-    "testmodule": "davidj314/Discord_RP_Bot#TestModule.js",
+    "testmodule": "https://github.com/davidj314/Discord_RP_Bot/blob/master/TestModule.js",
     "hashmap": "2.3.0"
   }
 }
