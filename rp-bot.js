@@ -1854,6 +1854,15 @@ Client.on('message',  async message => {
 					}
 				}
 				await Tester.show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
+				if (board[temp].turn=="514084613732433921"){
+					hands.forEach((h)=>{
+						if (h.id==514084613732433921){
+							auto_turn(board[temp].positions, h, (msg)=>{message.channel.send(msg)} );//auto-turn if it's RP_bot's turn.
+							return;
+						}
+					})
+					
+				}
 			}
 			else
 			{
@@ -1881,6 +1890,36 @@ Client.on('message',  async message => {
         }
   	}
 });
+
+function auto_turn(positions, hand, callback){
+	var picked = -1;
+	var row = -1;
+	var col = -1;
+	var flatpos = -1;
+	var maybe = Math.floor(Math.random() * 5);
+	while (picked < 0){
+		if (hand[maybe.used!=0])picked=maybe
+		else if(maybe==0) maybe=4
+		else maybe-= 1
+	}
+	while (row <0 && col < 0){
+		if (positions[row][col]!=-1) positions[row][col]=hand[picked]
+		else if (col < 2)col+=1
+		else if (row < 2){ 
+			 row+=1
+			 col=0
+		}
+		else{
+			row = 0;
+			col = 0;
+		}
+	}
+	flatpos = row*3;
+	flatpos += col;
+	flatpos++;
+	callback(`rp!tri_place ${picked} ${flatpos}`)
+	
+}
 
 function kill_game(user_id, server_id){
 	var board_index = -1;
