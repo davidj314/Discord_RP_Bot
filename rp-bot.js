@@ -5,36 +5,7 @@ const Canvas = require('canvas');
 var PG = require('pg');
 var board = [];
 var hands = [];
-var clevels = [
-	500,
-	1000, //1500
-	1500, //3000
-	3000, //6000
-	5000, //11000
-	7500, //18500
-	10000, //28500
-	12500,//41000
-	15000,//56000
-	17500,//72500
-	20000,//92500  46maxs
-	20000,//56
-	20000,//66
-	20000,//76
-	20000,//86
-	20000, //96 maxs
-	20000,
-	20000,
-	20000,
-	20000,
-	20000,
-	20000,
-	20000,
-	20000,
-	20000,
-	20000,
-	20000,
-	20000,
-	20000]
+var clevels = [500, 1000,1500,3000,5000,7500,10000,12500,15000,17500,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000]
 	
 //----------------------------------------TABLE CREATION---------------------------------------------------
 
@@ -1451,50 +1422,16 @@ Client.on('message',  async message => {
                 break;
                 
             case 'help':
-                var help_txt = '';
-                help_txt += "Bot comands are as follows:\n";
-                help_txt += "rp!id [username/nickname] -- Displays the id of a user \n";
-                help_txt += "rp!record [key] [Bigraphy, url, whatever text you like] -- records something to be paired with the key \n";
-                help_txt += "rp!find [key] -- Displays what was recorded with the key \n";
-                help_txt += "rp!save_character [name] -- Saves the character name supplied and associates it with the user \n";
-                help_txt += "rp!characters [username/nickname/id] -- Displays all characters saved by given user. Omit user to get all characters. \n";
-                help_txt += "rp!roll [minumum] [maximum] -- Generates number between minimum and maximum. Minimum is assumed 0 if omitted.\n";
-		help_txt += "rp!tri_help -- Shows commands involving Triple Triad!\n";
-                channel.send( help_txt);
+                Tester.help((msg)=>{channel.send(msg)})
                 break;
 			
 	case 'tri_rules':
-			var rules = "";
-			rules += "How to play triple Triad\n"
-			rules += "Players place cards from their hand onto the board. When a card is placed, the numbers on it and "
-			rules += "adjacent cards are evaluated. Each card that is less than the corestponding value on the placed "
-			rules += "card is turned to the side of the person placing the card.\n Plus and Combo! \n";
-			rules += "If two or more pairs add up to the same amount, the adjacent cards are turned to the side of the "
-			rules += "card placed. This includes pairs owned by the same person. Any card turned via Plus is assessed as"
-			rules += " if it was just placed (but cannot Plus again), turning via the Combo rule. Any cards turned by combo can also combo others."
-			channel.send(rules);
-			break;
+		Tester.tri_rules((msg)=>{channel.send(msg)});
+		break;
 			
 	case 'tri_help':
-			var help_txt = "Triple Triad Help\n";
-			help_txt += "```Getting cards```";
-			help_txt += "rp!starter_packs -- Get your first 5 card packs.\n";
-			help_txt += "rp!open_cards -- Open a card pack to get a new card.\n";
-			help_txt += "rp!make_card [character name] [URL] -- Makes a card for one of YOUR saved characters.\n";
-			help_txt += "```Seeing cards```";
-			help_txt += "rp!cards -- Shows all the cards in your inventory, including their ID and value.\n";
-			help_txt += "rp!made_cards -- Shows all the cards you've made from characters.\n";
-			help_txt += "rp!see_card [ID] -- Shows card of given ID as a picture.\n";
-			help_txt += "```Improving cards```";
-			help_txt += "rp!set_training [Card ID] -- Sets that card as the one you are training.\n";
-			help_txt += "```Playing Triple triad```";
-			help_txt += "rp!tri_rules -- Explains how to play triple triad.\n"
-			help_txt += "rp!game @mention -- Starts a game of triple triad with the user mentioned.\n";
-			help_txt += "rp!triplace [x] [y] -- Places the card in slot X of your hand at position Y on the board.\n";
-			help_txt += "   Hand positions are 1 through 5. Board positions are 1 through nine. First row is 1, 2, 3.\n";
-			help_txt += "rp!end_game -- Stops the current game of Triple Triad you're playing."
-			channel.send(help_txt);
-			break;
+		tester.tri_help((msg)=>{channel.send(msg)})
+		break;
 			
                 
             case 'record':
