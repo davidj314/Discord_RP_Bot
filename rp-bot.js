@@ -1,5 +1,5 @@
 var Discord = require('discord.js');
-var Tester = require('Cards');
+var Tester = require('Carda');
 //var meow = new Thingy();
 var Client = new Discord.Client();
 const Canvas = require('canvas');
@@ -1845,7 +1845,7 @@ Client.on('message',  async message => {
 			console.log(`The hands are: `);
 			console.log(hands);
 			console.log(`p1nick: ${p1nick} , p2nick: ${p2nick} `);
-			await show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
+			await  Tester.show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
 			for (var i = 0; i < hands.length;i++){
 				if (hands[i].id == author_id && hands[i].server == guild_id && hands[i].board==key){
 					await Tester.show_hand(hands[i].hand, p1nick,  (msg, att)=>{channel.send(msg, att)});
@@ -1892,10 +1892,6 @@ Client.on('message',  async message => {
 				channel.send("Card positions are 1 through 5. \n1 2 3\n4 5 6\n7 8 9");
 				break;
 			}
-			console.log("Showing hands.");
-			console.log(hands);
-			console.log(`Hand is\n ${hands[pointer].hand}`);
-			console.log(`Card in position ${card_index} is\n ${hands[pointer].hand[card_index-1]}`);
 			if (hands[pointer].hand[card_index-1].used == 1){
 				channel.send("That card has already been used. Select another.");
 				break;
@@ -1940,7 +1936,7 @@ Client.on('message',  async message => {
 			//card, row, col, positions
 			await resolve_fights_2(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions, (msg)=>{channel.send(msg);}, (msg, att)=>{channel.send(msg, att)});
 			
-			await show_board(board[temp].positions, (msg, att)=>{message.channel.send(msg, att)});
+			await  Tester.show_board(board[temp].positions, (msg, att)=>{message.channel.send(msg, att)});
 			//async function show_hand(hand, callback)
 			
 			//initiator
@@ -1953,7 +1949,7 @@ Client.on('message',  async message => {
 			
 			if (board[temp].plays < 9)
 			{
-				await show_hand(hands[pointer].hand, board[temp].initiator_nick, (msg, att)=>{message.channel.send(msg, att)});
+				await Tester.show_hand(hands[pointer].hand, board[temp].initiator_nick, (msg, att)=>{message.channel.send(msg, att)});
 
 				for (var i = 0; i < hands.length; i++){
 					if (hands[i].id == board[temp].challenged && hands[i].server == guild_id && hands[i].board==board[temp].lock){
@@ -1961,11 +1957,11 @@ Client.on('message',  async message => {
 						break;
 					}
 				}
-				await show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
+				await Tester.show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
 			}
 			else
 			{
-				await finish_game(board[temp], (msg, att)=>{message.channel.send(msg, att)});
+				await Tester.finish_game(board[temp], (msg, att)=>{message.channel.send(msg, att)});
 				var boardid = board[temp].lock;
 				//erase hands from the game
 				for (var i = 0; i < hands.length; i++)
@@ -2028,8 +2024,6 @@ async function resolve_fights_2(card, row, col, positions, narrate, post){
 	var next_cards = [];
 	var thiscolor = card.color;
 	var color_in = [];
-	//var thisrow = row;
-	//var thiscol = col;
 	var combo = 0;
 	while (combo <6)
 	{
@@ -2359,7 +2353,7 @@ async function show_board(positions, callback){
 		
 		
 	const attachment = new Discord.Attachment(canvas.toBuffer(), 'board.png');
-	callback(`Testing a thing`, attachment);
+	callback(`Triple Triad`, attachment);
 }
 
 async function show_hand(hand, nick, callback)
