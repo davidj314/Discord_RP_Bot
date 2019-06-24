@@ -1227,7 +1227,7 @@ Client.on('ready', () => {
     console.log('I am ready!');
     console.log(Tester);
     //goodbye((msg)=>{message.channel.send(msg)});
-    Tester.Cards;
+    console.log(Tester.Cards);
     //CardMan.hello();
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
     get_triggers((rows)=>{        
