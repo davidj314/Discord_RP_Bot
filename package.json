@@ -6,12 +6,14 @@
   "scripts": {
     "start": "node rp-bot.js"
   },
+  "files": [
+    "https://github.com/davidj314/Discord_RP_Bot/blob/master/TestModule.js"
+  ],
   "dependencies": {
     "discord.js": "11.5.0",
     "request": "2.81.0",
     "pg": "7.x",
     "canvas": "2.3.1",
-    "testmodule": "https://github.com/davidj314/Discord_RP_Bot/blob/master/TestModule.js",
     "hashmap": "2.3.0"
   }
 }
