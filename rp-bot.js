@@ -1544,11 +1544,8 @@ Client.on('message',  async message => {
 			var output = "CID         Total               Up               Left          Right           Down               Name   \n";
 			var allcards = []
 			rows.forEach(function(row){ allcards.push({cid: row.cid, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
-			console.log(allcards);
-			console.log(`Allcards.length is ${allcards.length}`);
 			
 			for(var i = 0; i < allcards.length; i++){
-				console.log(`i is ${i}`);
 				if (cid/10 < 1) output += '0';
 				if (cid/100<1) output += '0';
 				output += allcards[i].cid;
@@ -1584,7 +1581,6 @@ Client.on('message',  async message => {
 			var output = "CID         Total               Up               Left          Right           Down               Name   \n";
 			var allcards = []
 			rows.forEach(function(row){ allcards.push({cid: row.char_id, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
-			console.log(allcards);
 			for(var i = 0; i < allcards.length; i++){
 				output += allcards[i].cid;
 				var bigbuff = "                                        ";
@@ -1701,13 +1697,9 @@ Client.on('message',  async message => {
 			}
 			var hand = [];
 			var hand_cards = [];
-			console.log(`ROWS IS`);
-			console.log(rows);
 			while (hand_cards.length < 5)
 			{
-				console.log(`Row num is ${rows.length}, Hand count is ${hand_cards.length}`);
 				var pull1 = Math.floor(Math.random() * (rows.length));
-				console.log(rows[pull1]);
 				hand_cards.push({used: 0, color: "Blue", up: rows[pull1].upval, down: rows[pull1].downval, left: rows[pull1].leftval, right: rows[pull1].rightval, url: rows[pull1].url});
 				rows.splice(pull1,1);
 			}
@@ -1738,9 +1730,6 @@ Client.on('message',  async message => {
 
 			hands.push({id: p2id, board: key, server:guild_id, hand:hand_cards});
 			
-			console.log(`The hands are: `);
-			console.log(hands);
-			console.log(`p1nick: ${p1nick} , p2nick: ${p2nick} `);
 			await  Tester.show_board(newboard.positions, (msg, att)=>{channel.send(msg, att)});
 			for (var i = 0; i < hands.length;i++){
 				if (hands[i].id == author_id && hands[i].server == guild_id && hands[i].board==key){
@@ -1897,6 +1886,8 @@ function auto_turn(positions, hand, callback){
 	var col = -1;
 	var flatpos = -1;
 	var maybe = Math.floor(Math.random() * 5);
+	var row = Math.floor(Math.random() * 3);
+	var col = Math.floor(Math.random() * 3);
 	while (picked < 0){
 		if (hand[maybe].used!=0)picked=maybe
 		else if(maybe==0) maybe=4
