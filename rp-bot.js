@@ -1709,47 +1709,7 @@ Client.on('message',  async message => {
 	    case 'made_cards':
 		//get_user_cards(server_id, owner_id, callback, bad)
 		get_user_made_cards(guild_id, author_id, (rows)=>{
-			var output = "CID   Total               Up               Left               Right          Down                 XP                    Name\n";
-			var allcards = []
-			rows.forEach(function(row){ allcards.push({xp: row.xp,cid: row.char_id, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
-			console.log(allcards);
-			for(var i = 0; i < allcards.length; i++){
-				if (allcards[i].cid/10 < 1) output += "0"
-				if (allcards[i].cid/100 < 1) output += "0"
-				output += allcards[i].cid;
-				var bigbuff = "                                        ";
-				var lilbuff = bigbuff.slice(0,19);
-				output += "         ";
-				output += allcards[i].total;
-				output += lilbuff;
-				output += allcards[i].up;
-				output += lilbuff;
-				output += allcards[i].left;
-				output += lilbuff;
-				output += allcards[i].right;
-				output += lilbuff;
-				output += allcards[i].down;
-				output += lilbuff;
-				//xp output
-				//output += allcards[i].xp;
-				if(allcards[i].xp < 10) output +=0;
-				if(allcards[i].xp < 100) output +=0;
-				if(allcards[i].xp > 999){
-					var divthous = (((allcards[i].xp)-(allcards[i].xp%1000))/1000);
-					var rest = allcards[i].xp%1000;
-					var dec = (((rest)-(rest%100))/100)
-					output +=divthous;
-					output +=".";
-					output += dec;
-					output += "k";
-				}
-				else output += allcards[i].xp
-				output += lilbuff;
-				output += "     ";
-				output += allcards[i].name;
-				output += '\n';
-			}
-			channel.send(output);
+			print_made_cards(rows, (msg)=>{channel.send(msg);})
 			}, (msg)=>{channel.send(msg);});
 		break;
 			
@@ -2015,141 +1975,45 @@ function kill_game(user_id, server_id){
 	}
 }
 
-
-//resolve_fights(hands[pointer].hand[card_index-1], d1, d2, board[temp].positions);
-async function resolve_fights_2(card, row, col, positions, narrate, post){
-	var t_card = card;
-	var cards = [[row, col, t_card]];
-	var next_cards = [];
-	var thiscolor = card.color;
-	var color_in = [];
-	var combo = 0;
-	while (combo <6)
-	{
-		while(cards.length>0)
-		{
-			var thisrow = cards[0][0];
-			var thiscol = cards[0][1];
-			positions[thisrow][thiscol].color=thiscolor
-			var above = -1;
-			var below = -1;
-			var left = -1;
-			var right = -1;
-			var updiff = -100;
-			var downdiff = -100;
-			var leftdiff = -100;
-			var rightdiff = -100;
-			if (thisrow > 0) above = {color: positions[thisrow-1][thiscol].color, val:positions[thisrow-1][thiscol].down} ;
-			if (thisrow < 2) below = {color: positions[thisrow+1][thiscol].color, val:positions[thisrow+1][thiscol].up};
-			if (thiscol > 0) left = {color: positions[thisrow][thiscol-1].color, val:positions[thisrow][thiscol-1].right};
-			if (thiscol < 2) right = {color: positions[thisrow][thiscol+1].color, val:positions[thisrow][thiscol+1].left};
-
-			if (above!=-1){
-				updiff = above.val + cards[0][2].up;
-				if (cards[0][2].up > above.val&& above.color!=thiscolor){
-					color_in.push([thisrow-1, thiscol]);
-					if (combo>0){
-						next_cards.push([thisrow-1, thiscol, positions[thisrow-1][thiscol]]);
-						narrate('COMBO!!');
-					}
-				}
-				
-			}
-			if (below!=-1){
-				downdiff = below.val + cards[0][2].down;
-				if (cards[0][2].down > below.val&& below.color!=thiscolor){
-					color_in.push([thisrow+1, thiscol]);
-					if (combo>0){
-						next_cards.push([thisrow+1, thiscol, positions[thisrow+1][thiscol]]);
-						narrate('COMBO!!');
-					}
-				}
-			}
-			if (left!=-1){
-				leftdiff = left.val + cards[0][2].left;
-				if (cards[0][2].left > left.val&& left.color!=thiscolor){
-					color_in.push([thisrow, thiscol-1]);
-					if (combo>0){
-						next_cards.push([thisrow, thiscol-1, positions[thisrow][thiscol-1]]);
-						narrate('COMBO!!');
-					}
-				}
-			}
-			if (right!=-1){
-				rightdiff = right.val + cards[0][2].right;
-				if (cards[0][2].right > right.val&& right.color!=thiscolor){
-					color_in.push([thisrow, thiscol+1]);
-					if (combo>0){
-						next_cards.push([thisrow, thiscol+1, positions[thisrow][thiscol+1]]);
-						narrate('COMBO!!');
-					}
-				}
-			}
-
-			if (combo == 0){
-				var looked_at = [];
-				var plus_match = [];
-				if (updiff > -100 ){
-					if (!looked_at.includes(updiff))looked_at.push(updiff); //if never looked at, put it in
-					else if (!plus_match.includes(updiff))plus_match.push(updiff); //been looked at before, add if new 
-					console.log(`For ${thisrow} ${thiscol} Updiff is ${updiff}`);
-				}
-				if (downdiff > -100 ){
-					if (!looked_at.includes(downdiff))looked_at.push(downdiff);
-					else if (!plus_match.includes(downdiff))plus_match.push(downdiff);
-					console.log(`For ${thisrow} ${thiscol} downdiff is ${downdiff}`);
-				}
-				if (leftdiff > -100 ){
-					if (!looked_at.includes(leftdiff))looked_at.push(leftdiff);
-					else if (!plus_match.includes(leftdiff))plus_match.push(leftdiff);	
-					console.log(`For ${thisrow} ${thiscol} leftdiff is ${leftdiff}`);
-				}
-				if (rightdiff > -100 ){
-					if (!looked_at.includes(rightdiff))looked_at.push(rightdiff);
-					else if (!plus_match.includes(rightdiff))plus_match.push(rightdiff);	
-					console.log(`For ${thisrow} ${thiscol} rightdiff is ${rightdiff}`);
-				}
-				if (plus_match.length>0)narrate('PLUS effect!!');
-				plus_match.forEach(function(plus) {
-				if (updiff == plus && positions[thisrow-1][thiscol].color!= thiscolor)
-					if(!next_cards.includes([thisrow-1, thiscol, positions[thisrow-1][thiscol]])){
-						color_in.push([thisrow-1, thiscol]);
-						next_cards.push([thisrow-1, thiscol, positions[thisrow-1][thiscol]]);
-						console.log(`card ${thisrow-1} ${thiscol} being plus-taken`);
-					}
-				if (downdiff == plus && positions[thisrow+1][thiscol].color!= thiscolor) 
-					if(!next_cards.includes([thisrow+1, thiscol, positions[thisrow+1][thiscol]])){
-						color_in.push([thisrow+1, thiscol]);
-						next_cards.push([thisrow+1, thiscol, positions[thisrow+1][thiscol]]);
-						console.log(`card ${thisrow+1} ${thiscol} being plus-taken`);
-					}
-				if (leftdiff == plus && positions[thisrow][thiscol-1].color!= thiscolor) 
-					if(!next_cards.includes([thisrow, thiscol-1, positions[thisrow][thiscol-1]])){
-						color_in.push([thisrow, thiscol-1]);
-						next_cards.push([thisrow, thiscol-1, positions[thisrow][thiscol-1]]);
-						console.log(`card ${thisrow} ${thiscol-1} being plus-taken`);
-					}
-				if (rightdiff == plus && positions[thisrow][thiscol+1].color!= thiscolor) 
-					if(!next_cards.includes([thisrow, thiscol+1, positions[thisrow][thiscol+1]])){
-						color_in.push([thisrow, thiscol+1]);
-						next_cards.push([thisrow, thiscol+1, positions[thisrow][thiscol+1]]);	
-						console.log(`card ${thisrow} ${thiscol+1} being plus-taken`);
-					}
-				});
-			}
-			cards.splice(0,1);
-			
+function print_made_cards(rows, callback){
+	var output = "CID   Total               Up               Left               Right          Down                 XP                    Name\n";
+	var allcards = []
+	rows.forEach(function(row){ allcards.push({xp: row.xp,cid: row.char_id, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
+	for(var i = 0; i < allcards.length; i++){
+		if (allcards[i].cid/10 < 1) output += "0"
+		if (allcards[i].cid/100 < 1) output += "0"
+		output += allcards[i].cid;
+		var bigbuff = "                                        ";
+		var lilbuff = bigbuff.slice(0,19);
+		output += "         ";
+		output += allcards[i].total;
+		output += lilbuff;
+		output += allcards[i].up;
+		output += lilbuff;
+		output += allcards[i].left;
+		output += lilbuff;
+		output += allcards[i].right;
+		output += lilbuff;
+		output += allcards[i].down;
+		output += lilbuff;
+		if(allcards[i].xp < 10) output +="0";
+		if(allcards[i].xp < 100) output +="0";
+		if(allcards[i].xp > 999){
+			var divthous = (((allcards[i].xp)-(allcards[i].xp%1000))/1000);
+			var rest = allcards[i].xp%1000;
+			var dec = (((rest)-(rest%100))/100)
+			output +=divthous;
+			output +=".";
+			output += dec;
+			output += "k";
 		}
-		//MAYBE CHANGE NEXT_CARDS TO DEAL WITH COORDS
-		cards = cards.concat(next_cards);
-		next_cards=[];
-		combo++;
-		if(cards.length==0)combo=10;
-		else await show_board(positions,  post);
-	}//out of the while loop. Time to color
-	
-	color_in.forEach(function(cell){positions[cell[0]][cell[1]].color=thiscolor});
+		else output += allcards[i].xp
+		output += lilbuff;
+		output += "     ";
+		output += allcards[i].name;
+		output += '\n';
+	}
+	callback(output);
 }
-
 
 Client.login(process.env.BOT_TOKEN);
