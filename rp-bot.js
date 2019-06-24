@@ -1226,6 +1226,8 @@ function convert_role_to_snowflake(server, role, callback, printerror){
 Client.on('ready', () => {
     console.log('I am ready!');
     console.log(Tester);
+    Tester.goodbye((msg)=>{message.channel.send(msg)});
+
     //CardMan.hello();
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
     get_triggers((rows)=>{        
@@ -1270,7 +1272,6 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
 
 Client.on('message',  async message => {
     disboard_check(message);
-    tester.goodbye((msg)=>{message.channel.send(msg)});
 	
     get_training(message.guild.id, message.author.id, (char_id)=>{  get_card_info(message.guild.id, char_id, (card)=>{   
 
