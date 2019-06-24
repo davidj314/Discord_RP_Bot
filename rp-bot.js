@@ -1430,7 +1430,7 @@ Client.on('message',  async message => {
 		break;
 			
 	case 'tri_help':
-		tester.tri_help((msg)=>{channel.send(msg)})
+		Tester.tri_help((msg)=>{channel.send(msg)})
 		break;
 			
                 
