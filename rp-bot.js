@@ -1225,7 +1225,7 @@ function convert_role_to_snowflake(server, role, callback, printerror){
 
 Client.on('ready', () => {
     console.log('I am ready!');
-    Tester.hello();
+    hello();
     console.log(Tester);
     //goodbye((msg)=>{message.channel.send(msg)});
     console.log(Tester.Cards);
