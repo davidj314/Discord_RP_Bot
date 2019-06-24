@@ -1,5 +1,5 @@
 var Discord = require('discord.js');
-var Tester = require('TestModule.js');
+var Tester = require('https://github.com/davidj314/Discord_RP_Bot/blob/master/TestModule.js');
 var Client = new Discord.Client();
 const Canvas = require('canvas');
 var PG = require('pg');
