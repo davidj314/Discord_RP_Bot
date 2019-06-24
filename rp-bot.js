@@ -1,5 +1,5 @@
 var Discord = require('discord.js');
-var Tester = require('Cardz');
+var Tester = require('Card');
 //var meow = new Thingy();
 var Client = new Discord.Client();
 const Canvas = require('canvas');
@@ -1226,10 +1226,7 @@ function convert_role_to_snowflake(server, role, callback, printerror){
 
 Client.on('ready', () => {
     console.log('I am ready!');
-    con();
-    console.log(Tester);
-    //goodbye((msg)=>{message.channel.send(msg)});
-    console.log(Tester.Cards);
+    Tester.hello();
     //CardMan.hello();
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
     get_triggers((rows)=>{        
