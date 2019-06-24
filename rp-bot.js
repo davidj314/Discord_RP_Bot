@@ -1,5 +1,5 @@
 var Discord = require('discord.js');
-var Tester = require('Cards');
+var Tester = require('Cardz');
 //var meow = new Thingy();
 var Client = new Discord.Client();
 const Canvas = require('canvas');
