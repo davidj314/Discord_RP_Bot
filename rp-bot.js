@@ -1860,7 +1860,7 @@ Client.on('message',  async message => {
 					auto = 1;
 					
 				}
-				if (auto==1)Promise.resolve(await auto_turn(board[temp].positions, hands[hand_index].hand, (msg)=>{message.channel.send(msg)} ).catch((err) => { console.log(err); }));
+				if (auto==1)await auto_turn(board[temp].positions, hands[hand_index].hand, (msg)=>{message.channel.send(msg)});
 				});
 			}
 			else
