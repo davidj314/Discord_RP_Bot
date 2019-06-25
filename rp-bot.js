@@ -202,6 +202,7 @@ function insert_user_set_char(server_id, user_id, set_char, callback)
 		    if(err.code == '23505'){
 			update_training(server_id, user_id, set_char, callback);
 		    }
+		    callback("Failed to set training card. Check command syntax (rp!set_training 22)")
 		    console.log(err, res);
 		}
 		else{
