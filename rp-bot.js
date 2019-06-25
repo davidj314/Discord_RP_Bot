@@ -1091,19 +1091,19 @@ function handle_card_xp (card, message, callback, fin){
 		{
 			var side = Math.floor(Math.random() * (4+1 - 1) + 1);
 			if (side == 1 && up_num < 9){
-				callback(message.guild.id, 'upval', card.char_id)
+				callback('upval')
 				break;
 			}
 			else if (side == 2 && left_num < 9){
-				callback(message.guild.id, 'leftval', card.char_id)
+				callback('leftval')
 				break;
 			}
 			else if (side == 3 && right_num < 9){
-				callback(message.guild.id, 'rightval', card.char_id)
+				callback('rightval')
 				break;
 			}
 			else if (side == 4 && down_num < 9){
-				callback(message.guild.id, 'downval', card.char_id)
+				callback('downval')
 				break;
 			}
 		}
