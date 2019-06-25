@@ -1850,7 +1850,7 @@ Client.on('message',  async message => {
 						break;
 					}
 				}
-				await Tester.show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)}).then(()=>{
+				var p = await Tester.show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
 				var hand_index = -1;
 				var auto = -1
 				if (board[temp].turn=="514084613732433921"){
@@ -1860,8 +1860,9 @@ Client.on('message',  async message => {
 					auto = 1;
 					
 				}
-				if (auto==1) auto_turn(board[temp].positions, hands[hand_index].hand, (msg)=>{message.channel.send(msg)});
-				});
+				
+				if (auto==1) await auto_turn(board[temp].positions, hands[hand_index].hand, (msg)=>{message.channel.send(msg)});
+			
 			}
 			else
 			{
