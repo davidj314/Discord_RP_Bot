@@ -1842,7 +1842,7 @@ Client.on('message',  async message => {
 			
 			if (board[temp].plays < 9)
 			{
-				await Promise.resolve(Tester.show_hand(hands[pointer].hand, board[temp].initiator_nick, (msg, att)=>{message.channel.send(msg, att)}));
+				await Tester.show_hand(hands[pointer].hand, board[temp].initiator_nick, (msg, att)=>{message.channel.send(msg, att)});
 				console.log("after first tester.show_hand")
 				for (var i = 0; i < hands.length; i++){
 					if (hands[i].id == board[temp].challenged && hands[i].server == guild_id && hands[i].board==board[temp].lock){
@@ -1850,18 +1850,21 @@ Client.on('message',  async message => {
 						break;
 					}
 				}
-				var p = await Tester.show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
-				var hand_index = -1;
-				var auto = -1
-				if (board[temp].turn=="514084613732433921"){
-					for (var i = 0; i < hands.length; i++){
-						if (hands[i].id == "514084613732433921")hand_index=i;
-					}
-					auto = 1;
+				await Tester.show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{
+					message.channel.send(msg, att);
+					var hand_index = -1;
+					var auto = -1
+					if (board[temp].turn=="514084613732433921"){
+						for (var i = 0; i < hands.length; i++){
+							if (hands[i].id == "514084613732433921")hand_index=i;
+						}
+						auto = 1;
 					
-				}
+					}
 				
-				if (auto==1) await auto_turn(board[temp].positions, hands[hand_index].hand, (msg)=>{message.channel.send(msg)});
+					if (auto==1) await auto_turn(board[temp].positions, hands[hand_index].hand, (msg)=>{message.channel.send(msg)});
+				});
+				
 			
 			}
 			else
