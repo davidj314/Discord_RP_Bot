@@ -1851,7 +1851,7 @@ Client.on('message',  async message => {
 					}
 				}
 				await Tester.show_hand(hands[pointer].hand, board[temp].challenged_nick, async (msg, att)=>{
-					message.channel.send(msg, att);
+					await message.channel.send(msg, att);
 					var hand_index = -1;
 					var auto = -1
 					if (board[temp].turn=="514084613732433921"){
