@@ -1329,6 +1329,9 @@ Client.on('message',  async message => {
 	    case 'set_training':
 		if (args.length != 2)break;
 		var cid = args[1];
+		try{
+			parseInt(cid);
+		}catch(error){channel.send("Error. Make sure it is like rp!set_training 99")}
 		insert_user_set_char(guild_id, author_id, cid, (msg)=>{channel.send(msg);});
 		break;
 			
