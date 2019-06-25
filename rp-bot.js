@@ -1070,8 +1070,6 @@ function convert_role_to_snowflake(server, role, callback, printerror){
 
 Client.on('ready', () => {
     console.log('I am ready!');
-    Tester.hello();
-    //CardMan.hello();
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
     get_triggers((rows)=>{        
         rows.forEach((row)=>{//each returned row is a message to be cached
