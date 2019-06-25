@@ -6,7 +6,6 @@ const Canvas = require('canvas');
 var PG = require('pg');
 var board = [];
 var hands = [];
-var clevels = [500, 1000,1500,3000,5000,7500,10000,12500,15000,17500,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000,20000]
 	
 //----------------------------------------TABLE CREATION---------------------------------------------------
 
@@ -1072,52 +1071,14 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
     });
 });
 
-function handle_card_xp (card, message, callback, fin){
-	var points = card.upval + card.downval + card.leftval + card.rightval;
-	if (points >= 36) return;
-	var up_num = card.upval;
-	var down_num = card.downval;
-	var left_num = card.leftval;
-	var right_num = card.rightval;
-	var goal = clevels[points-7];
-	var xp = parseInt(card.xp) + message.content.length;
-	    
-	while (xp > goal)
-	{
-		xp -= goal;
-		points++;
-		goal = clevels[points-8];
-		while (10 > 1)
-		{
-			var side = Math.floor(Math.random() * (4+1 - 1) + 1);
-			if (side == 1 && up_num < 9){
-				callback('upval')
-				break;
-			}
-			else if (side == 2 && left_num < 9){
-				callback('leftval')
-				break;
-			}
-			else if (side == 3 && right_num < 9){
-				callback('rightval')
-				break;
-			}
-			else if (side == 4 && down_num < 9){
-				callback('downval')
-				break;
-			}
-		}
-		if (points>=36)return;
-	}
-	fin(xp);
-}
+
 
 
 Client.on('message',  async message => {
 	//lvl_card(server_id, direction, char_id)
 	get_training(message.guild.id, message.author.id, (char_id)=>{  
 		DB.get_card_info(message.guild.id, char_id, (card)=>{
-			handle_card_xp(card, message, 
+			Tester.handle_card_xp(card, message, 
 				       (val)=>{lvl_card(message.guild.id, val, char_id)}, 
 				       (num)=>{set_xp(message.guild.id, num, char_id)}
 			)
