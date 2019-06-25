@@ -794,19 +794,6 @@ function record_lookup(server_id, key, value, callback)
 }//end function
 
 //----------------------------------------TABLE DELETES---------------------------------------------------
-function clear_bumps(){
-    console.log('Deleting stuff');
-    var select_query = "DELETE FROM Bumps WHERE id > 0";
-    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
-    pool.query(select_query, (err, result) => {
-        if (err) {
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);
-        }
-    }); //end pool.query
-    pool.end()
-}//end function
-
 
 //Deletes row for indicated key. This function is only accessed after checking for proper permissions beforehand
 function delete_lookup_val(server_id, key){
@@ -1085,7 +1072,7 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
     });
 });
 
-function handle_card_xp (card, message){
+function handle_card_xp (card, message, callback, fin){
 	var points = card.upval + card.downval + card.leftval + card.rightval;
 	if (points >= 36) return;
 	var up_num = card.upval;
@@ -1104,31 +1091,38 @@ function handle_card_xp (card, message){
 		{
 			var side = Math.floor(Math.random() * (4+1 - 1) + 1);
 			if (side == 1 && up_num < 9){
-				lvl_card(message.guild.id, 'upval', card.char_id)
+				callback(message.guild.id, 'upval', card.char_id)
 				break;
 			}
 			else if (side == 2 && left_num < 9){
-				lvl_card(message.guild.id, 'leftval', card.char_id)
+				callback(message.guild.id, 'leftval', card.char_id)
 				break;
 			}
 			else if (side == 3 && right_num < 9){
-				lvl_card(message.guild.id, 'rightval', card.char_id)
+				callback(message.guild.id, 'rightval', card.char_id)
 				break;
 			}
 			else if (side == 4 && down_num < 9){
-				lvl_card(message.guild.id, 'downval', card.char_id)
+				callback(message.guild.id, 'downval', card.char_id)
 				break;
 			}
 		}
 		if (points>=36)return;
 	}
-	set_xp(message.guild.id, xp, card.char_id);
+	fin(xp);
 }
 
 
 Client.on('message',  async message => {
-	
-    get_training(message.guild.id, message.author.id, (char_id)=>{  DB.get_card_info(message.guild.id, char_id, (card)=>{handle_card_xp(card, message)}  , (msg)=>{;})});//end get_training
+	//lvl_card(server_id, direction, char_id)
+	get_training(message.guild.id, message.author.id, (char_id)=>{  
+		DB.get_card_info(message.guild.id, char_id, (card)=>{
+			handle_card_xp(card, message, 
+				       (val)=>{lvl_card(message.guild.id, val, char_id)}, 
+				       (num)=>{set_xp(message.guild.id, num, char_id)}
+			)
+		}, 
+		(msg)=>{;})});//end get_training
 	
 	
     
