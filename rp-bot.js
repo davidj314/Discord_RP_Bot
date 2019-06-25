@@ -200,7 +200,7 @@ function insert_user_set_char(server_id, user_id, set_char, callback)
 	pool.query(insert_query, values,  (err, res) => {
 		if (err){
 		    if(err.code == '23505'){
-			update_training(server_id, user_id, set_char);
+			update_training(server_id, user_id, set_char, callback);
 		    }
 		    console.log(err, res);
 		}
@@ -222,7 +222,8 @@ function update_training(server_id, user_id, set_char, callback)
 		    callback(`Failed to set training card`);
 		}
 		else{
-			console.log('Training updated successfully');	
+			console.log('Training updated successfully');
+			callback(`Now training card of id ${set_char}`);
 		}
 		pool.end();
    	});
