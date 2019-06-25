@@ -425,34 +425,6 @@ function roll(high, callback,  low = 0)
     callback(Math.floor(Math.random() * (high_val+1 - low_val) + low_val))
 }
 
-//This function takes a message and checks to see if it is disboard confirming a bump
-//If a bump is confirmed it will check the preceeding messages to find the bumper
-
-async function show_card(url, up, down, left, right, callback)
-{
-	const canvas = Canvas.createCanvas( 144, 180);
-	const ctx = canvas.getContext('2d');
-	ctx.strokeStyle = '#74037b';
-	ctx.strokeRect(0, 0, canvas.width, canvas.height);
-	
-	const bck1 = await Canvas.loadImage('https://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/blue0517.jpg?itok=V3825voJ');
-	const character = await Canvas.loadImage(url);
-	// Select the font size and type from one of the natively available fonts
-	ctx.font = '20px sans-serif';
-	// Select the style that will be used to fill the text in
-	ctx.fillStyle = '#ffffff';
-	ctx.strokeStyle = 'black';
-	ctx.lineWidth = 1; 
-		
-	//top left	
-	ctx.drawImage(bck1, 0, 0, 144, 180);
-	ctx.drawImage(character, 3, 3, 138, 174);
-	ctx.strokeText(`  ${up} \n${left}  ${right}\n  ${down}`, 7, 22);
-	ctx.fillText(`  ${up} \n${left}  ${right}\n  ${down}`,  7, 22);
-	
-	const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
-	callback(`Card`, attachment);		
-}
 
 function convert_role_to_snowflake(server, role, callback, printerror){
     var role_array = server.roles.array();
@@ -517,9 +489,6 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
     });
 });
 
-
-
-
 Client.on('message',  async message => {
 	//lvl_card(server_id, direction, char_id)
 	DB.get_training(message.guild.id, message.author.id, (char_id)=>{  
@@ -557,9 +526,7 @@ Client.on('message',  async message => {
                 break;			
 
 	case 'add_pack':
-		if (message.member.hasPermission("BAN_MEMBERS") == false) {
-			channel.send("You lack permissions for this command.");
-		}
+		if (message.member.hasPermission("BAN_MEMBERS") == false) channel.send("You lack permissions for this command.");
 		else{
 			var other_id = message.mentions.users.first().id;
 			DB.insert_new_pack_count(guild_id, other_id);	
@@ -574,8 +541,7 @@ Client.on('message',  async message => {
 			break;
 		}
 		DB.insert_user_set_char(guild_id, author_id, cid, (msg)=>{channel.send(msg);});
-		break;
-			
+		break;	
 		
 	case 'starter_packs':
 		DB.starter_pack(guild_id, author_id);
@@ -880,7 +846,6 @@ Client.on('message',  async message => {
 			
 	    case 'game':
 		if (args[1] == null)break;
-
 		var p1id = author_id.toString();
 		var p2id = message.mentions.users.first().id.toString();
 		var p1nick = message.author.username;
@@ -923,18 +888,13 @@ Client.on('message',  async message => {
 			}, (msg)=>{channel.send(msg)});
 			
 		await DB.get_user_cards(guild_id, p2id, async (rows)=>{
-			
-			if (rows.length < 5)
-			{
+			if (rows.length < 5){
 				channel.send('That Player lacks the required amount of cards');
 				kill_game(author_id, guild_id);
 				return;
 			}
-			
-			
 			var hand_cards = [];
-			while (hand_cards.length < 5)
-			{
+			while (hand_cards.length < 5){
 				console.log(`Row num is ${rows.length}, Hand count is ${hand_cards.length}`);
 				var pull1 = Math.floor(Math.random() * (rows.length));
 				console.log(rows[pull1]);
@@ -971,8 +931,6 @@ Client.on('message',  async message => {
 				}//end if 
 			}//end for 
 			
-			
-			
 		}, (msg)=>{channel.send('Other player might lack cards'); kill_game(p2id, guild_id);});	
 			
 		break;
@@ -998,7 +956,6 @@ Client.on('message',  async message => {
 				channel.send("Board positions are 1 through 9. \n1 2 3\n4 5 6\n7 8 9");
 				break;
 			}
-			
 			if (card_index > 5 || boardnum < 0){
 				channel.send("Card positions are 1 through 5. \n1 2 3\n4 5 6\n7 8 9");
 				break;
@@ -1007,18 +964,15 @@ Client.on('message',  async message => {
 				channel.send("That card has already been used. Select another.");
 				break;
 			}
-			var d1 = -1;
-			var d2 = -1;
+
+			var d1 = ((boardnum-1)/3);
+			var d2 = ((boardnum-1)%3);
 			
-			d1 = ((boardnum-1)/3);
-			d2 = ((boardnum-1)%3);
-			
-			d1-=d1%1;
-			d2-=d2%1;
+			d1 -= d1%1;
+			d2 -= d2%1;
 			
 			var card = hands[pointer].hand[card_index-1];
 			var boardid = hands[pointer].board;
-			console.log(`The board ids is ${boardid}`);
 			var temp = 0;
 			var found = 0;
 			while(temp < board.length){
@@ -1106,8 +1060,6 @@ Client.on('message',  async message => {
 		case 'end_game':
 			kill_game(author_id, guild_id)
 			break;
-			
-			
         }
   	}
 });
@@ -1163,16 +1115,10 @@ function kill_game(user_id, server_id){
 		}
 	}
 	if (board_index==-1)return;
-	console.log("killing a board");
 	board.splice(board_index, 1);
-	console.log(`Boardid is ${board_lock}`);
-	console.log(`hands count is ${hands.length}`);
-	console.log(hands);
 	for (var i = 0; i < hands.length;i++){
 		if(hands[i].board==board_lock){
-			console.log(`Killing hand ${i}`);
 			hands.splice(i, 1);
-			console.log(`${hands.length} hands remain`);
 			i--;
 		}
 	}
