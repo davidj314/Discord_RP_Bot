@@ -1852,7 +1852,7 @@ Client.on('message',  async message => {
 				}
 				await Tester.show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
 				if (board[temp].turn=="514084613732433921"){
-					hands.forEach(async function(h)=>{
+					hands.forEach(async (h)=>{
 						if (h.id==514084613732433921){
 							await auto_turn(board[temp].positions, h.hand, (msg)=>{message.channel.send(msg)} );//auto-turn if it's RP_bot's turn.
 							return;
