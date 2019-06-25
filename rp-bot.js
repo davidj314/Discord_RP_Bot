@@ -1744,14 +1744,13 @@ Client.on('message',  async message => {
 				}
 			}
 			message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
-			if (newboard.turn=="514084613732433921"){
-				hands.forEach((h)=>{
-					if (h.id==514084613732433921){
-						auto_turn(newboard.positions, h.hand, (msg)=>{message.channel.send(msg)} );//auto-turn if it's RP_bot's turn.
-					}
-				})
-					
-			}
+			//if (newboard.turn=="514084613732433921"){
+			//	hands.forEach((h)=>{
+			//		if (h.id==514084613732433921){
+			//			auto_turn(newboard.positions, h.hand, (msg)=>{message.channel.send(msg)} );//auto-turn if it's RP_bot's turn.
+			//		}
+			//	})		
+			//}
 			
 		}, (msg)=>{channel.send('Other player might lack cards'); kill_game(p2id, guild_id);});	
 			
