@@ -1,5 +1,5 @@
 var Discord = require('discord.js');
-var Tester = require('Cardi');
+var Tester = require('Cardj');
 var Client = new Discord.Client();
 const Canvas = require('canvas');
 var PG = require('pg');
