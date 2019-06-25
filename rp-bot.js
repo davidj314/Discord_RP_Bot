@@ -1302,14 +1302,14 @@ Client.on('message',  async message => {
         var command = args[0];
         switch(command){
                 
-            case 'drop_em':
+	case 'drop_em':
                 drop_cards();
 		drop_card_inv();
 		drop_train();
 		drop_packs();
                 break;
                 
-            case 'make_em':
+	case 'make_em':
 		make_cards();
 		make_card_inv();
                 make_trainings();
@@ -1318,7 +1318,7 @@ Client.on('message',  async message => {
 
 			
 
-	   case 'add_pack':
+	case 'add_pack':
 		if (message.member.hasPermission("BAN_MEMBERS") == false) {
 			channel.send("You lack permissions for this command.");
 		}
@@ -1328,35 +1328,30 @@ Client.on('message',  async message => {
 		}
 		break;
 			
-	    case 'set_training':
+	case 'set_training':
 		if (args.length != 2)break;
 		var cid = args[1];
-		try{
-			parseInt(cid);
-		}catch(error){channel.send("Error. Make sure it is like rp!set_training 99")}
+		if (isNaN(cid)) {
+    			channel.send('This is not number');
+			break;
+		}
 		insert_user_set_char(guild_id, author_id, cid, (msg)=>{channel.send(msg);});
 		break;
 			
 		
 	case 'starter_packs':
-		//starter_pack(server_id, user_id)
 		starter_pack(guild_id, author_id);
 		break;
-			
-			
-	    case 'make_em2':
-		//make_card_inv();
-		break;
                 
-            case 'minesweeper':
+	case 'minesweeper':
                 mine_sweep_game((msg)=>{channel.send(msg)});
                 break;
                 
-            case 'minecode':
+	case 'minecode':
                 mine_sweep_game((msg)=>{channel.send("`"+msg+"`")});
                 break;
                 
-            case 'trigger':
+	case 'trigger':
                 if (message.member.hasPermission("ADMINISTRATOR") == false && author_id != "269338190547124235"){
                     channel.send('Need admin permission for that command')
                     break;
@@ -1378,7 +1373,7 @@ Client.on('message',  async message => {
                 channel.fetchMessage(message_id).then(msg=>{msg.react(trigger)}).catch(console.error);
                 break;
                 
-            case 'dtrigger':
+	case 'dtrigger':
                 if (message.member.hasPermission("ADMINISTRATOR") == false && author_id != "269338190547124235"){
                     channel.send('Need admin permission for that command')
                     break;
@@ -1400,33 +1395,13 @@ Client.on('message',  async message => {
                 message.react(trigger);
                 break;
                 
-            case 'bump_details':
-                if (args.length != 3)break;
-                if (message.member.hasPermission("ADMINISTRATOR") == false){
-                    channel.send('Need admin permission for that command')
-                    break;
-                }
-                var prefix = args[1];
-                var amount = args[2];
-                insert_disboard_details(guild_id, prefix, amount);
-                break;
+	case 'id':
+		if (args[1] == null) break;
+		var info_key = args[1];
+		convert_to_userid(message.guild.members, info_key,  (msg)=>{channel.send(msg)});
+		break;
                 
-            case 'bumps':
-                if (message.member.hasPermission("ADMINISTRATOR") == false){
-                    channel.send('Need admin permission for that command');
-                }
-                else{
-                    get_bump_names(guild_id, (msg) => {message.author.send(msg)});
-                }
-                break;
-                
-            case 'id':
-                if (args[1] == null) break;
-                var info_key = args[1];
-                convert_to_userid(message.guild.members, info_key,  (msg)=>{channel.send(msg)});
-                break;
-                
-            case 'help':
+	case 'help':
                 Tester.help((msg)=>{channel.send(msg)})
                 break;
 			
@@ -1527,20 +1502,18 @@ Client.on('message',  async message => {
 	    case 'see_card':
 		if (args[1] == null)break;
 		var cid = args[1];
-		//show_card(url, up, down, left, right, callback)
-		//get_card_info(server_id, owner_id, char_id, callback, bad)
 		get_card_info(
-				guild_id,  
-				cid, 
-				(row)=>{show_card(
-					row.url, 
-					row.upval, 
-					row.downval, 
-					row.leftval, 
-					row.rightval, 
-					(msg, att)=>{channel.send(msg, att)}
-				)},
-				(msg)=>{channel.send(msg)}) ;
+			guild_id,  
+			cid, 
+			(row)=>{show_card(
+				row.url, 
+				row.upval, 
+				row.downval, 
+				row.leftval, 
+				row.rightval, 
+				(msg, att)=>{channel.send(msg, att)}
+			)},
+			(msg)=>{channel.send(msg)}) ;
 		break;
 		
 	    case 'cards':
