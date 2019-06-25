@@ -995,31 +995,6 @@ function roll(high, callback,  low = 0)
 
 //This function takes a message and checks to see if it is disboard confirming a bump
 //If a bump is confirmed it will check the preceeding messages to find the bumper
-function disboard_check(message){
-    if (message.author.id == '302050872383242240'){ //Disboard Bot
-        if (message.embeds.length == 0)return; //not a bump confirmation. Return
-        var regex = /(Bump done)/g;
-        var found = message.embeds[0].description.match(regex);
-        if (found != null){ //found not being null means there was bump confirmation
-            message.channel.fetchMessages({ limit: 9 })
-            .then(messages => {
-                var m_array = messages.array(); //m_array will hold the most recent messages, including the bump confirmation and bump command
-                var found_bump = false;
-                for (var i=0;i < m_array.length; i++){
-                    if (found_bump){
-                        if (!m_array[i].content.match(/^!disboard +(B|b)(U|u)(M|m)(P|p).*/)) continue; //continue looking if message isn't the bump command
-                        add_bump(m_array[i].author.id, m_array[i].author.username); //log the user as having a successful bump
-                        i = m_array.length; //terminate loop
-                    }
-                    else if (m_array[i].embeds.length > 0 && m_array[i].embeds[0].description.match(/(Bump done)/g)){
-                        found_bump = true;
-                    }   
-                }   
-            })
-            .catch(console.error);
-        }
-    }    
-}
 
 async function show_card(url, up, down, left, right, callback)
 {
@@ -1110,27 +1085,18 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
     });
 });
 
-
-Client.on('message',  async message => {
-    disboard_check(message);
-	
-    get_training(message.guild.id, message.author.id, (char_id)=>{  DB.get_card_info(message.guild.id, char_id, (card)=>{   
-
+function handle_card_xp (card, message){
 	var points = card.upval + card.downval + card.leftval + card.rightval;
 	if (points >= 36) return;
 	var up_num = card.upval;
 	var down_num = card.downval;
 	var left_num = card.leftval;
 	var right_num = card.rightval;
-	
 	var goal = clevels[points-7];
-	console.log(`points is ${points}`);
 	var xp = parseInt(card.xp) + message.content.length;
-	console.log(`Goal is ${goal} and xp is ${xp}`);
 	    
 	while (xp > goal)
 	{
-		console.log(`Goal is ${goal} and xp is ${xp}`);
 		xp -= goal;
 		points++;
 		goal = clevels[points-8];
@@ -1156,10 +1122,13 @@ Client.on('message',  async message => {
 		}
 		if (points>=36)return;
 	}
-	    
-	    set_xp(message.guild.id, xp, card.char_id);
+	set_xp(message.guild.id, xp, card.char_id);
+}
+
+
+Client.on('message',  async message => {
 	
-}  , (msg)=>{;})});//end get_training
+    get_training(message.guild.id, message.author.id, (char_id)=>{  DB.get_card_info(message.guild.id, char_id, (card)=>{handle_card_xp(card, message)}  , (msg)=>{;})});//end get_training
 	
 	
     
