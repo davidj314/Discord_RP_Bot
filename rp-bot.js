@@ -1,5 +1,5 @@
 var Discord = require('discord.js');
-var Tester = require('Cardj');
+var Tester = require('Cardk');
 var Client = new Discord.Client();
 var DB = require('db2');
 const Canvas = require('canvas');
@@ -1116,7 +1116,7 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
 Client.on('message',  async message => {
     disboard_check(message);
 	
-    get_training(message.guild.id, message.author.id, (char_id)=>{  get_card_info(message.guild.id, char_id, (card)=>{   
+    get_training(message.guild.id, message.author.id, (char_id)=>{  DB.get_card_info(message.guild.id, char_id, (card)=>{   
 
 	var points = card.upval + card.downval + card.leftval + card.rightval;
 	if (points >= 36) return;
@@ -1374,7 +1374,7 @@ Client.on('message',  async message => {
 		DB.get_card_info(
 			guild_id,  
 			cid, 
-			(row)=>{show_card(
+			(row)=>{Tester.show_card(
 				row.url, 
 				row.upval, 
 				row.downval, 
@@ -1462,12 +1462,12 @@ Client.on('message',  async message => {
 			//console.log(cids);
 			var card_id = Math.floor(Math.random() * cids.length);
 			add_card_to_inv(guild_id, author_id, cids[card_id]);
-			get_card_info(
+			DB.get_card_info(
 				guild_id,  
 				cids[card_id], 
 				(row)=>{
 					channel.send(`You obtained: ${row.name}`);
-					show_card(
+					Tester.show_card(
 						row.url, 
 						row.upval, 
 						row.downval, 
