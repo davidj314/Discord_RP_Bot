@@ -1905,7 +1905,7 @@ async function auto_turn(positions, hand, callback){
 		else maybe-= 1
 	}
 	while (row <0 && col < 0){
-		if (positions[row][col]!=-1) positions[row][col]=hand[picked]
+		if (positions[row][col]==-1) positions[row][col]=hand[picked]
 		else if (col < 2)col+=1
 		else if (row < 2){ 
 			 row+=1
