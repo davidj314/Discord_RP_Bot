@@ -1,7 +1,7 @@
 var Discord = require('discord.js');
 var Tester = require('Cardj');
 var Client = new Discord.Client();
-var DB = require('db1');
+var DB = require('db2');
 const Canvas = require('canvas');
 var PG = require('pg');
 var board = [];
