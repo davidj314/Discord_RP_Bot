@@ -570,29 +570,6 @@ function check_trigger(server_id, message_id, emoji, callback){
     pool.end()
 }//end function
 
-function get_disboard_details(server_id, write_error, build_reward){
-    var select_query = "SELECT command_char, reward FROM Disboard_Details WHERE server_id = $1";
-    var query_values = [server_id];
-    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
-    pool.query(select_query, query_values, (err, result) => {
-        console.log(result);
-        if (err) {
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);
-        }
-        //No returned rows indicate provided key is not associated with any row
-        else if (result.rows.length == 0) {
-            write_error("Disboard bump rewards not set up in this server.");
-            return;
-        }
-        //successfully found a result. Passes associated value to the callback function
-        else{
-            build_reward(result.rows[0].command_char, result.rows[0].reward);
-        }
-    }); //end pool.query 
-    pool.end()
-}
-
 function get_bump_names(server_id, callback){
     var names_query = "SELECT bumper_name, bumper_id, COUNT (bumper_name) FROM Bumps GROUP BY bumper_name, bumper_id";
     var ids_query = "SELECT bumper_id, COUNT (bumper_id) FROM Bumps GROUP BY bumper_id";
@@ -743,7 +720,7 @@ async function get_user_cards(server_id, owner_id, callback, bad){
     }); //end pool.query 
     pool.end()
 }//end function
-//async 
+
 function get_user_made_cards(server_id, owner_id, callback, bad){
     var select_query = "SELECT Cards.char_id, Cards.name, Cards.upval, Cards.leftval, Cards.rightval, Cards.downval, Cards.xp  FROM Cards INNER JOIN Names ON Cards.char_id=Names.id WHERE Cards.server_id = $1 AND Cards.owner_id = $2";
     var query_values = [server_id, owner_id];
@@ -809,7 +786,6 @@ function get_card_list(server_id, callback, bad){
     }); //end pool.query 
     pool.end()
 	
-    return 4;
 }//end function
 
 function get_authors_names(server_id, author_id, callback)
