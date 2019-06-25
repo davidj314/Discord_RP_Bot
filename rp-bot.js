@@ -1,7 +1,7 @@
 var Discord = require('discord.js');
 var Tester = require('Cardm');
 var Client = new Discord.Client();
-var DB = require('db5');
+var DB = require('db6');
 const Canvas = require('canvas');
 var PG = require('pg');
 var board = [];
@@ -165,7 +165,7 @@ function drop_packs(){
 //----------------------------------------TABLE INSERTS---------------------------------------------------
 
 
-function insert_new_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
+/*function insert_new_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
 {
     var insert_query = "INSERT INTO Triggers (server_id, channel_id, message_id, emoji, role_snowflake) VALUES($1, $2, $3, $4, $5)";
     var values = [server_id, channel_id, message_id, emoji, role];
@@ -182,7 +182,7 @@ function insert_new_trigger_message(server_id, channel_id, message_id, emoji, ro
         }
         pool.end();
     });
-}//end function
+}//end function*/
 
 function delete_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
 {
@@ -198,26 +198,8 @@ function delete_trigger_message(server_id, channel_id, message_id, emoji, role, 
     });
 }//end function
 
-function insert_disboard_details(server_id, command, reward){
-    var insert_query = "INSERT INTO Disboard_Details(server_id, command_char, reward) VALUES ($1, $2, $3)";
-    var values = [server_id, command, reward];
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-    pool.query(insert_query, values, (err, result) => {
-        if (err) {
-            if(err.code == '23505'){
-                var error_string = 'The key ' + key + ' is already in use.'
-                callback(error_string)
-            }
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);;
-        }
-        console.log(result); 
-    });//end pool.query   
-    pool.end();
-}
-
 //Saves a provided name to be associated with user's id and server's id.
-function record_name(server_id, owner_id, name, callback)
+/*function record_name(server_id, owner_id, name, callback)
 {
     console.log('in the name info function');
     var insert_query = "INSERT INTO Names (server_id, owner_id, name ) VALUES($1, $2, $3)";
@@ -233,9 +215,8 @@ function record_name(server_id, owner_id, name, callback)
     console.log(err, res);
     }
   pool.end();
-});
+});*/
     
-    console.log(printout);
 }//end function
 
 function make_card(server_id, owner_id, char_id, url, name, callback) {
@@ -293,7 +274,7 @@ function add_card_to_inv(server_id, owner_id, cid) {
 }
 
 //----------------------------------------TABLE SELECTS---------------------------------------------------
-function get_training(server_id, user_id, callback)
+/*function get_training(server_id, user_id, callback)
 {
 	var select_query = "SELECT set_char FROM Trainings WHERE server_id = $1 AND user_id = $2";
 	var values = [server_id, user_id];
@@ -672,7 +653,7 @@ function record_lookup(server_id, key, value, callback)
     }
   pool.end();
 });
-}//end function
+}//end function*/
 
 //----------------------------------------TABLE DELETES---------------------------------------------------
 
@@ -1143,7 +1124,7 @@ Client.on('message',  async message => {
                 
             case 'characters':
                 if (args[1] == null){
-                    get_all_names(guild_id, (msg)=>{channel.send(msg)});
+                    DB.get_all_names(guild_id, (msg)=>{channel.send(msg)});
                     break;
                 }
                 var author = '';
@@ -1168,7 +1149,7 @@ Client.on('message',  async message => {
 		var url = args[args.length-1];
 		//make_card(server_id, owner_id, char_id, url)
 		//get_char_id(server_id, owner_id, name, callback, bad)
-		DB.get_char_id(guild_id, author_id, name, (cid)=>{make_card(guild_id, author_id, cid, url, name,(msg)=>{channel.send(msg);} ) ;}, (msg)=>{channel.send(msg)} ) ;	
+		DB.get_char_id(guild_id, author_id, name, (cid)=>{DB.make_card(guild_id, author_id, cid, url, name,(msg)=>{channel.send(msg);} ) ;}, (msg)=>{channel.send(msg)} ) ;	
 		
 		break;
 	
@@ -1263,9 +1244,8 @@ Client.on('message',  async message => {
 					cids.push(row.char_id)
 					console.log(`pushing cid: ${row.char_id}`);
 				});//end foreach
-			//console.log(cids);
 			var card_id = Math.floor(Math.random() * cids.length);
-			add_card_to_inv(guild_id, author_id, cids[card_id]);
+			DB.add_card_to_inv(guild_id, author_id, cids[card_id]);
 			DB.get_card_info(
 				guild_id,  
 				cids[card_id], 
