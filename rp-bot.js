@@ -1744,14 +1744,14 @@ Client.on('message',  async message => {
 						await message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
 						var hand_index = -1;
 						var auto = -1
-						if (board[temp].turn=="514084613732433921"){
+						if (newboard.turn=="514084613732433921"){
 							for (var i = 0; i < hands.length; i++){
 								if (hands[i].id == "514084613732433921")hand_index=i;
 							}
 							auto = 1;
 					
 						}
-						if (auto==1) await auto_turn(board[temp].positions, hands[hand_index].hand, (msg)=>{message.channel.send(msg)});
+						if (auto==1) await auto_turn(newboard.positions, hands[hand_index].hand, (msg)=>{message.channel.send(msg)});
 					});//end Tester.show_hand
 					break;//break from for loop
 				}//end if 
