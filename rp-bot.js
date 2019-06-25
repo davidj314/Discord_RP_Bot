@@ -1851,14 +1851,12 @@ Client.on('message',  async message => {
 					}
 				}
 				await Tester.show_hand(hands[pointer].hand, board[temp].challenged_nick, (msg, att)=>{message.channel.send(msg, att)});
+				var hand_index = -1;
 				if (board[temp].turn=="514084613732433921"){
-					hands.forEach(async (h)=>{
-						if (h.id==514084613732433921){
-							await auto_turn(board[temp].positions, h.hand, (msg)=>{message.channel.send(msg)} );//auto-turn if it's RP_bot's turn.
-							return;
-						}
-					})
-					
+					for (var i = 0; i < hands.length; i++){
+						if (hands[i].id == "514084613732433921")hand_index=i;
+					}
+					await auto_turn(board[temp].positions, hands[hand_index].hand, (msg)=>{message.channel.send(msg)} );
 				}
 			}
 			else
