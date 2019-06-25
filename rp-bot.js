@@ -1,7 +1,7 @@
 var Discord = require('discord.js');
 var Tester = require('Cardm');
 var Client = new Discord.Client();
-var DB = require('db3');
+var DB = require('db4');
 const Canvas = require('canvas');
 var PG = require('pg');
 var board = [];
@@ -164,92 +164,6 @@ function drop_packs(){
 
 //----------------------------------------TABLE INSERTS---------------------------------------------------
 
-function insert_user_set_char(server_id, user_id, set_char, callback)
-{
-	var insert_query = "INSERT INTO Trainings(server_id, user_id, set_char) Values($1, $2,$3)";
-	var values = [server_id, user_id, set_char];
-	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-	pool.query(insert_query, values,  (err, res) => {
-		if (err){
-		    if(err.code == '23505'){
-			update_training(server_id, user_id, set_char, callback);
-		    }
-		    else callback("Failed to set training card. Check command syntax (rp!set_training 22)")
-		    console.log(err, res);
-		}
-		else{
-			callback (`Now training card of id ${set_char}`);	
-		}
-		pool.end();
-   	});
-}
-
-function update_training(server_id, user_id, set_char, callback)
-{
-	var insert_query = "UPDATE Trainings SET set_char=$3 WHERE server_id=$1 AND user_id=$2";
-	var values = [server_id, user_id, set_char];
-	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-	pool.query(insert_query, values,  (err, res) => {
-		if (err){
-		    console.log(err, res);
-		    callback(`Failed to set training card`);
-		}
-		else{
-			console.log('Training updated successfully');
-			callback(`Now training card of id ${set_char}`);
-		}
-		pool.end();
-   	});
-}
-
-function insert_new_pack_count(server_id, user_id)
-{
-	var insert_query = "INSERT INTO Packs(server_id, user_id, Packs) Values($1, $2, 6)";
-	var values = [server_id, user_id];
-	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-	pool.query(insert_query, values,  (err, res) => {
-		if (err){
-		    if(err.code == '23505'){
-			increment_packs(server_id, user_id);
-		    }
-		   // console.log(err, res);
-		}
-		pool.end();
-   	});
-}
-
-function starter_pack(server_id, user_id)
-{
-	var insert_query = "INSERT INTO Packs(server_id, user_id, Packs) Values($1, $2, 5)";
-	var values = [server_id, user_id];
-	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-	pool.query(insert_query, values,  (err, res) => {
-		if (err){
-		    if(err.code == '23505'){
-			callback("You've gotten the starter packs already.");
-		    }
-		    console.log(err, res);
-		}
-		pool.end();
-   	});
-}
-
-function increment_packs(server_id, user_id)
-{
-	var insert_query = "UPDATE Packs SET Packs=Packs+1 WHERE server_id=$1 AND user_id=$2";
-	var values = [server_id, user_id];
-	console.log("Incrementing Pack");
-	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-	pool.query(insert_query, values,  (err, res) => {
-		if (err){
-			console.log(err, res);
-		}
-		else{
-			console.log('Packs incremented successfully');	
-		}
-		pool.end();
-   	});
-}
 
 function insert_new_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
 {
@@ -1000,7 +914,7 @@ function convert_role_to_snowflake(server, role, callback, printerror){
 Client.on('ready', () => {
     console.log('I am ready!');
     //BECAUSE messageReactions ONLY FIRES ON CACHED MESSAGES, WE NEED TO CACHE ALL MESSAGES WE USE FOR REACTIONS
-    get_triggers((rows)=>{        
+    DB.get_triggers((rows)=>{        
         rows.forEach((row)=>{//each returned row is a message to be cached
             try{
             var channel = Client.guilds.get(row.server_id).channels.get(row.channel_id);
@@ -1018,7 +932,7 @@ Client.on('ready', () => {
 Client.on('messageReactionAdd', (messageReaction, user)  => {
     var message_id = messageReaction.message.id;
     var server = messageReaction.message.guild;
-    check_trigger(server.id, message_id, messageReaction.emoji.name, (role)=>{
+    DB.check_trigger(server.id, message_id, messageReaction.emoji.name, (role)=>{
         if (role == null){
             console.log("no role given");
             return;
@@ -1030,7 +944,7 @@ Client.on('messageReactionAdd', (messageReaction, user)  => {
 Client.on('messageReactionRemove', (messageReaction, user)  => {
     var message_id = messageReaction.message.id;
     var server = messageReaction.message.guild;
-    check_trigger(server.id, message_id, messageReaction.emoji.name, (role)=>{
+    DB.check_trigger(server.id, message_id, messageReaction.emoji.name, (role)=>{
         if (role == null){
             console.log("no role removed");
             return;
@@ -1044,7 +958,7 @@ Client.on('messageReactionRemove', (messageReaction, user)  => {
 
 Client.on('message',  async message => {
 	//lvl_card(server_id, direction, char_id)
-	get_training(message.guild.id, message.author.id, (char_id)=>{  
+	DB.get_training(message.guild.id, message.author.id, (char_id)=>{  
 		DB.get_card_info(message.guild.id, char_id, (card)=>{
 			Tester.handle_card_xp(card, message, 
 				       (val)=>{DB.lvl_card(message.guild.id, val, char_id)}, 
@@ -1084,7 +998,7 @@ Client.on('message',  async message => {
 		}
 		else{
 			var other_id = message.mentions.users.first().id;
-			insert_new_pack_count(guild_id, other_id);	
+			DB.insert_new_pack_count(guild_id, other_id);	
 		}
 		break;
 			
@@ -1095,12 +1009,12 @@ Client.on('message',  async message => {
     			channel.send('This is not number');
 			break;
 		}
-		insert_user_set_char(guild_id, author_id, cid, (msg)=>{channel.send(msg);});
+		DB.insert_user_set_char(guild_id, author_id, cid, (msg)=>{channel.send(msg);});
 		break;
 			
 		
 	case 'starter_packs':
-		starter_pack(guild_id, author_id);
+		DB.starter_pack(guild_id, author_id);
 		break;
                 
 	case 'minesweeper':
@@ -1126,7 +1040,7 @@ Client.on('message',  async message => {
                 }
                 //insert_new_trigger_message(server_id, channel_id, message_id, emoji, role, callback)
                 convert_role_to_snowflake(message.guild, role, (snowflake)=>{ 
-                    insert_new_trigger_message(guild_id, channel.id, message_id, trigger, snowflake, (msg)=>{
+                    DB.insert_new_trigger_message(guild_id, channel.id, message_id, trigger, snowflake, (msg)=>{
                         channel.send(msg)
                     })
                 }, ()=>{channel.send("Failed to make trigger")});
@@ -1182,16 +1096,16 @@ Client.on('message',  async message => {
                     if (i > 2) info_content += ' ';
                     info_content += args[i];
                 }
-                record_lookup(guild_id, info_key, info_content, (msg)=>{channel.send(msg)});
+                DB.record_lookup(guild_id, info_key, info_content, (msg)=>{channel.send(msg)});
                 break;
                 
             case 'find':
                 if (args[1] == null){
-                    get_all_vals(guild_id, (msg) => {channel.send(msg)})   
+                    DB.get_all_vals(guild_id, (msg) => {channel.send(msg)})   
                     break
                 }
                 var info_key = args[1];
-                get_lookup_val(guild_id, info_key, (msg)=>{channel.send(msg)});
+                DB.get_lookup_val(guild_id, info_key, (msg)=>{channel.send(msg)});
                 break;
                 
             case 'roll':
@@ -1214,7 +1128,7 @@ Client.on('message',  async message => {
                     if (i > 1) name += ' ';
                     name += args[i];
                 }
-                record_name(guild_id, author_id, name, (msg)=>{channel.send(msg)});
+                DB.record_name(guild_id, author_id, name, (msg)=>{channel.send(msg)});
                 break;
                 
             case 'delete_character':
@@ -1238,7 +1152,7 @@ Client.on('message',  async message => {
                     if (i > 1) author += ' ';
                     author += args[i];
                 }
-                convert_to_userid(message.guild.members, author, (a_id)=>{ get_authors_names(guild_id, a_id, (msg)=>
+                convert_to_userid(message.guild.members, author, (a_id)=>{ DB.get_authors_names(guild_id, a_id, (msg)=>
 											     {
 			for(var i = 0; i < msg.length; i+=1800) channel.send(msg.slice(i, i+1800))
 		})});
@@ -1254,7 +1168,7 @@ Client.on('message',  async message => {
 		var url = args[args.length-1];
 		//make_card(server_id, owner_id, char_id, url)
 		//get_char_id(server_id, owner_id, name, callback, bad)
-		get_char_id(guild_id, author_id, name, (cid)=>{make_card(guild_id, author_id, cid, url, name,(msg)=>{channel.send(msg);} ) ;}, (msg)=>{channel.send(msg)} ) ;	
+		DB.get_char_id(guild_id, author_id, name, (cid)=>{make_card(guild_id, author_id, cid, url, name,(msg)=>{channel.send(msg);} ) ;}, (msg)=>{channel.send(msg)} ) ;	
 		
 		break;
 	
@@ -1277,7 +1191,7 @@ Client.on('message',  async message => {
 		
 	    case 'cards':
 		//get_user_cards(server_id, owner_id, callback, bad)
-		get_user_cards(guild_id, author_id, (rows)=>{
+		DB.get_user_cards(guild_id, author_id, (rows)=>{
 			var output = "CID         Total               Up               Left          Right           Down               Name   \n";
 			var allcards = []
 			rows.forEach(function(row){ allcards.push({cid: row.cid, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
@@ -1314,7 +1228,7 @@ Client.on('message',  async message => {
 			
 	    case 'all_cards':
 		//get_user_cards(server_id, owner_id, callback, bad)
-		get_all_cards(guild_id, (rows)=>{
+		DB.get_all_cards(guild_id, (rows)=>{
 			var output = "CID         Total               Up               Left          Right           Down               Name   \n";
 			var allcards = []
 			rows.forEach(function(row){ allcards.push({cid: row.char_id, up: row.upval, down: row.downval, left: row.leftval, right: row.rightval, name: row.name, total: row.upval+row.downval+row.leftval+row.rightval})});
@@ -1342,7 +1256,7 @@ Client.on('message',  async message => {
 			
 		case 'open_cards':
 			
-		pop_pack(guild_id, author_id,()=> {get_all_cards(guild_id, (rows)=>{
+		DB.pop_pack(guild_id, author_id,()=> {DB.get_all_cards(guild_id, (rows)=>{
 			var cids = []
 			rows.forEach(
 				function(row){ 
@@ -1378,7 +1292,7 @@ Client.on('message',  async message => {
 			
 	    case 'made_cards':
 		//get_user_cards(server_id, owner_id, callback, bad)
-		get_user_made_cards(guild_id, author_id, (rows)=>{
+		DB.get_user_made_cards(guild_id, author_id, (rows)=>{
 			print_made_cards(rows, (msg)=>{channel.send(msg);})
 			}, (msg)=>{channel.send(msg);});
 		break;
@@ -1425,7 +1339,7 @@ Client.on('message',  async message => {
 		board.push(newboard);
 		
 		//get_user_cards(guild_id, author_id, (rows)
-		await get_user_cards(guild_id, author_id, async (rows)=>{
+		await DB.get_user_cards(guild_id, author_id, async (rows)=>{
 			if (rows.length < 5)
 			{
 				channel.send('You lack the required amount of cards');
@@ -1445,7 +1359,7 @@ Client.on('message',  async message => {
 			
 			}, (msg)=>{channel.send(msg)});
 			
-		await get_user_cards(guild_id, p2id, async (rows)=>{
+		await DB.get_user_cards(guild_id, p2id, async (rows)=>{
 			
 			if (rows.length < 5)
 			{
