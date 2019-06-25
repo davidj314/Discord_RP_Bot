@@ -9,7 +9,7 @@
   "dependencies": {
     "discord.js": "11.5.0",
     "request": "2.81.0",
-    "Cardd": "git+https://308651eff7157179b61d52639be7a8bdd977dade:x-oauth-basic@github.com/davidj314/Discord_Character_Card_Game.git",
+    "Carde": "git+https://308651eff7157179b61d52639be7a8bdd977dade:x-oauth-basic@github.com/davidj314/Discord_Character_Card_Game.git",
     "pg": "7.x",
     "canvas": "2.3.1",
     "hashmap": "2.3.0"
