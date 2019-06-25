@@ -1,7 +1,7 @@
 var Discord = require('discord.js');
 var Tester = require('Cardm');
 var Client = new Discord.Client();
-var DB = require('db2');
+var DB = require('db3');
 const Canvas = require('canvas');
 var PG = require('pg');
 var board = [];
@@ -401,39 +401,7 @@ function get_training(server_id, user_id, callback)
    	 pool.end() 
 }
 
-function lvl_card(server_id, direction, char_id)
-{
-	var update_query = "UPDATE Cards Set "+ direction + "=" +direction + "+1 WHERE server_id=$1 AND char_id=$2";
-	var values = [server_id, char_id];
-	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-	pool.query(update_query, values,  (err, res) => {
-		if (err){
-		    console.log(err, res);
-		}
-		else{
-		    console.log("Card leveled up successfully?")
-		}
-		console.log(res);
-		pool.end();
-   	});
-}
 
-
-function set_xp(server_id, xp, char_id)
-{
-	var update_query = "UPDATE Cards Set xp = $3 WHERE server_id=$1 AND char_id=$2";
-	var values = [server_id, char_id, xp];
-	var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-	pool.query(update_query, values,  (err, res) => {
-		if (err){
-		    console.log(err, res);
-		}
-		else{
-		    console.log("updated successfully?")
-		}
-		pool.end();
-   	});
-}
 
 function pop_pack(server_id, user_id, callback, bad)
 {
@@ -1079,8 +1047,8 @@ Client.on('message',  async message => {
 	get_training(message.guild.id, message.author.id, (char_id)=>{  
 		DB.get_card_info(message.guild.id, char_id, (card)=>{
 			Tester.handle_card_xp(card, message, 
-				       (val)=>{lvl_card(message.guild.id, val, char_id)}, 
-				       (num)=>{set_xp(message.guild.id, num, char_id)}
+				       (val)=>{DB.lvl_card(message.guild.id, val, char_id)}, 
+				       (num)=>{DB.set_xp(message.guild.id, num, char_id)}
 			)
 		}, 
 		(msg)=>{;})});//end get_training
