@@ -1747,7 +1747,7 @@ Client.on('message',  async message => {
 			if (newboard.turn=="514084613732433921"){
 				hands.forEach((h)=>{
 					if (h.id==514084613732433921){
-						auto_turn(board[temp].positions, h.hand, (msg)=>{message.channel.send(msg)} );//auto-turn if it's RP_bot's turn.
+						auto_turn(newboard.positions, h.hand, (msg)=>{message.channel.send(msg)} );//auto-turn if it's RP_bot's turn.
 						return;
 					}
 				})
