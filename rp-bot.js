@@ -217,7 +217,7 @@ function delete_trigger_message(server_id, channel_id, message_id, emoji, role, 
   pool.end();
 });*/
     
-}//end function
+//}//end function
 
 function make_card(server_id, owner_id, char_id, url, name, callback) {
 //id, server_id, owner_id, char_id, UNI (server_id, char_id) char_id is foreign key on names 
