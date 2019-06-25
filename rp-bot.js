@@ -1739,24 +1739,28 @@ Client.on('message',  async message => {
 			}
 			for (var i = 0; i < hands.length;i++){
 				if (hands[i].id == p2id && hands[i].server == guild_id && hands[i].board==key){
-					await Tester.show_hand(hands[i].hand, p2nick,  (msg, att)=>{channel.send(msg, att)});
-					break;
-				}
-			}
-			message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
-			//if (newboard.turn=="514084613732433921"){
-			//	hands.forEach((h)=>{
-			//		if (h.id==514084613732433921){
-			//			auto_turn(newboard.positions, h.hand, (msg)=>{message.channel.send(msg)} );//auto-turn if it's RP_bot's turn.
-			//		}
-			//	})		
-			//}
+					await Tester.show_hand(hands[i].hand, p2nick, async (msg, att)=>{
+						await message.channel.send(msg, att);
+						await message.channel.send(`The challenged, ${newboard.challenged_nick}, goes first`);
+						var hand_index = -1;
+						var auto = -1
+						if (board[temp].turn=="514084613732433921"){
+							for (var i = 0; i < hands.length; i++){
+								if (hands[i].id == "514084613732433921")hand_index=i;
+							}
+							auto = 1;
+					
+						}
+						if (auto==1) await auto_turn(board[temp].positions, hands[hand_index].hand, (msg)=>{message.channel.send(msg)});
+					});//end Tester.show_hand
+					break;//break from for loop
+				}//end if 
+			}//end for 
+			
+			
 			
 		}, (msg)=>{channel.send('Other player might lack cards'); kill_game(p2id, guild_id);});	
 			
-		
-		
-		
 		break;
 			
 		case 'triplace':
