@@ -109,34 +109,6 @@ function drop_triggers(){
     pool.end()
 }//end function
 
-//Creates table to hold character names. Does not check for table existing beforehand.
-function make_Bumps(){
-    var ceate_query = "CREATE TABLE Bumps(id SERIAL, server_id bigint NOT NULL, bumper_id bigint NOT NULL, bumper_name varchar(255) NOT NULL)";
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-    pool.query(ceate_query,(err, result) => {
-        if (err) {
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);;
-        }
-        console.log(result); 
-    });//end pool.query   
-    pool.end();
-    //callback();//population function
-}//end function
-
-function make_disboard_details(){
-    var create_query = "CREATE TABLE Disboard_Details(id SERIAL, server_id bigint NOT NULL, command_char varchar(10) NOT NULL, reward bigint NOT NULL, UNIQUE(server_id))";
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL,SSL: true});
-    pool.query(create_query,(err, result) => {
-        if (err) {
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);;
-        }
-        console.log(result); 
-    });//end pool.query   
-    pool.end();
-}
-
 //Creates table for key-value lookups. Does not check for pre-existing table.
 function make_lookup(){
     var ceate_query = "CREATE TABLE Lookup(id SERIAL, server_id bigint NOT NULL, infokey varchar(255) NOT NULL, infoval text NOT NULL, UNIQUE (server_id, infokey))";
@@ -330,21 +302,6 @@ function insert_disboard_details(server_id, command, reward){
     pool.end();
 }
 
-function add_bump(id, name){
-    var insert_query = "INSERT INTO Bumps (bumper_id, bumper_name) VALUES($1, $2)";
-    var values = [id, name];
-    console.log("Adding bump with following values for id and name:");
-    console.log(values);
-    var pool = new PG.Pool({connectionString: process.env.DATABASE_URL, SSL: true});
-    // connection using created pool
-    pool.query(insert_query, values, (err, res) => {
-        if (err){
-            console.log(err, res);
-        }
-        pool.end();
-    });    
-}//end function
-
 //Saves a provided name to be associated with user's id and server's id.
 function record_name(server_id, owner_id, name, callback)
 {
@@ -404,8 +361,6 @@ function make_card(server_id, owner_id, char_id, url, name, callback) {
     }
    }); //end pool.query
   pool.end();
-  
-  
 }
 
 function add_card_to_inv(server_id, owner_id, cid) {
@@ -570,66 +525,6 @@ function check_trigger(server_id, message_id, emoji, callback){
     pool.end()
 }//end function
 
-function get_bump_names(server_id, callback){
-    var names_query = "SELECT bumper_name, bumper_id, COUNT (bumper_name) FROM Bumps GROUP BY bumper_name, bumper_id";
-    var ids_query = "SELECT bumper_id, COUNT (bumper_id) FROM Bumps GROUP BY bumper_id";
-    var txt = '';
-    var pool = new PG.Pool({ connectionString: process.env.DATABASE_URL, SSL: true});
-    pool.query(names_query, (err, result) => {
-        console.log(result);
-        if (err) {
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);
-        }
-        //No returned rows indicates no successful bumps were logged
-        else if (result.rows.length == 0) {
-            callback('No successful bumps since last call')
-            return;
-        }
-        //successfully found a result. Passes associated value to the callback function
-        else{
-            txt += 'Successful bumps since last call:\n';
-            var i = 0;
-            for (i=0;i < result.rows.length; i++){
-                txt += result.rows[i].count;
-                txt += ' bumps - ';
-                txt += result.rows[i].bumper_name;
-                txt += '. ID is <' + result.rows[i].bumper_id + '>';
-                txt += "\n";
-            }       
-        }
-    }); //end pool.query 
-    
-    pool.query(ids_query, (err, result) => {
-        console.log(result);
-        if (err) {
-            console.log('error occurred');
-            return console.error('Error executing query', err.stack);
-        }
-        //No returned rows indicate provided key is not associated with any row
-        else if (result.rows.length == 0) {
-            callback('No successful bumps since last call');
-            return;
-        }
-        //successfully found a result. Passes associated value to the callback function
-        else{
-            get_disboard_details(server_id, callback, (command, reward)=>{
-                txt += 'Add-money calls:\n';
-                for (var i=0;i < result.rows.length; i++){
-                    txt += command;
-                    txt += 'add-money  ';
-                    txt += result.rows[i].bumper_id;
-                    txt += " ";
-                    var money = parseInt(reward) * parseInt(result.rows[i].count);
-                    txt += money.toString() + "\n";
-                }      
-                callback(txt) ;  
-                clear_bumps();
-            });       
-        }
-    }); //end pool.query     
-    pool.end()
-}//end function
 
 function get_lookup_val(server_id, key, callback){
     var select_query = "SELECT infoval FROM Lookup WHERE server_id = $1 AND infokey = $2";
@@ -1292,8 +1187,6 @@ Client.on('message',  async message => {
 		make_packs();
                 break;			
 
-			
-
 	case 'add_pack':
 		if (message.member.hasPermission("BAN_MEMBERS") == false) {
 			channel.send("You lack permissions for this command.");
@@ -1388,7 +1281,6 @@ Client.on('message',  async message => {
 	case 'tri_help':
 		Tester.tri_help((msg)=>{channel.send(msg)})
 		break;
-			
                 
             case 'record':
                 if (args.length < 3) break;
