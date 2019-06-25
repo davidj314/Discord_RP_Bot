@@ -1905,12 +1905,14 @@ async function auto_turn(positions, hand, callback){
 	var row = Math.floor(Math.random() * 3);
 	var col = Math.floor(Math.random() * 3);
 	while (picked < 0){
-		if (hand[maybe].used!=0)picked=maybe
+		if (hand[maybe].used!=1)picked=maybe
 		else if(maybe==0) maybe=4
 		else maybe-= 1
 	}
-	while (row <0 && col < 0){
-		if (positions[row][col]==-1) positions[row][col]=hand[picked]
+	picked++;
+	var found = -1;
+	while (found==-1){
+		if (positions[row][col]==-1) found = 1
 		else if (col < 2)col+=1
 		else if (row < 2){ 
 			 row+=1
