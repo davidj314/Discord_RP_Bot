@@ -1,6 +1,7 @@
 var Discord = require('discord.js');
 var Tester = require('Cardj');
 var Client = new Discord.Client();
+var DB = require('db1');
 const Canvas = require('canvas');
 var PG = require('pg');
 var board = [];
@@ -1370,7 +1371,7 @@ Client.on('message',  async message => {
 	    case 'see_card':
 		if (args[1] == null)break;
 		var cid = args[1];
-		get_card_info(
+		DB.get_card_info(
 			guild_id,  
 			cid, 
 			(row)=>{show_card(
