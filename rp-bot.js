@@ -1924,7 +1924,7 @@ async function auto_turn(positions, hand, callback){
 	flatpos = row*3;
 	flatpos += col;
 	flatpos++;
-	callback(`rp!tri_place ${picked} ${flatpos}`)
+	callback(`rp!triplace ${picked} ${flatpos}`)
 	
 }
 
